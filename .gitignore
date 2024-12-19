@@ -1,0 +1,9 @@
+# MacOS
+.DS_Store
+
+# Python virtual environment
+venv/
+.tool-versions
+
+# Python cache files
+**/__pycache__/
