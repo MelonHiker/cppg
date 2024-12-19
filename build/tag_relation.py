@@ -1,9 +1,8 @@
 import requests
-import json
-from pprint import pprint
+import toml
 
 tags = []
-with open("tags.txt", "r", encoding="utf-8") as file:
+with open("./build/tags.txt", "r", encoding="utf-8") as file:
     tags = file.read().splitlines()
 
 tot_problems = {key: 0 for key in tags}
@@ -31,5 +30,5 @@ for tag in tags:
         if (pct < 0.3):
             low_similarity_tags[tag].append(other_tag)
 
-with open("tag_relations.json", "w") as file:
-    json.dump(low_similarity_tags, file)
+with open("tag_relations.toml", "w") as file:
+    toml.dump(low_similarity_tags, file)
