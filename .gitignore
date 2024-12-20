@@ -13,3 +13,4 @@ cppg/configs/.secrets.toml
 
 # IDEA project-specific settings and configuration files
 .idea/
+.out
