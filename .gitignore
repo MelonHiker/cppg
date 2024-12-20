@@ -7,3 +7,9 @@ venv/
 
 # Python cache files
 **/__pycache__/
+
+# Ignore dynaconf secret files
+./cppg/settings/.secrets.toml
+
+# IDEA project-specific settings and configuration files
+.idea/
