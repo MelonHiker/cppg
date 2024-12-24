@@ -10,7 +10,7 @@ def get_random_problems(skill, count):
         raise Exception(f"Failed to fetch problems from Codeforces API. Status code: {response.status_code}")
 
     problems = response.json().json()["result"]["problems"]
-    if len(problems) < 3:
+    if len(problems) < count:
         raise Exception("Not enough problems to choose from.")
     return sample(problems, count)
 
