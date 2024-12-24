@@ -1,18 +1,7 @@
-from random import sample
+from random import shuffle
 from bs4 import BeautifulSoup
+import logging
 import requests
-
-def get_random_problems(skill, count):
-    url = f"https://codeforces.com/api/problemset.problems?tags={skill}"
-    response = requests.get(url)
-    
-    if response.status_code != 200:
-        raise Exception(f"Failed to fetch problems from Codeforces API. Status code: {response.status_code}")
-
-    problems = response.json().json()["result"]["problems"]
-    if len(problems) < count:
-        raise Exception("Not enough problems to choose from.")
-    return sample(problems, count)
 
 def get_problem_statement(contest_id, index):
     url = f"https://codeforces.com/problemset/problem/{contest_id}/{index}"
@@ -35,5 +24,37 @@ def get_problem_statement(contest_id, index):
     problem = f"{title}\n{time_limit}\n{memory_limit}\n\n{problem_statement}\n\n{input_spec}\n\n{output_spec}\n\nExample\n{examples}\n\n{notes}"
     return problem.strip()
 
+def get_random_problems(count, skill, ex_skill=None):
+    url = f"https://codeforces.com/api/problemset.problems?tags={skill}"
+    response = requests.get(url)
+    
+    if response.status_code != 200:
+        raise Exception(f"Failed to fetch problems from Codeforces API. Status code: {response.status_code}")
+
+    response = response.json()
+    if (response["status"] != "OK"):
+        raise Exception(f"status: {response["status"]}\ncomment:{response["comment"]}")
+    
+    problems = response["result"]["problems"]
+    if len(problems) < count:
+        raise Exception(f"Not enough problems to choose from: {len(problems)}")
+    shuffle(problems)
+
+    statements = []
+    for problem in problems:
+        if (len(statements) >= count):
+            break
+        if (ex_skill in problem["tags"] or "interactive" in problem["tags"]):
+            continue
+        try:
+            statements.append(get_problem_statement(problem["contestId"], problem["index"]))
+        except Exception as e:
+            logging.warning(f"({problem["contestId"]}{problem["index"]}){e}")
+
+    if (len(statements) < count):
+        raise Exception(f"Fail to get {count} problems")
+
+    return "\n\n".join(statements)
+
 if __name__ == "__main__":
-    print(get_problem_statement(2035, "C"))
+    print(get_random_problems(3, "dp"))
