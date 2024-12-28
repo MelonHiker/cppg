@@ -4,7 +4,7 @@ from litellm import completion
 from log import setup_logger
 
 logger = setup_logger()
-def generate_problem(skill_1: str, skill_2: str, story: str) -> str:
+def generate_problem(skill_1: str, skill_2: str, story: str="") -> str:
     example_1 = get_random_problems(3, skill_1)
     example_2 = get_random_problems(3, skill_2, skill_1)
     system_prompt = settings.generate_problem_prompt.system
@@ -26,4 +26,4 @@ def generate_problem(skill_1: str, skill_2: str, story: str) -> str:
 if __name__ == "__main__":
     import os
     os.environ["GEMINI_API_KEY"] = settings.api_key
-    res = generate_problem("dp", "binary search", "Main character is MelonHiker")    
+    res = generate_problem("dp", "binary search")    
