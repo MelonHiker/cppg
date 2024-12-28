@@ -4,7 +4,7 @@ from log import setup_logger
 import requests
 
 logger = setup_logger()
-def get_problem_statement(contest_id: int, index: str):
+def get_problem_statement(contest_id: int, index: str) -> str:
     url = f"https://codeforces.com/problemset/problem/{contest_id}/{index}"
     headers = {"user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0}"}
     response = requests.get(url, headers=headers)
@@ -25,7 +25,7 @@ def get_problem_statement(contest_id: int, index: str):
     problem = f"{title}\n{time_limit}\n{memory_limit}\n\n{problem_statement}\n\n{input_spec}\n\n{output_spec}\n\nExample\n{examples}\n\n{notes}"
     return problem.strip()
 
-def get_random_problems(count: int, skill: str, ex_skill: str=None):
+def get_random_problems(count: int, skill: str, ex_skill: str=None) -> str:
     url = f"https://codeforces.com/api/problemset.problems?tags={skill}"
     response = requests.get(url)
     
