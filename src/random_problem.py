@@ -1,9 +1,10 @@
 from random import shuffle
 from bs4 import BeautifulSoup
-import logging
+from log import setup_logger
 import requests
 
-def get_problem_statement(contest_id, index):
+logger = setup_logger()
+def get_problem_statement(contest_id: int, index: str):
     url = f"https://codeforces.com/problemset/problem/{contest_id}/{index}"
     headers = {"user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0}"}
     response = requests.get(url, headers=headers)
@@ -24,7 +25,7 @@ def get_problem_statement(contest_id, index):
     problem = f"{title}\n{time_limit}\n{memory_limit}\n\n{problem_statement}\n\n{input_spec}\n\n{output_spec}\n\nExample\n{examples}\n\n{notes}"
     return problem.strip()
 
-def get_random_problems(count, skill, ex_skill=None):
+def get_random_problems(count: int, skill: str, ex_skill: str=None):
     url = f"https://codeforces.com/api/problemset.problems?tags={skill}"
     response = requests.get(url)
     
@@ -49,7 +50,7 @@ def get_random_problems(count, skill, ex_skill=None):
         try:
             statements.append(get_problem_statement(problem["contestId"], problem["index"]))
         except Exception as e:
-            logging.warning(f"({problem["contestId"]}{problem["index"]}){e}")
+            logger.warning(f"({problem["contestId"]}{problem["index"]}){e}")
 
     if (len(statements) < count):
         raise Exception(f"Fail to get {count} problems")

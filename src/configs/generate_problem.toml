@@ -1,0 +1,43 @@
+[generate_problem_prompt]
+system = """\
+You are an AI assistant that helps generate competitive programming problems.
+Your task is to create problems that combine two specific skills.
+The output should be formatted like a Codeforces problem and should not indicate which skills are needed to solve the problem.
+"""
+user = """\
+Generate a competitive programming problem that combines the skills of {skill_1} and {skill_2}.
+The problem should be challenging and test the application of both skills.
+I am also providing three example problems for both {skill_1} and {skill_2} skills.
+Additionally, the user may input a story about the problem, which should be included in the problem statement but should not influence the problem's difficulty and solution.
+If no story is provided, just ignore it.
+Include a notes section in the problem that explains why the example input produces the corresponding example output.
+Please format your output as
+
+<problem_title>
+time limit per test: <time limit> seconds
+memory limit per test: <memory limit> megabytes
+
+# PROBLEM STATEMENT
+<problem_statement>
+
+# INPUT
+<input_specification>
+
+# OUTPUT
+<output_specification>
+
+# EXAMPLES
+<examples>
+
+# NOTES
+<notes>
+
+SKILL 1: {skill_1}
+{example_1}
+
+SKILL 2: {skill_2}
+{example_2}
+
+USER_INTPUT_STORY:
+{story}
+"""
