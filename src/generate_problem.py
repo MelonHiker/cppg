@@ -26,4 +26,4 @@ def generate_problem(skill_1: str, skill_2: str, story: str="") -> str:
 if __name__ == "__main__":
     import os
     os.environ["GEMINI_API_KEY"] = settings.api_key
-    res = generate_problem("dp", "binary search")    
+    res = generate_problem("dp", "binary search")
