@@ -13,7 +13,8 @@ def setup_logger():
 
     logger = logging.getLogger(__name__)
     logger.setLevel(logging.INFO)
-    logger.addHandler(file_handler)
+    if not logger.handlers:
+        logger.addHandler(file_handler)
     return logger
 
 def clear_log():
