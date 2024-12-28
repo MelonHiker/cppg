@@ -13,4 +13,6 @@ src/configs/.secrets.toml
 
 # IDEA project-specific settings and configuration files
 .idea/
-.out
+
+# logging file
+src/log/cppg.log
