@@ -17,11 +17,11 @@ def generate_problem(skill_1: str, skill_2: str, story: str="") -> str:
     messages=[{"role": "system", "content": system_prompt},
               {"role": "user", "content": user_prompt}]
     )
-    problem = response.choices[0].message.content
+    content = response.choices[0].message.content
 
-    logger.info(problem)
+    logger.info(content)
 
-    return problem
+    return content
     
 if __name__ == "__main__":
     import os
