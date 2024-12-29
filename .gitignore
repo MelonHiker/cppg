@@ -15,4 +15,4 @@ src/configs/.secrets.toml
 .idea/
 
 # logging file
-src/log/llm_interaction.log
+*.log
