@@ -15,8 +15,8 @@ Include a notes section in the problem that explains why the example input produ
 Please format your output as follows:
 
 <problem_title>
-time limit per test: <time limit> seconds
-memory limit per test: <memory limit> megabytes
+time limit per test: <time_limit> seconds
+memory limit per test: <memory_limit> megabytes
 
 # PROBLEM STATEMENT
 <problem_statement>

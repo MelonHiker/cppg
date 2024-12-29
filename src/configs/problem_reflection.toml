@@ -1,7 +1,7 @@
 [problem_reflection_prompt]
 system = """\
 The self-reflection must cover every aspect of the problem. Pay attention to small details and nuances in the problem description.
-Output the solution to this problem in natural language.
+Output the reflection, solution, and time and space complexity of this problem in natural language.
 """
 
 user = """\
@@ -10,7 +10,7 @@ You are given a code contest problem:
 
 Given the code contest problem, you have two tasks:
 1. Reflect on the problem and describe it in your own words, in bullet points. Pay attention to small details, nuances, notes, and examples in the problem description.
-2. Provide a solution to this problem in natural language.
+2. Provide a solution to this problem in natural language and calculate time and space complexity.
 
 Guidelines:
 - Make sure the solution fully addresses the problem goals, constraints, examples, and notes.

@@ -1,0 +1,38 @@
+[reflection_validator_prompt]
+system = """\
+You are an AI assistant that helps validate competitive programming problems and their solutions.
+Your task is to ensure that the given problem solution can solve the problem.
+Output the result in JSON format.
+"""
+
+user = """\
+Here is a problem and its solution, reflection, complexity, and related information:
+{problem}
+{reflection}
+The problem requires expertise in the following two skills: {skill_1} and {skill_2}.
+Your job is to fix the solution (if needed) so that it can solve this problem.
+Make sure the solution can handle any test case (not only the test cases in the problem example).
+Ensure the solution is efficient and can solve the problem under the given constraints without causing a Time Limit Exceeded (TLE) error.
+The solution does not need to be the most efficient, but it must be able to solve the problem.
+
+The output must be a JSON object equivalent to type `Problem`, according to the following Pydantic definitions:
+=====
+from pydantic import BaseModel, Field
+
+class Example(BaseModel):
+    input: str = Field(description="The sample input of the problem")
+    output: str = Field(description="The sample output of the problem")
+
+class Problem(BaseModel):
+    title: str = Field(description="The title of the problem")
+    time_limit: str
+    memory_limit: str
+    description: str = Field(description="The description of the problem")
+    input_constraints: str
+    output_constraints: str
+    examples: list[Example] = Field(description="A list of examples for the problem")
+    solution_in_natural_language: str = Field(description="The solution in natural language to the problem")
+    time_complexity: str = Field(description="The time complexity of the solution")
+    space_complexity: str = Field(description="The space complexity of the solution")
+=====
+"""
