@@ -6,7 +6,8 @@ import requests
 logger = setup_logger()
 def get_problem_statement(contest_id: int, index: str) -> str:
     url = f"https://codeforces.com/problemset/problem/{contest_id}/{index}"
-    headers = {"user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0}"}
+    headers = {"user-agent": "Mozilla/5.0 (compatible; MyCrawler/1.0; +https://codeforces.com/)",
+               "Authorization": "token GITHUBTOKEN"}
     response = requests.get(url, headers=headers)
     
     if response.status_code != 200:
@@ -34,7 +35,7 @@ def get_random_problems(count: int, skill: str, ex_skill: str=None) -> str:
 
     response = response.json()
     if (response["status"] != "OK"):
-        raise Exception(f"status: {response["status"]}\ncomment:{response["comment"]}")
+        raise Exception(f'status: {response["status"]}\ncomment:{response["comment"]}')
     
     problems = response["result"]["problems"]
     if len(problems) < count:
@@ -50,7 +51,7 @@ def get_random_problems(count: int, skill: str, ex_skill: str=None) -> str:
         try:
             statements.append(get_problem_statement(problem["contestId"], problem["index"]))
         except Exception as e:
-            logger.warning(f"({problem["contestId"]}{problem["index"]}){e}")
+            logger.warning(f'({problem["contestId"]}{problem["index"]}){e}')
 
     if (len(statements) < count):
         raise Exception(f"Fail to get {count} problems")
