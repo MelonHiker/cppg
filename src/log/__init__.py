@@ -20,7 +20,3 @@ def setup_logger():
 def clear_log():
     with open(logger_path, 'w'):
         pass
-
-if __name__ == "__main__":
-    logger = setup_logger()
-    logger.info("fsdjlkfd")

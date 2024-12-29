@@ -1,14 +1,14 @@
-[validate_problem_prompt]
+[problem_validator_prompt]
 system = """\
 You are an AI assistant that helps validate competitive programming problems.
 Your task is to ensure that the given problem statement adheres to specific rules and is suitable for a competitive programming context.
-Only output the problem, do not output explanations about what changes were made.
+Only output the problem; do not output explanations about what changes were made.
 """
 
 user = """\
 Validate the following competitive programming problem statement. Ensure that the following rules are met:
 
-1. Dual Skill Requirement: The question must require rigorous expertise in both {skill_1} and {skill_2} for resolution. The application of both {skill_1} and {skill_2}, along with their subskills, should be necessary and contribute directly to obtaining the final answer. {skill_1} and {skill_2} skills should be applicable separately and critically during the problem-solving process.
+1. Dual Skill Requirement: The question must require rigorous expertise in both {skill_1} and {skill_2} for resolution. The application of both {skill_1} and {skill_2}, along with their subskills, should be necessary and contribute directly to obtaining the final answer. {skill_1} and {skill_2} skills should be applicable separately and critically during the problem-solving process. (Ensure the problem statement does not explicitly state which skills are needed.)
 
 2. Problem Solvable: Check the time limit, memory limit, and input section carefully. Ensure this problem can be solved under those constraints. Assume a computer can run 10^8 operations in one second.
 

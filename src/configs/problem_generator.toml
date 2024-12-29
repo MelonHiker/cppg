@@ -1,4 +1,4 @@
-[generate_problem_prompt]
+[problem_generator_prompt]
 system = """\
 You are an AI assistant that helps generate competitive programming problems.
 Your task is to create problems that combine two specific skills and use LaTeX syntax in the problem statement.
