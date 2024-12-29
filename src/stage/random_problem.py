@@ -6,8 +6,7 @@ import requests
 logger = setup_logger()
 def get_problem_statement(contest_id: int, index: str) -> str:
     url = f"https://codeforces.com/problemset/problem/{contest_id}/{index}"
-    headers = {"user-agent": "Mozilla/5.0 (compatible; MyCrawler/1.0; +https://codeforces.com/)",
-               "Authorization": "token GITHUBTOKEN"}
+    headers = {"user-agent": "Mozilla/5.0"}
     response = requests.get(url, headers=headers)
     
     if response.status_code != 200:
