@@ -1,5 +1,8 @@
 # CPPG
 
+## Requirements
+- Python 3.12
+
 ## Installation
 (1) setup a virtual environment：
 ```console
