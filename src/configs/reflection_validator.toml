@@ -31,6 +31,7 @@ class Problem(BaseModel):
     input_constraints: str
     output_constraints: str
     examples: list[Example] = Field(description="A list of examples for the problem")
+    note: str = Field(description="Explains why the example input produces the corresponding example output")
     solution_in_natural_language: str = Field(description="The solution in natural language to the problem")
     time_complexity: str = Field(description="The time complexity of the solution")
     space_complexity: str = Field(description="The space complexity of the solution")
