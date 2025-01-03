@@ -16,7 +16,7 @@ def validate_reflection(problem: str, reflection: str, skill_1: str, skill_2: st
                               {"role": "user", "content": user_prompt}],
                     response_format={"type": "json_object"}
     )
-    content = json.loads(response.choices[0].message.content)
+    content = response.choices[0].message.content
     logger.info(content)
 
-    return content
+    return json.loads(content)

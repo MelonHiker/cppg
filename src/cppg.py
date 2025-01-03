@@ -9,21 +9,19 @@ import json
 import os
 
 class CPPG:
-    def __init__(self, skill_1, skill_2, story="") -> None:
+    def __init__(self, file_path: str) -> None:
         clear_log()
-        self.skill_1 = skill_1
-        self.skill_2 = skill_2
-        self.story = story
         os.environ["GEMINI_API_KEY"] = settings.api_key
+        self.file_path = file_path
 
-    def generate(self, file_path) -> None:
+    def generate(self, min_difficulty: int, max_difficulty: int, skill_1: str, skill_2: str, story="") -> None:
         with tqdm(total=100) as pbar:
             pbar.set_description("Generating problem")
-            problem = generate_problem(self.skill_1, self.skill_2, self.story)
+            problem = generate_problem(min_difficulty, max_difficulty, skill_1, skill_2, story)
             pbar.update(20)
             
             pbar.set_description("Validating problem")
-            problem = validate_problem(problem, self.skill_1, self.skill_2)
+            problem = validate_problem(problem, skill_1, skill_2)
             pbar.update(20)
 
             pbar.set_description("Reflecting on problem")
@@ -31,11 +29,10 @@ class CPPG:
             pbar.update(20)
 
             pbar.set_description("Validating reflection")
-            problem = validate_reflection(problem, reflection, self.skill_1, self.skill_2)
+            problem = validate_reflection(problem, reflection, skill_1, skill_2)
             pbar.update(20)
 
             pbar.set_description("Save file")
-            with open(file_path, 'w') as f:
+            with open(self.file_path, 'w') as f:
                 json.dump(problem, f)
             pbar.update(20)
-    

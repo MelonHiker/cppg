@@ -1,19 +1,31 @@
 [problem_generator_prompt]
 system = """\
 You are an AI assistant that helps generate competitive programming problems.
-Your task is to create problems that combine two specific skills and use LaTeX syntax in the problem statement.
-You should use single dollar signs $ for math expressions.
+Your task is to create problems that combine two specific skills and have a specific Codeforces difficulty.
+You should use LaTeX syntax in the problem statement and use single dollar signs $ for math expressions.
 The output should be formatted like a Codeforces problem and should not indicate which skills are needed to solve the problem.
 """
 
 user = """\
 Generate a competitive programming problem that combines the skills of {skill_1} and {skill_2}.
 The problem statement should not mention or hint what skills are needed.
-The problem should be challenging and test the application of both skills.
-I am also providing three example problems for both {skill_1} and {skill_2}.
+The problem should have a Codeforces difficulty of {min_difficulty}-{max_difficulty} and test the application of both skills.
+Include a notes section in the problem that explains why the example input produces the corresponding example output.
 Additionally, the user may input a story about the problem, which should be included in the problem statement but should not influence the problem's difficulty and solution.
 If no story is provided, just ignore it.
-Include a notes section in the problem that explains why the example input produces the corresponding example output.
+
+=====
+USER_INTPUT_STORY:
+{story}
+=====
+
+The following contains three example problems for each skill and its difficulty.
+SKILL 1: {skill_1}
+{example_1}
+
+SKILL 2: {skill_2}
+{example_2}
+
 Please format your output as follows:
 
 <problem_title>
@@ -45,13 +57,4 @@ output
 
 # NOTES
 <notes>
-
-SKILL 1: {skill_1}
-{example_1}
-
-SKILL 2: {skill_2}
-{example_2}
-
-USER_INTPUT_STORY:
-{story}
 """

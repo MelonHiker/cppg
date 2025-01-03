@@ -25,7 +25,7 @@ def get_problem_statement(contest_id: int, index: str) -> str:
     problem = f"{title}\n{time_limit}\n{memory_limit}\n\n{problem_statement}\n\n{input_spec}\n\n{output_spec}\n\nExample\n{examples}\n\n{notes}"
     return problem.strip()
 
-def get_random_problems(count: int, skill: str, ex_skill: str=None) -> str:
+def get_random_problems(count: int, min_difficulty: int, max_difficulty: int, skill: str, ex_skill: str=None) -> str:
     url = f"https://codeforces.com/api/problemset.problems?tags={skill}"
     response = requests.get(url)
     
@@ -45,10 +45,10 @@ def get_random_problems(count: int, skill: str, ex_skill: str=None) -> str:
     for problem in problems:
         if (len(statements) >= count):
             break
-        if (ex_skill in problem["tags"] or "interactive" in problem["tags"]):
+        if (ex_skill in problem["tags"] or "interactive" in problem["tags"] or not problem.get("rating") or problem.get("rating") < min_difficulty or problem.get("rating") > max_difficulty):
             continue
         try:
-            statements.append(get_problem_statement(problem["contestId"], problem["index"]))
+            statements.append(f'difficulty: {problem.get("rating")}\n' + get_problem_statement(problem["contestId"], problem["index"]))
         except Exception as e:
             logger.warning(f'({problem["contestId"]}{problem["index"]}){e}')
 
@@ -58,4 +58,4 @@ def get_random_problems(count: int, skill: str, ex_skill: str=None) -> str:
     return "\n\n".join(statements)
 
 if __name__ == "__main__":
-    print(get_random_problems(3, "dp"))
+    print(get_random_problems(3, 1800, 2000, "dp"))
