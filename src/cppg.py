@@ -3,6 +3,7 @@ from src.stage.problem_generator import generate_problem
 from src.stage.problem_validator import validate_problem
 from src.stage.problem_reflection import reflect_problem
 from src.stage.reflection_validator import validate_reflection
+from src.stage.check_problem_skills_and_difficulty import check_skills_difficulty
 from src.log import clear_log
 from tqdm import tqdm
 import json
@@ -17,7 +18,11 @@ class CPPG:
     def generate(self, min_difficulty: int, max_difficulty: int, skill_1: str, skill_2: str, story="") -> None:
         with tqdm(total=100) as pbar:
             pbar.set_description("Generating problem")
-            problem = generate_problem(min_difficulty, max_difficulty, skill_1, skill_2, story)
+            while True:
+                problem = generate_problem(min_difficulty, max_difficulty, skill_1, skill_2, story)
+                check = check_skills_difficulty(min_difficulty, max_difficulty, skill_1, skill_2, problem)
+                if (check):
+                    break
             pbar.update(20)
             
             pbar.set_description("Validating problem")

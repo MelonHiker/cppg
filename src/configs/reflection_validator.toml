@@ -35,6 +35,6 @@ class Problem(BaseModel):
     solution_in_natural_language: str = Field(description="The solution in natural language to the problem")
     time_complexity: str = Field(description="The time complexity of the solution")
     space_complexity: str = Field(description="The space complexity of the solution")
-    difficulty: str = Field(description="The Codeforces difficulty of the problem")
+    difficulty: str = Field(description="The Codeforces difficulty of the problem (800-3500)")
 =====
 """

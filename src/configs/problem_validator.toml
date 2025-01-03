@@ -8,13 +8,11 @@ Only output the problem; do not output explanations about what changes were made
 user = """\
 Validate the following competitive programming problem statement. Ensure that the following rules are met:
 
-1. Dual Skill Requirement: The question must require rigorous expertise in both {skill_1} and {skill_2} for resolution. The application of both {skill_1} and {skill_2}, along with their subskills, should be necessary and contribute directly to obtaining the final answer. {skill_1} and {skill_2} skills should be applicable separately and critically during the problem-solving process. (Ensure the problem statement does not explicitly state which skills are needed.)
+1. Problem Solvable: Check the time limit, memory limit, and input section carefully. Ensure this problem can be solved under those constraints. Assume a computer can run 10^8 operations in one second.
 
-2. Problem Solvable: Check the time limit, memory limit, and input section carefully. Ensure this problem can be solved under those constraints. Assume a computer can run 10^8 operations in one second.
+2. Clarity and Completeness: The question should be unambiguous and contain all the information necessary to complete the solution. Check for any ambiguity that might confuse others. Carefully review the input, output, and notes to ensure they fit the problem statement.
 
-3. Clarity and Completeness: The question should be unambiguous and contain all the information necessary to complete the solution. Check for any ambiguity that might confuse others. Carefully review the input, output, and notes to ensure they fit the problem statement.
-
-4. Syntax and Grammar: The question must be grammatically correct and clearly written to prevent misinterpretation. Moreover, LaTeX syntax must be correct.
+3. Syntax and Grammar: The question must be grammatically correct and clearly written to prevent misinterpretation. Moreover, LaTeX syntax must be correct, and make sure it uses single dollar signs $ for math expressions.
 
 Please fix the following problem if needed to ensure it adheres to the above rules (you shouldn't change or remove any rule) and output it in the same format.
 {problem}

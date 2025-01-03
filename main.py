@@ -12,7 +12,7 @@ if __name__ == "__main__":
     skill_2 = choice(settings.tag_relations[skill_1])
     print(f"You choose {skill_1} and {skill_2}")
 
-    min_difficulty = 1800
+    min_difficulty = 1600
     max_difficulty = 2000
     story = input("Give me a story about this problem:\n")
 

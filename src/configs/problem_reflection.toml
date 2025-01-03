@@ -10,7 +10,7 @@ You are given a code contest problem:
 
 Given the code contest problem, you have two tasks:
 1. Reflect on the problem and describe it in your own words, in bullet points. Pay attention to small details, nuances, notes, and examples in the problem description.
-2. Provide a solution to this problem in natural language and calculate time and space complexity.
+2. Provide a solution to this problem in natural language, calculate the time and space complexity, and also provide the Codeforces difficulty of this problem.
 
 Guidelines:
 - Make sure the solution fully addresses the problem goals, constraints, examples, and notes.
