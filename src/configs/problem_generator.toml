@@ -11,7 +11,7 @@ Generate a competitive programming problem that combines the skills of {skill_1}
 The problem statement should not mention or hint what skills are needed.
 The problem should have a Codeforces difficulty of {min_difficulty}-{max_difficulty} and test the application of both skills.
 Include a notes section in the problem that explains why the example input produces the corresponding example output.
-Additionally, the user may input a story about the problem, which should be included in the problem statement but should not influence the problem's difficulty and solution.
+Additionally, the user may input a story about the problem, which should be incorporated into the problem statement but should not influence the problem's difficulty and solution.
 If no story is provided, just ignore it.
 
 =====
