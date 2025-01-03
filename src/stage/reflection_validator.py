@@ -3,8 +3,7 @@ from src.configs.config_loader import settings
 from litellm import completion
 import json
 
-logger = setup_logger()
-def validate_reflection(problem: str, reflection: str, skill_1: str, skill_2: str):
+def validate_reflection(problem: str, reflection: str, skill_1: str, skill_2: str, logger):
     system_prompt = settings.reflection_validator_prompt.system
     user_prompt = settings.reflection_validator_prompt.user.format(problem=problem, reflection=reflection, skill_1=skill_1, skill_2=skill_2)
     

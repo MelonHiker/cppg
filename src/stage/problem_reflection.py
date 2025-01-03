@@ -1,9 +1,7 @@
 from src.configs.config_loader import settings
-from src.log import setup_logger
 from litellm import completion
 
-logger = setup_logger()
-def reflect_problem(problem: str) -> str:
+def reflect_problem(problem: str, logger) -> str:
     system_prompt = settings.problem_reflection_prompt.system
     user_prompt = settings.problem_reflection_prompt.user.format(problem=problem)
     

@@ -1,9 +1,7 @@
-from src.log import setup_logger
 from random import shuffle
 from bs4 import BeautifulSoup
 import requests
 
-logger = setup_logger()
 def get_problem_statement(contest_id: int, index: str) -> str:
     url = f"https://codeforces.com/problemset/problem/{contest_id}/{index}"
     headers = {"user-agent": "Mozilla/5.0"}
@@ -25,7 +23,7 @@ def get_problem_statement(contest_id: int, index: str) -> str:
     problem = f"{title}\n{time_limit}\n{memory_limit}\n\n{problem_statement}\n\n{input_spec}\n\n{output_spec}\n\nExample\n{examples}\n\n{notes}"
     return problem.strip()
 
-def get_random_problems(count: int, min_difficulty: int, max_difficulty: int, skill: str, ex_skill: str=None) -> str:
+def get_random_problems(count: int, min_difficulty: int, max_difficulty: int, skill: str, ex_skill: str, logger) -> str:
     url = f"https://codeforces.com/api/problemset.problems?tags={skill}"
     response = requests.get(url)
     
