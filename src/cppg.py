@@ -21,7 +21,7 @@ class CPPG:
             pbar.n = 40
             
             pbar.set_description("Validating problem")
-            problem = self._validate_problem(problem, skill_1, skill_2)
+            problem = self._validate_problem(min_difficulty, max_difficulty, problem, skill_1, skill_2)
             pbar.update(20)
             
             pbar.set_description("Reflecting on problem")
@@ -39,7 +39,7 @@ class CPPG:
         while iteration < 20:
             problem = generate_problem(min_difficulty, max_difficulty, skill_1, skill_2, story, self.logger)
             pbar.update(2)
-            if check_skills_difficulty(min_difficulty, max_difficulty, skill_1, skill_2, problem, self.logger):
+            if check_skills_difficulty(min_difficulty, max_difficulty, problem, skill_1, skill_2, self.logger):
                 break
             iteration += 1
         else:
@@ -47,8 +47,8 @@ class CPPG:
 
         return problem
 
-    def _validate_problem(self, problem: dict, skill_1: str, skill_2: str) -> str:
-        return validate_problem(problem, skill_1, skill_2, self.logger)
+    def _validate_problem(self, min_difficulty: int, max_difficulty: int, problem: str, skill_1: str, skill_2: str) -> str:
+        return validate_problem(min_difficulty, max_difficulty, problem, skill_1, skill_2, self.logger)
 
     def _reflect_on_problem(self, problem: dict) -> str:
         return reflect_problem(problem, self.logger)

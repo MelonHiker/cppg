@@ -14,6 +14,10 @@ Validate the following competitive programming problem statement. Ensure that th
 
 3. Syntax and Grammar: The question must be grammatically correct and clearly written to prevent misinterpretation. Moreover, LaTeX syntax must be correct, and make sure it uses single dollar signs $ for math expressions.
 
+4. Dual Skill Requirement: The question must require both {skill_1} and {skill_2} for resolution. Ensure the problem statement does not explicitly state which skills are needed.
+
+5. Proper Problem Difficulty: The problem should have a proper Codeforces difficulty of {min_difficulty}-{max_difficulty}.
+
 Please fix the following problem if needed to ensure it adheres to the above rules (you shouldn't change or remove any rule) and output it in the same format.
 {problem}
 """
