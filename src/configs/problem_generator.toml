@@ -2,11 +2,13 @@
 system = """\
 You are an AI assistant that helps generate competitive programming problems.
 Your task is to create problems that combine two specific skills and use LaTeX syntax in the problem statement.
+You should use single dollar signs $ for math expressions.
 The output should be formatted like a Codeforces problem and should not indicate which skills are needed to solve the problem.
 """
 
 user = """\
 Generate a competitive programming problem that combines the skills of {skill_1} and {skill_2}.
+The problem statement should not mention or hint what skills are needed.
 The problem should be challenging and test the application of both skills.
 I am also providing three example problems for both {skill_1} and {skill_2}.
 Additionally, the user may input a story about the problem, which should be included in the problem statement but should not influence the problem's difficulty and solution.
