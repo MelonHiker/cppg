@@ -18,7 +18,7 @@ class CPPG:
         with tqdm(total=100) as pbar:
             pbar.set_description("Generating problem")
             problem = self._generate_and_check_problem(min_difficulty, max_difficulty, skill_1, skill_2, story, pbar)
-            pbar.update(20)
+            pbar.n = 40
             
             pbar.set_description("Validating problem")
             problem = self._validate_problem(problem, skill_1, skill_2)
@@ -30,16 +30,21 @@ class CPPG:
             
             pbar.set_description("Validating reflection")
             result = self._validate_reflection(problem, reflection, skill_1, skill_2)
-            pbar.n = 100
+            pbar.update(20)
             
         return result
 
     def _generate_and_check_problem(self, min_difficulty: int, max_difficulty: int, skill_1: str, skill_2: str, story: str, pbar) -> str:
-        while True:
+        iteration = 0
+        while iteration < 20:
             problem = generate_problem(min_difficulty, max_difficulty, skill_1, skill_2, story, self.logger)
-            pbar.update(5)
+            pbar.update(2)
             if check_skills_difficulty(min_difficulty, max_difficulty, skill_1, skill_2, problem, self.logger):
                 break
+            iteration += 1
+        else:
+            raise Exception(f"Too many iteration!")
+
         return problem
 
     def _validate_problem(self, problem: dict, skill_1: str, skill_2: str) -> str:
