@@ -6,9 +6,13 @@ Output the result in JSON format.
 """
 
 user = """\
-Here is a problem and its solution, reflection, complexity, and related information:
+Here is a problem and its solution, reflection, complexity, and related information.
+problem:
 {problem}
+
+reflection:
 {reflection}
+
 The problem requires expertise in the following two skills: {skill_1} and {skill_2}.
 Your job is to fix the solution (if needed) so that it can solve this problem.
 Make sure the solution can handle any test case (not only the test cases in the problem example).

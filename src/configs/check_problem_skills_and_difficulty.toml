@@ -2,7 +2,8 @@
 system = """\
 You are an AI assistant that helps check competitive programming problems.
 Your task is to ensure that the given problem requires specific skills and has the required difficulty.
-You must only output 'yes' or 'no'.
+Output 'yes' or 'no' in the first line.
+In the next line, explain why.
 """
 
 user = """\
@@ -11,7 +12,7 @@ The application of both {skill_1} and {skill_2}, along with their subskills, sho
 {skill_1} and {skill_2} skills should be applicable separately and critically during the problem-solving process.
 Ensure the problem statement does not explicitly state or hint at which skills are needed.
 Estimate the problem's Codeforces difficulty and determine whether the problem is in the range {min_difficulty}-{max_difficulty}.
-Output 'yes' or 'no' to determine whether the problem is acceptable.
+Output 'yes' or 'no' to determine whether the problem is acceptable and explain why.
 
 problem:
 {problem}
