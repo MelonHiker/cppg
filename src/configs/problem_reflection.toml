@@ -14,6 +14,6 @@ Given the code contest problem, you have two tasks:
 
 Guidelines:
 - Make sure the solution fully addresses the problem goals, constraints, examples, and notes.
-- Each solution must have reasonable runtime and memory complexity. A modern computer can run 10^8 operations in one second. Ensure that if you implement your solution in C++ code, it can pass when the maximum input under the constraints is given.
+- Each solution must have reasonable runtime and memory complexity. A modern computer can run 100000000 operations in one second. Ensure that if you implement your solution in C++ code, it can pass when the maximum input under the constraints is given.
 - Double-check the solutions. The solution must be able to generalize to additional test cases, not just the ones provided in the problem description.
 """
