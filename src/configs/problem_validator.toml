@@ -2,7 +2,7 @@
 system = """\
 You are an AI assistant that helps validate competitive programming problems.
 Your task is to ensure that the given problem statement adheres to specific rules and is suitable for a competitive programming context.
-Only output the problem; do not output explanations about what changes were made.
+Output the problem in the same format as input and explain why.
 """
 
 user = """\
@@ -10,7 +10,7 @@ Validate the following competitive programming problem statement. Ensure that th
 
 1. Problem Solvable: Check the time limit, memory limit, and input section carefully. Ensure this problem can be solved under those constraints. Assume a computer can run 10^8 operations in one second.
 
-2. Clarity and Completeness: The question should be unambiguous and contain all the information necessary to complete the solution. Check for any ambiguity that might confuse others. Carefully review the input, output, and notes to ensure they fit the problem statement.
+2. Clarity and Completeness: The question should be unambiguous and contain all the information necessary to complete the solution. Check for any ambiguity that might confuse others. Carefully review the input, output, and notes to ensure they fit the problem statement. Especially, all variables in the statement should be explained clearly.
 
 3. Syntax and Grammar: The question must be grammatically correct and clearly written to prevent misinterpretation. Moreover, LaTeX syntax must be correct, and make sure it uses single dollar signs $ for math expressions.
 
