@@ -1,0 +1,134 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.container {
+    max-width: 800px;
+    margin: 2em auto;
+    padding: 2em;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    font-size: 2em;
+    margin-bottom: 1em;
+    text-align: center;
+}
+
+.form-section {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-top: 1em;
+    font-weight: bold;
+}
+
+input, select, textarea {
+    margin-top: 0.5em;
+    padding: 0.5em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+}
+
+button {
+    margin-top: 1em;
+    padding: 0.75em;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.progress-bar {
+    margin-top: 2em;
+    width: 100%;
+    background-color: #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+    height: 20px;
+    position: relative;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    width: 0%;
+    background-color: #4caf50;
+    text-align: center;
+    color: #fff;
+    white-space: nowrap;
+    transition: width 0.2s;
+}
+
+.problem-statement {
+    margin-top: 2em;
+}
+
+.problem-statement h2 {
+    font-size: 1.5em;
+}
+
+.problem-statement .section {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.problem-statement .section h3 {
+    font-size: 1.2em;
+}
+
+.problem-statement .section p {
+    margin: 0.5em 0;
+}
+
+.problem-statement .example {
+    margin-top: 1em;
+}
+
+.problem-statement .example h4 {
+    font-size: 1em;
+    margin: 0.5em 0;
+}
+
+.problem-statement .example pre {
+    background: #f3f3f3;
+    padding: 1em;
+    border-radius: 4px;
+}
+
+.limits {
+    text-align: center;
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 1em;
+}
+
+.back-button {
+    display: inline-block;
+    margin-top: 2em;
+    padding: 0.75em 1.5em;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 1em;
+    text-align: center;
+}
+
+.back-button:hover {
+    background-color: #45a049;
+}

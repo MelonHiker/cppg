@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CPPG Web UI</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/styles.css') }}" />
+</head>
+<body>
+    <div class="container">
+        <h1>CPPG Web UI</h1>
+        <form method="post" action="/generate">
+            <div class="form-section">
+                <label for="skill1">Skill 1:</label>
+                <select id="skill1" name="skill1" onchange="loadSkill2Options()">
+                    <option value="">Select Skill 1</option>
+                </select>
+                
+                <label for="skill2">Skill 2:</label>
+                <select id="skill2" name="skill2">
+                    <option value="">Select Skill 2</option>
+                </select>
+                
+                <label for="minDiff">Min Difficulty:</label>
+                <input type="number" id="minDiff" name="minDiff" value="800" />
+                
+                <label for="maxDiff">Max Difficulty:</label>
+                <input type="number" id="maxDiff" name="maxDiff" value="3500" />
+                
+                <label for="story">Story:</label>
+                <textarea id="story" name="story" rows="4"></textarea>
+                
+                <button type="submit">Generate</button>
+            </div>
+        </form>
+
+        <div class="progress-bar" id="progressBar" style="display: none;">
+            <div class="progress-bar-fill" id="progressFill">0%</div>
+        </div>
+        
+        <div id="resultSection"></div>
+    </div>
+    
+    <script>
+        const tags = [
+            "2-sat", "binary search", "bitmasks", "brute force", "chinese remainder theorem",
+            "combinatorics", "constructive algorithms", "data structures", "dfs and similar",
+            "divide and conquer", "dp", "dsu", "expression parsing", "fft", "flows", "games",
+            "geometry", "graph matchings", "graphs", "greedy", "hashing", "implementation",
+            "math", "matrices", "meet-in-the-middle", "number theory", "probabilities",
+            "schedules", "shortest paths", "sortings", "string suffix structures", "strings",
+            "ternary search", "trees", "two pointers"
+        ];
+
+        function loadSkill1Options() {
+            const skill1Select = document.getElementById("skill1");
+            tags.forEach(tag => {
+                const option = document.createElement("option");
+                option.value = tag;
+                option.textContent = tag;
+                skill1Select.appendChild(option);
+            });
+        }
+
+        function loadSkill2Options() {
+            const skill1 = document.getElementById("skill1").value;
+            const skill2Select = document.getElementById("skill2");
+            skill2Select.innerHTML = '<option value="">Select Skill 2</option>';
+            tags.forEach(tag => {
+                if (tag !== skill1) {
+                    const option = document.createElement("option");
+                    option.value = tag;
+                    option.textContent = tag;
+                    skill2Select.appendChild(option);
+                }
+            });
+        }
+
+        window.onload = loadSkill1Options;
+    </script>
+</body>
+</html>

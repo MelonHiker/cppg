@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ result.title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/styles.css') }}" />
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ result.title }}</h1>
+        <div id="resultSection">
+            {{ formatted_result | safe }}
+        </div>
+        <a href="/" class="back-button">Back to Home</a>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            MathJax.typesetPromise();
+        });
+    </script>
+</body>
+</html>
