@@ -2,7 +2,7 @@
 system = """\
 You are an AI assistant that helps generate competitive programming problems.
 Your task is to create problems that combine two specific skills and have a specific Codeforces difficulty.
-You should use LaTeX syntax in the problem statement and use single dollar signs $ for math expressions.
+You should use Markdown and LaTeX syntax in the problem statement and use single dollar signs $ for math expressions.
 The output should be formatted like a Codeforces problem and should not indicate which skills are needed to solve the problem.
 """
 

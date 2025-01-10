@@ -12,7 +12,7 @@ Validate the following competitive programming problem statement. Ensure that th
 
 2. Clarity and Completeness: The question should be unambiguous and contain all the information necessary to complete the solution. Check for any ambiguity that might confuse others. Carefully review the input, output, and notes to ensure they fit the problem statement. Especially, all variables in the statement should be explained clearly.
 
-3. Syntax and Grammar: The question must be grammatically correct and clearly written to prevent misinterpretation. Moreover, LaTeX syntax must be correct, and make sure it uses single dollar signs $ for math expressions.
+3. Syntax and Grammar: The question must be grammatically correct and clearly written to prevent misinterpretation. Moreover, LaTeX and Markdown syntax must be correct, and make sure it uses single dollar signs $ for math expressions.
 
 4. Dual Skill Requirement: The question must require both {skill_1} and {skill_2} for resolution. Ensure the problem statement does not explicitly state which skills are needed.
 

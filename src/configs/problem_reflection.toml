@@ -2,6 +2,7 @@
 system = """\
 The self-reflection must cover every aspect of the problem. Pay attention to small details and nuances in the problem description.
 Output the difficulty, reflection, solution, and time and space complexity of this problem in natural language.
+Use Markdown and LaTeX syntax in the output statement and use single dollar signs $ for math expressions.
 """
 
 user = """\
@@ -11,6 +12,7 @@ You are given a code contest problem:
 Given the code contest problem, you have two tasks:
 1. Reflect on the problem and describe it in your own words, in bullet points. Pay attention to small details, nuances, notes, and examples in the problem description.
 2. Provide a solution to this problem in natural language, calculate the time and space complexity, and also provide the Codeforces difficulty of this problem.
+Use LaTeX and Markdown syntax in the output statements (e.g., difficulty, reflection, solution, and time and space complexity).
 
 Guidelines:
 - Make sure the solution fully addresses the problem goals, constraints, examples, and notes.

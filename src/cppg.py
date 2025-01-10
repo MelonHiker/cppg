@@ -6,6 +6,8 @@ from src.stage.reflection_validator import validate_reflection
 from src.stage.check_problem_skills_and_difficulty import check_skills_difficulty
 from src.log import clear_log, setup_logger
 from tqdm import tqdm
+from typing import List
+import yaml
 import os
 
 class CPPG:
@@ -54,4 +56,33 @@ class CPPG:
         return reflect_problem(problem, self.logger)
 
     def _validate_reflection(self, problem: dict, reflection: dict, skill_1: str, skill_2: str) -> dict:
-        return validate_reflection(problem, reflection, skill_1, skill_2, self.logger)
+        data = validate_reflection(problem, reflection, skill_1, skill_2, self.logger)
+        return self.load_yaml(data)
+    
+    def load_yaml(self, response_text: str, keys_fix_yaml: List[str] = []) -> dict:
+        response_text = response_text.rstrip("` \n")
+        response_text = response_text.removeprefix('```yaml').rstrip('`')
+        try:
+            data = yaml.safe_load(response_text)
+        except Exception as e:
+            data = self._try_fix_yaml(self, response_text, keys_fix_yaml=keys_fix_yaml)
+            if not data:
+                self.logger.info(f"Failed to parse AI YAML prediction: {e}")
+        return data
+    
+    def _try_fix_yaml(self, response_text: str, keys_fix_yaml: List[str] = []) -> dict:
+        response_text_lines = response_text.split('\n')
+
+        keys = keys_fix_yaml
+        response_text_lines_copy = response_text_lines.copy()
+        for i in range(0, len(response_text_lines_copy)):
+            for key in keys:
+                if response_text_lines_copy[i].strip().startswith(key) and not '|' in response_text_lines_copy[i]:
+                    response_text_lines_copy[i] = response_text_lines_copy[i].replace(f'{key}',
+                                                                                    f'{key} |-\n        ')
+        try:
+            data = yaml.safe_load('\n'.join(response_text_lines_copy))
+            self.logger.info(f"Successfully parsed AI prediction after adding |-\n")
+            return data
+        except:
+            raise "yaml parsing error"

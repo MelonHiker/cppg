@@ -1,8 +1,8 @@
 [reflection_validator_prompt]
 system = """\
 You are an AI assistant that helps validate competitive programming problems and their solutions.
-Your task is to ensure that the given problem solution can solve the problem.
-Output the result in JSON format.
+Your task is to ensure that the given problem solution can solve the problem, use Latex in math expressions, and add newlines in long strings.
+Output the result in YAML format.
 """
 
 user = """\
@@ -14,15 +14,13 @@ reflection:
 {reflection}
 
 The problem requires expertise in the following two skills: {skill_1} and {skill_2}.
-Your job is to fix the solution (if needed) so that it can solve this problem.
+Your job is to fix the solution (if needed) so that it can solve this problem and fix the any statement (if needed) in the given input.
 Make sure the solution can handle any test case (not only the test cases in the problem example).
 Ensure the solution is efficient and can solve the problem under the given constraints without causing a Time Limit Exceeded (TLE) error.
-The solution does not need to be the most efficient, but it must be able to solve the problem.
+Ensure Markdown and LaTeX syntax are correct, and every math expression uses LaTeX enclosed with single $ symbols.
 
-The output must be a JSON object equivalent to type `Problem`, according to the following Pydantic definitions:
+The output must be a YAML object equivalent to type $Problem, according to the following Pydantic definitions:
 =====
-from pydantic import BaseModel, Field
-
 class Example(BaseModel):
     input: str = Field(description="The sample input of the problem")
     output: str = Field(description="The sample output of the problem")
@@ -40,5 +38,43 @@ class Problem(BaseModel):
     time_complexity: str = Field(description="The time complexity of the solution")
     space_complexity: str = Field(description="The space complexity of the solution")
     difficulty: str = Field(description="The Codeforces difficulty of the problem (800-3500)")
+    explanation: str = Field(description="Explain where to change")
 =====
+
+Example YAML output:
+```yaml
+title: |-
+  ...
+time_limit: |-
+  ...
+memory_limit: |-
+  ...
+description: |-
+  ...
+input_constraints: |-
+  ...
+output_constraints: |-
+  ...
+examples:
+- input: |-
+    ...
+  output: |-
+    ...
+...
+note: |-
+  ...
+solution_in_natural_language: |-
+  ...
+time_complexity: |-
+  ...
+space_complexity: |-
+  ...
+difficulty: |-
+  ...
+explanation: |-
+  ...
+```
+
+Answer:
+```yaml
 """
