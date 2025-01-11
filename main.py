@@ -1,10 +1,9 @@
-from fastapi import FastAPI, Form, Request, HTTPException
+from fastapi import FastAPI, Form, Request
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, Field
 from src.cppg import CPPG
-import yaml
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -42,17 +41,6 @@ async def generate(
     maxDiff: int = Form(...),
     story: str = Form("")
 ):
-    if not (800 <= minDiff <= 3500 and 800 <= maxDiff <= 3500):
-        raise HTTPException(status_code=400, detail="Difficulty must be between 800 and 3500.")
-    if minDiff > maxDiff:
-        raise HTTPException(status_code=400, detail="Minimum difficulty must be ≤ maximum difficulty.")
-    if not skill1 or not skill2:
-        raise HTTPException(status_code=400, detail="Both skills must be chosen.")
-
-    # Read problem from pre-generated result
-    # with open(".idea/generated_problem.yaml", "r") as f:
-    #     result_dict = yaml.safe_load(f)
-
     cppg = CPPG()
     result_dict = cppg.generate(minDiff, maxDiff, skill1, skill2, story)
 
