@@ -57,7 +57,21 @@ class CPPG:
 
     def _validate_reflection(self, problem: dict, reflection: dict, skill_1: str, skill_2: str) -> dict:
         data = validate_reflection(problem, reflection, skill_1, skill_2, self.logger)
-        return self.load_yaml(data)
+        keys = [
+            "title", 
+            "time_limit", 
+            "memory_limit", 
+            "description", 
+            "input_constraints", 
+            "output_constraints", 
+            "examples", 
+            "note", 
+            "solution_in_natural_language", 
+            "time_complexity", 
+            "space_complexity", 
+            "difficulty"
+        ]
+        return self.load_yaml(data, keys)
     
     def load_yaml(self, response_text: str, keys_fix_yaml: List[str] = []) -> dict:
         response_text = response_text.rstrip("` \n")
@@ -65,7 +79,7 @@ class CPPG:
         try:
             data = yaml.safe_load(response_text)
         except Exception as e:
-            data = self._try_fix_yaml(self, response_text, keys_fix_yaml=keys_fix_yaml)
+            data = self._try_fix_yaml(response_text, keys_fix_yaml=keys_fix_yaml)
             if not data:
                 self.logger.info(f"Failed to parse AI YAML prediction: {e}")
         return data
