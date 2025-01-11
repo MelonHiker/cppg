@@ -29,11 +29,11 @@ class Problem(BaseModel):
     difficulty: str
 
 @app.get("/", response_class=HTMLResponse)
-async def index(request: Request):
+def index(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
 @app.post("/generate", response_class=HTMLResponse)
-async def generate(
+def generate(
     request: Request,
     skill1: str = Form(...),
     skill2: str = Form(...),
@@ -42,10 +42,12 @@ async def generate(
     story: str = Form("")
 ):
     cppg = CPPG()
-    result_dict = cppg.generate(minDiff, maxDiff, skill1, skill2, story)
-
-    result = Problem(**result_dict)
-    return templates.TemplateResponse("result.html", {"request": request, "result": result})
+    try:
+        result_dict = cppg.generate(minDiff, maxDiff, skill1, skill2, story)
+        result = Problem(**result_dict)
+        return templates.TemplateResponse("result.html", {"request": request, "result": result})
+    except Exception as e:
+        return templates.TemplateResponse("index.html", {"request": request, "error": str(e)})
 
 if __name__ == "__main__":
     import uvicorn

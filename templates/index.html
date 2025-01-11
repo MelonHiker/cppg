@@ -28,7 +28,7 @@
                 <label for="story">Story:</label>
                 <textarea id="story" name="story" rows="4" placeholder="Provide a story about this problem. (optional)"></textarea>
                 
-                <button type="submit">Generate</button>
+                <button type="submit" id="generateButton">Generate</button>
             </div>
         </form>
         
@@ -71,6 +71,10 @@
         }
 
         window.onload = loadSkill1Options;
+
+        document.querySelector("form").addEventListener("submit", function(event) {
+            document.getElementById("generateButton").disabled = true;
+        });
     </script>
 </body>
 </html>
