@@ -53,6 +53,9 @@
             });
             document.getElementById("saveButton").addEventListener("click", function() {
                 const sections = [
+                    "title",
+                    "time_limit",
+                    "memory_limit",
                     'description',
                     'input_constraints',
                     'output_constraints',
@@ -67,6 +70,19 @@
                     const div = document.getElementById(id);
                     div.innerHTML = textarea.value;
                 });
+
+                // Update examples
+                const exampleInputs = document.querySelectorAll(".example-input");
+                const exampleOutputs = document.querySelectorAll(".example-output");
+                exampleInputs.forEach((textarea, index) => {
+                    const pre = document.querySelectorAll(".example pre")[index * 2];
+                    pre.textContent = textarea.value;
+                });
+                exampleOutputs.forEach((textarea, index) => {
+                    const pre = document.querySelectorAll(".example pre")[index * 2 + 1];
+                    pre.textContent = textarea.value;
+                });
+
                 document.getElementById("viewMode").style.display = "block";
                 document.getElementById("editMode").style.display = "none";
                 renderContent();
@@ -76,11 +92,11 @@
 </head>
 <body>
     <div class="container">
-        <h1>{{ result.title }}</h1>
-        <div class="limits">
-            <p>Time Limit: {{ result.time_limit }} | Memory Limit: {{ result.memory_limit }}</p>
-        </div>
         <div id="viewMode">
+            <h1 id="title">{{ result.title }}</h1>
+            <div class="limits">
+                <p>Time Limit: <span id="time_limit">{{ result.time_limit }}</span> | Memory Limit: <span id="memory_limit">{{ result.memory_limit }}</span></p>
+            </div>
             <div class="section">
                 <h3>Description</h3>
                 <div id="description">{{ result.description }}</div>
@@ -128,6 +144,18 @@
         </div>
         <div id="editMode" style="display: none;">
             <div class="section">
+                <h3>Title</h3>
+                <textarea id="title_edit">{{ result.title }}</textarea>
+            </div>
+            <div class="section">
+                <h3>Time Limit</h3>
+                <textarea id="time_limit_edit">{{ result.time_limit }}</textarea>
+            </div>
+            <div class="section">
+                <h3>Memory Limit</h3>
+                <textarea id="memory_limit_edit">{{ result.memory_limit }}</textarea>
+            </div>
+            <div class="section">
                 <h3>Description</h3>
                 <textarea id="description_edit">{{ result.description }}</textarea>
             </div>
@@ -144,9 +172,9 @@
                 {% for example in result.examples %}
                 <div class="example">
                     <h4>Input</h4>
-                    <pre>{{ example.input | e }}</pre>
+                    <textarea class="example-input">{{ example.input }}</textarea>
                     <h4>Output</h4>
-                    <pre>{{ example.output | e }}</pre>
+                    <textarea class="example-output">{{ example.output }}</textarea>
                 </div>
                 {% endfor %}
             </div>
