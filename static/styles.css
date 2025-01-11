@@ -53,60 +53,34 @@ button:hover {
     background-color: #45a049;
 }
 
-.progress-bar {
-    margin-top: 2em;
-    width: 100%;
-    background-color: #ddd;
-    border-radius: 4px;
-    overflow: hidden;
-    height: 20px;
-    position: relative;
-}
-
-.progress-bar-fill {
-    height: 100%;
-    width: 0%;
-    background-color: #4caf50;
-    text-align: center;
-    color: #fff;
-    white-space: nowrap;
-    transition: width 0.2s;
-}
-
-.problem-statement {
+.section {
     margin-top: 2em;
 }
 
-.problem-statement h2 {
+.section h3 {
     font-size: 1.5em;
 }
 
-.problem-statement .section {
-    margin-top: 1em;
-    margin-bottom: 1em;
-}
-
-.problem-statement .section h3 {
-    font-size: 1.2em;
-}
-
-.problem-statement .section p {
+.section div {
     margin: 0.5em 0;
+    line-height: 1.5;
+    white-space: normal;
 }
 
-.problem-statement .example {
+.example {
     margin-top: 1em;
 }
 
-.problem-statement .example h4 {
+.example h4 {
     font-size: 1em;
     margin: 0.5em 0;
 }
 
-.problem-statement .example pre {
+.example pre {
     background: #f3f3f3;
     padding: 1em;
     border-radius: 4px;
+    white-space: normal;
 }
 
 .limits {

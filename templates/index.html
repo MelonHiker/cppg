@@ -10,31 +10,27 @@
         <form method="post" action="/generate">
             <div class="form-section">
                 <label for="skill1">Skill 1:</label>
-                <select id="skill1" name="skill1" onchange="loadSkill2Options()">
+                <select id="skill1" name="skill1" required onchange="loadSkill2Options()">
                     <option value="">Select Skill 1</option>
                 </select>
                 
                 <label for="skill2">Skill 2:</label>
-                <select id="skill2" name="skill2">
+                <select id="skill2" name="skill2" required>
                     <option value="">Select Skill 2</option>
                 </select>
                 
-                <label for="minDiff">Min Difficulty:</label>
-                <input type="number" id="minDiff" name="minDiff" value="800" />
+                <label for="minDiff">Min Difficulty (800-3500):</label>
+                <input type="number" id="minDiff" name="minDiff" min="800" max="3500" placeholder="800-3500" required />
                 
-                <label for="maxDiff">Max Difficulty:</label>
-                <input type="number" id="maxDiff" name="maxDiff" value="3500" />
+                <label for="maxDiff">Max Difficulty (800-3500):</label>
+                <input type="number" id="maxDiff" name="maxDiff" min="800" max="3500" placeholder="800-3500" required />
                 
                 <label for="story">Story:</label>
-                <textarea id="story" name="story" rows="4"></textarea>
+                <textarea id="story" name="story" rows="4" placeholder="Provide a story about this problem." required></textarea>
                 
                 <button type="submit">Generate</button>
             </div>
         </form>
-
-        <div class="progress-bar" id="progressBar" style="display: none;">
-            <div class="progress-bar-fill" id="progressFill">0%</div>
-        </div>
         
         <div id="resultSection"></div>
     </div>

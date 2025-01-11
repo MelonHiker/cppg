@@ -2,33 +2,101 @@
 <html>
 <head>
     <title>{{ result.title }}</title>
-    <link rel="stylesheet" href="{{ url_for('static', path='/styles.css') }}" />
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>
-        window.MathJax = {
-            tex: {
+    <link rel="stylesheet" href="{{ url_for('static', path='styles.css') }}" />
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
                 inlineMath: [['$', '$'], ['\\(', '\\)']],
-                displayMath: [['$$', '$$'], ['\\[', '\\]']]
-            },
-            svg: {
-                fontCache: 'global'
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
             }
-        };
+        });
+    </script>
+    <script>
+        function parseMarkdown(text) {
+            var scripts = text.match(/<script[^>]*>([\s\S]*?)<\/script>/gi);
+            text = marked.parse(text);
+            return text.replace(/<script[^>]*>([\s\S]*?)<\/script>/gi, m => scripts.shift());
+        }
+        document.addEventListener("DOMContentLoaded", function() {
+            const sections = [
+                'description',
+                'input_constraints',
+                'output_constraints',
+                'note',
+                'solution_in_natural_language',
+                'time_complexity',
+                'space_complexity',
+                'difficulty'
+            ];
+            sections.forEach(id => {
+                const div = document.getElementById(id);
+                var div2 = document.createElement('div');
+                div2.innerHTML = div.innerHTML;
+                MathJax.Hub.Queue(
+                    ['Typeset', MathJax.Hub, div2],
+                    function() {
+                        div.innerHTML = parseMarkdown(div2.innerHTML);
+                        div.querySelectorAll('.MathJax').forEach(e => e.remove());
+                        MathJax.Hub.Typeset(div);
+                    }
+                );
+            });
+        });
     </script>
 </head>
 <body>
     <div class="container">
         <h1>{{ result.title }}</h1>
-        <div id="resultSection">
-            {{ formatted_result | safe }}
+        <div class="limits">
+            <p>Time Limit: {{ result.time_limit }} | Memory Limit: {{ result.memory_limit }}</p>
+        </div>
+        <div class="section">
+            <h3>Description</h3>
+            <div id="description">{{ result.description }}</div>
+        </div>
+        <div class="section">
+            <h3>Input Constraints</h3>
+            <div id="input_constraints">{{ result.input_constraints }}</div>
+        </div>
+        <div class="section">
+            <h3>Output Constraints</h3>
+            <div id="output_constraints">{{ result.output_constraints }}</div>
+        </div>
+        <div class="section">
+            <h3>Examples</h3>
+            {% for example in result.examples %}
+            <div class="example">
+                <h4>Input</h4>
+                <pre>{{ example.input | e }}</pre>
+                <h4>Output</h4>
+                <pre>{{ example.output | e }}</pre>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="section">
+            <h3>Notes</h3>
+            <div id="note">{{ result.note }}</div>
+        </div>
+        <div class="section">
+            <h3>Solution in Natural Language</h3>
+            <div id="solution_in_natural_language">{{ result.solution_in_natural_language }}</div>
+        </div>
+        <div class="section">
+            <h3>Time Complexity</h3>
+            <div id="time_complexity">{{ result.time_complexity }}</div>
+        </div>
+        <div class="section">
+            <h3>Space Complexity</h3>
+            <div id="space_complexity">{{ result.space_complexity }}</div>
+        </div>
+        <div class="section">
+            <h3>Difficulty</h3>
+            <div id="difficulty">{{ result.difficulty }}</div>
         </div>
         <a href="/" class="back-button">Back to Home</a>
     </div>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            MathJax.typesetPromise();
-        });
-    </script>
 </body>
 </html>
