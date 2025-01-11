@@ -18,6 +18,7 @@ Your job is to fix the solution (if needed) so that it can solve this problem an
 Make sure the solution can handle any test case (not only the test cases in the problem example).
 Ensure the solution is efficient and can solve the problem under the given constraints without causing a Time Limit Exceeded (TLE) error.
 Ensure Markdown and LaTeX syntax are correct, and every math expression uses LaTeX enclosed with single $ symbols.
+You need to use LaTeX in the time_complexity and space_complexity.
 
 The output must be a YAML object equivalent to type $Problem, according to the following Pydantic definitions:
 =====
@@ -33,7 +34,7 @@ class Problem(BaseModel):
     input_constraints: str = Field(description="The input format and constraints of the problem.")
     output_constraints: str = Field(description="The output format and constraints of the problem.")
     examples: list[Example] = Field(description="A list of examples for the problem")
-    note: str = Field(description="Explains why the example input produces the corresponding example output")
+    note: str = Field(description="Explain why the example input produces the corresponding example output (just give one of those examples).")
     solution_in_natural_language: str = Field(description="The solution in natural language to the problem")
     time_complexity: str = Field(description="The time complexity of the solution")
     space_complexity: str = Field(description="The space complexity of the solution")
