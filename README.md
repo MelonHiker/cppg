@@ -18,7 +18,7 @@ pip install -r requirements.txt
 echo 'api_key = "your api_key"' > ./src/configs/.secrets.toml
 ```
 
-## Run the model
+## How to Run
 ```console
-python main.py
+uvicorn main:app
 ```
