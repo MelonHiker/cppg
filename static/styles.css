@@ -8,10 +8,12 @@ body {
 .container {
     max-width: 800px;
     margin: 2em auto;
-    padding: 2em;
-    background-color: #fff;
-    border-radius: 8px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 4px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: relative;
 }
 
 h1 {
@@ -36,6 +38,39 @@ input, select, textarea {
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 1em;
+}
+
+#description_edit {
+    height: 300px;
+    width: 98%;
+}
+#input_constraints_edit {
+    height: 150px;
+    width: 98%;
+}
+#output_constraints_edit {
+    height: 150px;
+    width: 98%;
+}
+#note_edit {
+    height: 300px;
+    width: 98%;
+}
+#solution_in_natural_language_edit {
+    height: 300px;
+    width: 98%;
+}
+#time_complexity_edit {
+    height: 100px;
+    width: 98%;
+}
+#space_complexity_edit {
+    height: 100px;
+    width: 98%;
+}
+
+#story {
+    font-size: 1.2em;
 }
 
 button {
@@ -105,4 +140,27 @@ button:hover {
 
 .back-button:hover {
     background-color: #45a049;
+}
+
+.corner-button {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    padding: 0.5em 1em;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.corner-button:hover {
+    background-color: #45a049;
+}
+
+input[readonly], select[readonly], textarea[readonly] {
+    background-color: #f0f0f0;
+    color: #a0a0a0;
+    border: 1px solid #ccc;
+    pointer-events: none;
 }

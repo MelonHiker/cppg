@@ -20,7 +20,7 @@
             text = marked.parse(text);
             return text.replace(/<script[^>]*>([\s\S]*?)<\/script>/gi, m => scripts.shift());
         }
-        document.addEventListener("DOMContentLoaded", function() {
+        function renderContent() {
             const sections = [
                 'description',
                 'input_constraints',
@@ -44,6 +44,33 @@
                     }
                 );
             });
+        }
+        document.addEventListener("DOMContentLoaded", function() {
+            renderContent();
+            document.getElementById("editButton").addEventListener("click", function() {
+                document.getElementById("viewMode").style.display = "none";
+                document.getElementById("editMode").style.display = "block";
+            });
+            document.getElementById("saveButton").addEventListener("click", function() {
+                const sections = [
+                    'description',
+                    'input_constraints',
+                    'output_constraints',
+                    'note',
+                    'solution_in_natural_language',
+                    'time_complexity',
+                    'space_complexity',
+                    'difficulty'
+                ];
+                sections.forEach(id => {
+                    const textarea = document.getElementById(id + "_edit");
+                    const div = document.getElementById(id);
+                    div.innerHTML = textarea.value;
+                });
+                document.getElementById("viewMode").style.display = "block";
+                document.getElementById("editMode").style.display = "none";
+                renderContent();
+            });
         });
     </script>
 </head>
@@ -53,48 +80,97 @@
         <div class="limits">
             <p>Time Limit: {{ result.time_limit }} | Memory Limit: {{ result.memory_limit }}</p>
         </div>
-        <div class="section">
-            <h3>Description</h3>
-            <div id="description">{{ result.description }}</div>
-        </div>
-        <div class="section">
-            <h3>Input Constraints</h3>
-            <div id="input_constraints">{{ result.input_constraints }}</div>
-        </div>
-        <div class="section">
-            <h3>Output Constraints</h3>
-            <div id="output_constraints">{{ result.output_constraints }}</div>
-        </div>
-        <div class="section">
-            <h3>Examples</h3>
-            {% for example in result.examples %}
-            <div class="example">
-                <h4>Input</h4>
-                <pre>{{ example.input | e }}</pre>
-                <h4>Output</h4>
-                <pre>{{ example.output | e }}</pre>
+        <div id="viewMode">
+            <div class="section">
+                <h3>Description</h3>
+                <div id="description">{{ result.description }}</div>
             </div>
-            {% endfor %}
+            <div class="section">
+                <h3>Input Constraints</h3>
+                <div id="input_constraints">{{ result.input_constraints }}</div>
+            </div>
+            <div class="section">
+                <h3>Output Constraints</h3>
+                <div id="output_constraints">{{ result.output_constraints }}</div>
+            </div>
+            <div class="section">
+                <h3>Examples</h3>
+                {% for example in result.examples %}
+                <div class="example">
+                    <h4>Input</h4>
+                    <pre>{{ example.input | e }}</pre>
+                    <h4>Output</h4>
+                    <pre>{{ example.output | e }}</pre>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="section">
+                <h3>Notes</h3>
+                <div id="note">{{ result.note }}</div>
+            </div>
+            <div class="section">
+                <h3>Solution in Natural Language</h3>
+                <div id="solution_in_natural_language">{{ result.solution_in_natural_language }}</div>
+            </div>
+            <div class="section">
+                <h3>Time Complexity</h3>
+                <div id="time_complexity">{{ result.time_complexity }}</div>
+            </div>
+            <div class="section">
+                <h3>Space Complexity</h3>
+                <div id="space_complexity">{{ result.space_complexity }}</div>
+            </div>
+            <div class="section">
+                <h3>Difficulty</h3>
+                <div id="difficulty">{{ result.difficulty }}</div>
+            </div>
+            <button id="editButton" class="corner-button">Edit</button>
         </div>
-        <div class="section">
-            <h3>Notes</h3>
-            <div id="note">{{ result.note }}</div>
-        </div>
-        <div class="section">
-            <h3>Solution in Natural Language</h3>
-            <div id="solution_in_natural_language">{{ result.solution_in_natural_language }}</div>
-        </div>
-        <div class="section">
-            <h3>Time Complexity</h3>
-            <div id="time_complexity">{{ result.time_complexity }}</div>
-        </div>
-        <div class="section">
-            <h3>Space Complexity</h3>
-            <div id="space_complexity">{{ result.space_complexity }}</div>
-        </div>
-        <div class="section">
-            <h3>Difficulty</h3>
-            <div id="difficulty">{{ result.difficulty }}</div>
+        <div id="editMode" style="display: none;">
+            <div class="section">
+                <h3>Description</h3>
+                <textarea id="description_edit">{{ result.description }}</textarea>
+            </div>
+            <div class="section">
+                <h3>Input Constraints</h3>
+                <textarea id="input_constraints_edit">{{ result.input_constraints }}</textarea>
+            </div>
+            <div class="section">
+                <h3>Output Constraints</h3>
+                <textarea id="output_constraints_edit">{{ result.output_constraints }}</textarea>
+            </div>
+            <div class="section">
+                <h3>Examples</h3>
+                {% for example in result.examples %}
+                <div class="example">
+                    <h4>Input</h4>
+                    <pre>{{ example.input | e }}</pre>
+                    <h4>Output</h4>
+                    <pre>{{ example.output | e }}</pre>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="section">
+                <h3>Notes</h3>
+                <textarea id="note_edit">{{ result.note }}</textarea>
+            </div>
+            <div class="section">
+                <h3>Solution in Natural Language</h3>
+                <textarea id="solution_in_natural_language_edit">{{ result.solution_in_natural_language }}</textarea>
+            </div>
+            <div class="section">
+                <h3>Time Complexity</h3>
+                <textarea id="time_complexity_edit">{{ result.time_complexity }}</textarea>
+            </div>
+            <div class="section">
+                <h3>Space Complexity</h3>
+                <textarea id="space_complexity_edit">{{ result.space_complexity }}</textarea>
+            </div>
+            <div class="section">
+                <h3>Difficulty</h3>
+                <textarea id="difficulty_edit">{{ result.difficulty }}</textarea>
+            </div>
+            <button id="saveButton" class="corner-button">Save</button>
         </div>
         <a href="/" class="back-button">Back to Home</a>
     </div>
