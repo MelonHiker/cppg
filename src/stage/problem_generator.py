@@ -12,6 +12,7 @@ def generate_problem(min_difficulty: int, max_difficulty: int, skill_1: str, ski
 
     response = completion(
     model=settings.model,
+    temperaturel=settings.problem_generator_prompt.temperature,
     messages=[{"role": "system", "content": system_prompt},
               {"role": "user", "content": user_prompt}]
     )

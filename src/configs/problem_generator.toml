@@ -1,4 +1,5 @@
 [problem_generator_prompt]
+temperature = 1
 system = """\
 You are an AI assistant that helps generate competitive programming problems.
 Your task is to create problems that combine two specific skills and have a specific Codeforces difficulty.

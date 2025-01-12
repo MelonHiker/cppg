@@ -1,4 +1,5 @@
 [check_problem_skills_and_difficulty_prompt]
+temperature = 0.4
 system = """\
 You are an AI assistant that helps check competitive programming problems.
 Your task is to ensure that the given problem requires specific skills and has the required difficulty.

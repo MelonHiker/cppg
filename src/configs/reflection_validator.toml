@@ -1,4 +1,5 @@
 [reflection_validator_prompt]
+temperature = 0.55
 system = """\
 You are an AI assistant that helps validate competitive programming problems and their solutions.
 Your task is to ensure that the given problem solution can solve the problem, use Latex in math expressions, and add newlines in long strings.

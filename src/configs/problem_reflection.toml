@@ -1,4 +1,5 @@
 [problem_reflection_prompt]
+temperature = 0.55
 system = """\
 The self-reflection must cover every aspect of the problem. Pay attention to small details and nuances in the problem description.
 Output the difficulty, reflection, solution, and time and space complexity of this problem in natural language.

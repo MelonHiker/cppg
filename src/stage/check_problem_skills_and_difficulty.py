@@ -9,6 +9,7 @@ def check_skills_difficulty(min_difficulty: int, max_difficulty: int, problem: s
 
     response = completion(
     model=settings.model,
+    temperaturel=settings.check_problem_skills_and_difficulty_prompt.temperature,
     messages=[{"role": "system", "content": system_prompt},
               {"role": "user", "content": user_prompt}]
     )
