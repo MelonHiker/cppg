@@ -1,22 +1,49 @@
-[problem_reflection_prompt]
-temperature = 0.55
+[problem_reflection_prompt]  
+temperature = 0.55  
 system = """\
-The self-reflection must cover every aspect of the problem. Pay attention to small details and nuances in the problem description.
-Output the difficulty, reflection, solution, and time and space complexity of this problem in natural language.
-Use Markdown and LaTeX syntax in the output statement and use single dollar signs $ for math expressions.
-"""
+The self-reflection process should be thorough and cover every aspect of the problem.
+Pay attention to small details, nuances, edge cases, and examples in the problem description.
+Ensure all reflections, solutions, and complexity analyses are clear, detailed, and accurate.
+Use Markdown and LaTeX syntax for clarity and readability, and use single dollar signs $ for math expressions.
+"""  
 
 user = """\
-You are given a code contest problem:
+You are given a competitive programming problem:
 {problem}
 
-Given the code contest problem, you have two tasks:
-1. Reflect on the problem and describe it in your own words, in bullet points. Pay attention to small details, nuances, notes, and examples in the problem description.
-2. Provide a solution to this problem in natural language, calculate the time and space complexity, and also provide the Codeforces difficulty of this problem.
-Use LaTeX and Markdown syntax in the output statements (e.g., difficulty, reflection, solution, and time and space complexity).
+Your tasks are:
 
-Guidelines:
-- Make sure the solution fully addresses the problem goals, constraints, examples, and notes.
-- Each solution must have reasonable runtime and memory complexity. A modern computer can run 100000000 operations in one second. Ensure that if you implement your solution in C++ code, it can pass when the maximum input under the constraints is given.
-- Double-check the solutions. The solution must be able to generalize to additional test cases, not just the ones provided in the problem description.
+### 1. **Reflect on the Problem**
+- Describe the problem in your own words in bullet points.
+- Highlight small details, nuances, and critical constraints from the problem description.
+- Identify and discuss potential edge cases and pitfalls to avoid.
+- Consider examples provided in the problem description, and analyze them.
+
+### 2. **Propose a Solution**
+- Provide a solution to the problem in natural language, structured step-by-step.
+- Explain how the solution addresses all constraints, goals, and edge cases.
+- Calculate and explain the **time complexity** and **space complexity** of the solution.
+- Ensure the solution is efficient for the given constraints. A modern computer can process approximately 100 million operations per second, so ensure the solution adheres to this benchmark.
+- If the solution can be implemented in C++ or Python, confirm that it will handle maximum input sizes under the constraints effectively.
+
+### 3. **Estimate Difficulty**
+- Evaluate the approximate difficulty of the problem using **Codeforces difficulty levels**.
+- Justify the assigned difficulty level based on the complexity and required techniques.
+
+### Guidelines for Output:
+- Use Markdown for formatting, and apply LaTeX syntax for any math-related expressions (e.g., $O(n)$, $n \\leq 10^5$).
+- Ensure the explanation is precise, thorough, and easy to understand.
+- Check the generality of the solution to ensure it works beyond the given examples.
+
+### Sample Output Structure:
+#### **Reflection**
+- [Detailed problem description, nuances, and edge cases]
+
+#### **Solution**
+1. [Step-by-step solution explanation]
+2. **Time Complexity**: [e.g., $O(n \\log n)$]
+3. **Space Complexity**: [e.g., $O(n)$]
+
+#### **Difficulty**
+- [Estimated difficulty level with justification]
 """

@@ -1,19 +1,32 @@
 [check_problem_skills_and_difficulty_prompt]
 temperature = 0.4
 system = """\
-You are an AI assistant that helps check competitive programming problems.
-Your task is to ensure that the given problem requires specific skills and has the required difficulty.
-Output 'yes' or 'no' in the first line.
-In the next line, explain why.
+You are an AI assistant designed to validate competitive programming problems.
+Your role is to ensure that the given problem aligns with the required skills and difficulty range.
+Your output should consist of two parts:
+1. The first line must contain either 'yes' or 'no'.
+2. The second line must explain the reasoning behind your answer in detail.
 """
 
 user = """\
-The question must require rigorous expertise in both {skill_1} and {skill_2} for resolution.
-The application of both {skill_1} and {skill_2}, along with their subskills, should be necessary and contribute directly to obtaining the final answer.
-{skill_1} and {skill_2} skills should be applicable separately and critically during the problem-solving process.
-Ensure the problem statement does not explicitly state or hint at which skills are needed.
-Estimate the problem's Codeforces difficulty and determine whether the problem is in the range {min_difficulty}-{max_difficulty}.
-Output 'yes' or 'no' to determine whether the problem is acceptable and explain why.
+The question must meet the following criteria:
+1. It requires rigorous expertise in both {skill_1} and {skill_2} for resolution.
+   - The application of both {skill_1} and {skill_2}, along with their subskills, must be necessary to arrive at the correct solution.
+   - {skill_1} and {skill_2} must contribute separately and critically to solving the problem.
+2. The problem must ensure that:
+   - {skill_1} and {skill_2} are not explicitly stated or hinted at in the problem description.
+   - Their application is implicit, requiring the solver to identify and apply these skills independently.
+3. The estimated difficulty of the problem must lie within the Codeforces range of {min_difficulty}-{max_difficulty}.
+   - The difficulty estimation should consider problem constraints, required techniques, and potential edge cases.
+   - The problem must challenge both skills equally and meaningfully.
+
+For evaluation:
+- Output 'yes' or 'no' based on whether the problem satisfies all the above criteria.
+- In the explanation, include:
+  - Whether both skills ({skill_1} and {skill_2}) are rigorously required.
+  - How these skills contribute separately and critically to the solution.
+  - Whether the problem hides the need for these skills effectively.
+  - An estimate of the problem’s difficulty and whether it falls within the specified range.
 
 problem:
 {problem}

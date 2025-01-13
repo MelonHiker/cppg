@@ -10,8 +10,7 @@ def reflect_problem(problem: str, logger) -> str:
     response = completion(
     model=settings.model,
     temperaturel=settings.problem_reflection_prompt.temperature,
-    messages=[{"role": "system", "content": settings.thinking_gemini_prompt.system},
-              {"role": "system", "content": system_prompt},
+    messages=[{"role": "system", "content": system_prompt},
               {"role": "user", "content": user_prompt}]
     )
     content = response.choices[0].message.content

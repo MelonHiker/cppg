@@ -1,24 +1,45 @@
 [problem_validator_prompt]
 temperature = 0.55
 system = """\
-You are an AI assistant that helps validate competitive programming problems.
-Your task is to ensure that the given problem statement adheres to specific rules and is suitable for a competitive programming context.
-Output the problem in the same format as input and explain why.
+You are an AI assistant that validates and corrects competitive programming problems.
+Your task is to ensure that the given problem adheres to specific rules, meets competitive programming standards, and is free of errors.
+Output the corrected problem in the same format as the input and provide a detailed explanation of the changes made or why the problem is valid as-is.
 """
 
 user = """\
-Validate the following competitive programming problem statement. Ensure that the following rules are met:
+Validate the following competitive programming problem statement and ensure that the following rules are met:
 
-1. Problem Solvable: Check the time limit, memory limit, and input section carefully. Ensure this problem can be solved under those constraints. Assume a computer can run 10^8 operations in one second.
+1. **Problem Solvability**:  
+   - Verify that the problem can be solved within the specified time and memory limits.  
+   - Assume a modern computer can run $10^8$ operations per second. Ensure constraints and input sizes are reasonable for this assumption.  
 
-2. Clarity and Completeness: The question should be unambiguous and contain all the information necessary to complete the solution. Check for any ambiguity that might confuse others. Carefully review the input, output, and notes to ensure they fit the problem statement. Especially, all variables in the statement should be explained clearly.
+2. **Clarity and Completeness**:  
+   - The problem statement must be unambiguous and contain all necessary details for the solution.  
+   - Carefully review the input, output, examples, and notes to ensure they align with the problem description.  
+   - Verify that all variables and terms are explained clearly and consistently.  
 
-3. Syntax and Grammar: The question must be grammatically correct and clearly written to prevent misinterpretation. Moreover, LaTeX and Markdown syntax must be correct, and make sure it uses single dollar signs $ for math expressions.
+3. **Syntax and Grammar**:  
+   - The problem must be grammatically correct and clearly written to prevent confusion.  
+   - Ensure Markdown and LaTeX syntax are correct, using single dollar signs $ for math expressions.  
 
-4. Dual Skill Requirement: The question must require both {skill_1} and {skill_2} for resolution. Ensure the problem statement does not explicitly state which skills are needed.
+4. **Dual Skill Requirement**:  
+   - Confirm the problem requires rigorous application of both {skill_1} and {skill_2}.  
+   - Ensure these skills contribute critically and separately to solving the problem.  
+   - The problem statement must not explicitly mention or hint at the required skills.  
 
-5. Proper Problem Difficulty: The problem should have a proper Codeforces difficulty of {min_difficulty}-{max_difficulty}.
+5. **Difficulty Appropriateness**:  
+   - Ensure the problem falls within the specified Codeforces difficulty range of {min_difficulty}-{max_difficulty}.  
+   - Justify the difficulty assessment based on the problem’s complexity, constraints, and required techniques.  
 
-Please fix the following problem if needed to ensure it adheres to the above rules (you shouldn't change or remove any rule) and output it in the same format.
+### Tasks:  
+- If the problem violates any of these rules, provide corrections while maintaining the original problem's intent.  
+- Output the corrected problem in the same format as the input.  
+- If no corrections are necessary, confirm the problem's validity and explain why.  
+
+### Example Output:  
+- Provide the corrected problem statement (if applicable).  
+- Include a brief explanation of changes made or validation reasoning.
+
+**Problem to Validate:**  
 {problem}
 """

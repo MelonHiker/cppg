@@ -1,13 +1,14 @@
 [reflection_validator_prompt]
 temperature = 0.55
 system = """\
-You are an AI assistant that helps validate competitive programming problems and their solutions.
-Your task is to ensure that the given problem solution can solve the problem, use Latex in math expressions, and add newlines in long strings.
-Output the result in YAML format.
+You are an AI assistant tasked with validating and correcting solutions for competitive programming problems.
+Your role is to ensure that the solution fully addresses the given problem and meets efficiency requirements while adhering to competitive programming standards.
+Output the result as a YAML object, using Markdown and LaTeX for math expressions and ensuring proper formatting.
 """
 
 user = """\
-Here is a problem and its solution, reflection, complexity, and related information.
+Here is a problem along with its solution, reflection, complexity, and related information:
+
 problem:
 {problem}
 
@@ -15,35 +16,48 @@ reflection:
 {reflection}
 
 The problem requires expertise in the following two skills: {skill_1} and {skill_2}.
-Your job is to fix the solution (if needed) so that it can solve this problem and fix the any statement (if needed) in the given input.
-Make sure the solution can handle any test case (not only the test cases in the problem example).
-Ensure the solution is efficient and can solve the problem under the given constraints without causing a Time Limit Exceeded (TLE) error.
-Ensure Markdown and LaTeX syntax are correct, and every math expression uses LaTeX enclosed with single $ symbols.
-You need to use LaTeX in the time_complexity and space_complexity.
 
-The output must be a YAML object equivalent to type $Problem, according to the following Pydantic definitions:
-=====
-class Example(BaseModel):
-    input: str = Field(description="The sample input of the problem")
-    output: str = Field(description="The sample output of the problem")
+### Your Tasks:
+1. **Validate and Correct the Solution**:  
+   - Ensure the solution fully resolves the problem and works for all edge cases and test cases under the problem's constraints.  
+   - Fix the solution or any statement in the provided input if needed to ensure accuracy and completeness.  
 
-class Problem(BaseModel):
-    title: str = Field(description="The title of the problem")
-    time_limit: str
-    memory_limit: str
-    description: str = Field(description="The description of the problem")
-    input_constraints: str = Field(description="The input format and constraints of the problem.")
-    output_constraints: str = Field(description="The output format and constraints of the problem.")
-    examples: list[Example] = Field(description="A list of examples for the problem")
-    note: str = Field(description="Explain why the example input produces the corresponding example output (just give one of those examples).")
-    solution_in_natural_language: str = Field(description="The solution in natural language to the problem")
-    time_complexity: str = Field(description="The time complexity of the solution")
-    space_complexity: str = Field(description="The space complexity of the solution")
-    difficulty: str = Field(description="The Codeforces difficulty of the problem (800-3500)")
-    explanation: str = Field(description="Explain where to change")
-=====
+2. **Efficiency Verification**:  
+   - Confirm that the solution is efficient and will not result in a Time Limit Exceeded (TLE) error under the given constraints.  
+   - Ensure the solution adheres to a computational limit of $10^8$ operations per second.  
 
-Example YAML output:
+3. **Syntax Validation**:  
+   - Verify that all Markdown and LaTeX syntax is correct.  
+   - Use single $ symbols for math expressions, and format LaTeX math elements clearly.  
+
+4. **Comprehensive Complexity Analysis**:  
+   - Provide the solution's **time complexity** and **space complexity** using LaTeX.  
+
+5. **Detailed YAML Output**:  
+   - Output the result as a YAML object equivalent to the following Pydantic definitions:
+
+=====  
+class Example(BaseModel):  
+    input: str = Field(description="The sample input of the problem")  
+    output: str = Field(description="The sample output of the problem")  
+
+class Problem(BaseModel):  
+    title: str = Field(description="The title of the problem")  
+    time_limit: str  
+    memory_limit: str  
+    description: str = Field(description="The description of the problem")  
+    input_constraints: str = Field(description="The input format and constraints of the problem.")  
+    output_constraints: str = Field(description="The output format and constraints of the problem.")  
+    examples: list[Example] = Field(description="A list of examples for the problem")  
+    note: str = Field(description="Explain why the example input produces the corresponding example output (just give one of those examples).")  
+    solution_in_natural_language: str = Field(description="The solution in natural language to the problem")  
+    time_complexity: str = Field(description="The time complexity of the solution")  
+    space_complexity: str = Field(description="The space complexity of the solution")  
+    difficulty: str = Field(description="The Codeforces difficulty of the problem (800-3500)")  
+    explanation: str = Field(description="Explain where to change")  
+=====  
+
+### Example YAML Output:  
 ```yaml
 title: |-
   ...
@@ -75,8 +89,4 @@ difficulty: |-
   ...
 explanation: |-
   ...
-```
-
-Answer:
-```yaml
 """
