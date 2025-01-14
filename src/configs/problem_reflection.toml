@@ -1,5 +1,5 @@
 [problem_reflection_prompt]  
-temperature = 0.55  
+temperature = 0.8
 system = """\
 The self-reflection process should be thorough and cover every aspect of the problem.
 Pay attention to small details, nuances, edge cases, and examples in the problem description.
