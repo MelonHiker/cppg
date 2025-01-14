@@ -20,21 +20,22 @@
             text = marked.parse(text);
             return text.replace(/<script[^>]*>([\s\S]*?)<\/script>/gi, m => scripts.shift());
         }
+
         function renderContent() {
             const sections = [
                 'description',
-                'input_constraints',
-                'output_constraints',
+                'input-constraints',
+                'output-constraints',
                 'note',
-                'solution_in_natural_language',
-                'time_complexity',
-                'space_complexity',
+                'solution-in-natural-language',
+                'time-complexity',
+                'space-complexity',
                 'difficulty'
             ];
             sections.forEach(id => {
-                const div = document.getElementById(id);
+                const div = document.getElementById(id + "-preview");
                 var div2 = document.createElement('div');
-                div2.innerHTML = div.innerHTML;
+                div2.innerHTML = document.getElementById(id + "-edit").value;
                 MathJax.Hub.Queue(
                     ['Typeset', MathJax.Hub, div2],
                     function() {
@@ -44,163 +45,215 @@
                     }
                 );
             });
+
+            // Update examples
+            const exampleInputs = document.querySelectorAll(".example-edit .example-input");
+            const exampleOutputs = document.querySelectorAll(".example-edit .example-output");
+            exampleInputs.forEach((textarea, index) => {
+                const pre = document.querySelectorAll(".example-preview pre")[index * 2];
+                pre.textContent = textarea.value;
+            });
+            exampleOutputs.forEach((textarea, index) => {
+                const pre = document.querySelectorAll(".example-preview pre")[index * 2 + 1];
+                pre.textContent = textarea.value;
+            });
+
+            // Update title, time limit, and memory limit
+            document.getElementById("title-preview").textContent = document.getElementById("title-edit").value;
+            document.getElementById("time-limit-preview").textContent = document.getElementById("time-limit-edit").value;
+            document.getElementById("memory-limit-preview").textContent = document.getElementById("memory-limit-edit").value;
         }
+
+        function debounce(func, wait) {
+            let timeout;
+            return function(...args) {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(this, args), wait);
+            };
+        }
+
         document.addEventListener("DOMContentLoaded", function() {
+            const sections = [
+                'description',
+                'input-constraints',
+                'output-constraints',
+                'note',
+                'solution-in-natural-language',
+                'time-complexity',
+                'space-complexity',
+                'difficulty'
+            ];
+            const debouncedRenderContent = debounce(renderContent, 300);
+            sections.forEach(id => {
+                document.getElementById(id + "-edit").addEventListener("input", debouncedRenderContent);
+            });
+
+            // Add event listeners for example inputs and outputs
+            const exampleInputs = document.querySelectorAll(".example-edit .example-input");
+            const exampleOutputs = document.querySelectorAll(".example-edit .example-output");
+            exampleInputs.forEach(textarea => {
+                textarea.addEventListener("input", debouncedRenderContent);
+            });
+            exampleOutputs.forEach(textarea => {
+                textarea.addEventListener("input", debouncedRenderContent);
+            });
+
+            // Add event listeners for title, time limit, and memory limit
+            const simpleSections = [
+                "title",
+                "time-limit",
+                "memory-limit"
+            ];
+            simpleSections.forEach(id => {
+                document.getElementById(id + "-edit").addEventListener("input", () => {
+                    document.getElementById(id + "-preview").textContent = document.getElementById(id + "-edit").value;
+                });
+            });
+
             renderContent();
-            document.getElementById("editButton").addEventListener("click", function() {
-                document.getElementById("viewMode").style.display = "none";
-                document.getElementById("editMode").style.display = "block";
-            });
-            document.getElementById("saveButton").addEventListener("click", function() {
-                const sections = [
-                    "title",
-                    "time_limit",
-                    "memory_limit",
-                    'description',
-                    'input_constraints',
-                    'output_constraints',
-                    'note',
-                    'solution_in_natural_language',
-                    'time_complexity',
-                    'space_complexity',
-                    'difficulty'
-                ];
-                sections.forEach(id => {
-                    const textarea = document.getElementById(id + "_edit");
-                    const div = document.getElementById(id);
-                    div.innerHTML = textarea.value;
-                });
 
-                // Update examples
-                const exampleInputs = document.querySelectorAll(".example-input");
-                const exampleOutputs = document.querySelectorAll(".example-output");
-                exampleInputs.forEach((textarea, index) => {
-                    const pre = document.querySelectorAll(".example pre")[index * 2];
-                    pre.textContent = textarea.value;
-                });
-                exampleOutputs.forEach((textarea, index) => {
-                    const pre = document.querySelectorAll(".example pre")[index * 2 + 1];
-                    pre.textContent = textarea.value;
-                });
-
-                document.getElementById("viewMode").style.display = "block";
-                document.getElementById("editMode").style.display = "none";
-                renderContent();
-            });
+            document.getElementById('solutionButton').addEventListener('click', showSolution);
+            document.getElementById('statementButton').addEventListener('click', showProblem);
         });
+
+        function showSolution() {
+            document.querySelector('.problem-preview').classList.add('hidden');
+            document.querySelector('.problem-edit').classList.add('hidden');
+            document.querySelector('.solution-preview').classList.remove('hidden');
+            document.querySelector('.solution-edit').classList.remove('hidden');
+        }
+
+        function showProblem() {
+            document.querySelector('.problem-preview').classList.remove('hidden');
+            document.querySelector('.problem-edit').classList.remove('hidden');
+            document.querySelector('.solution-preview').classList.add('hidden');
+            document.querySelector('.solution-edit').classList.add('hidden');
+        }
     </script>
 </head>
 <body>
-    <div class="container">
-        <div id="viewMode">
-            <h1 id="title">{{ result.title }}</h1>
-            <div class="limits">
-                <p>Time Limit: <span id="time_limit">{{ result.time_limit }}</span> | Memory Limit: <span id="memory_limit">{{ result.memory_limit }}</span></p>
-            </div>
-            <div class="section">
-                <h3>Description</h3>
-                <div id="description">{{ result.description }}</div>
-            </div>
-            <div class="section">
-                <h3>Input Constraints</h3>
-                <div id="input_constraints">{{ result.input_constraints }}</div>
-            </div>
-            <div class="section">
-                <h3>Output Constraints</h3>
-                <div id="output_constraints">{{ result.output_constraints }}</div>
-            </div>
-            <div class="section">
-                <h3>Examples</h3>
-                {% for example in result.examples %}
-                <div class="example">
-                    <h4>Input</h4>
-                    <pre>{{ example.input | e }}</pre>
-                    <h4>Output</h4>
-                    <pre>{{ example.output | e }}</pre>
+    <div class="top-buttons">
+        <button id="statementButton">Statement</button>
+        <button id="solutionButton">Solution</button>
+        <button id="testButton">Test</button>
+    </div>
+    <div class="main-content">
+        <div class="container left-container">
+            <div class="split problem-edit">
+                <div class="section">
+                    <h3>Title</h3>
+                    <textarea id="title-edit">{{ result.title }}</textarea>
                 </div>
-                {% endfor %}
-            </div>
-            <div class="section">
-                <h3>Notes</h3>
-                <div id="note">{{ result.note }}</div>
-            </div>
-            <div class="section">
-                <h3>Solution in Natural Language</h3>
-                <div id="solution_in_natural_language">{{ result.solution_in_natural_language }}</div>
-            </div>
-            <div class="section">
-                <h3>Time Complexity</h3>
-                <div id="time_complexity">{{ result.time_complexity }}</div>
-            </div>
-            <div class="section">
-                <h3>Space Complexity</h3>
-                <div id="space_complexity">{{ result.space_complexity }}</div>
-            </div>
-            <div class="section">
-                <h3>Difficulty</h3>
-                <div id="difficulty">{{ result.difficulty }}</div>
-            </div>
-            <button id="editButton" class="corner-button">Edit</button>
-        </div>
-        <div id="editMode" style="display: none;">
-            <div class="section">
-                <h3>Title</h3>
-                <textarea id="title_edit">{{ result.title }}</textarea>
-            </div>
-            <div class="section">
-                <h3>Time Limit</h3>
-                <textarea id="time_limit_edit">{{ result.time_limit }}</textarea>
-            </div>
-            <div class="section">
-                <h3>Memory Limit</h3>
-                <textarea id="memory_limit_edit">{{ result.memory_limit }}</textarea>
-            </div>
-            <div class="section">
-                <h3>Description</h3>
-                <textarea id="description_edit">{{ result.description }}</textarea>
-            </div>
-            <div class="section">
-                <h3>Input Constraints</h3>
-                <textarea id="input_constraints_edit">{{ result.input_constraints }}</textarea>
-            </div>
-            <div class="section">
-                <h3>Output Constraints</h3>
-                <textarea id="output_constraints_edit">{{ result.output_constraints }}</textarea>
-            </div>
-            <div class="section">
-                <h3>Examples</h3>
-                {% for example in result.examples %}
-                <div class="example">
-                    <h4>Input</h4>
-                    <textarea class="example-input">{{ example.input }}</textarea>
-                    <h4>Output</h4>
-                    <textarea class="example-output">{{ example.output }}</textarea>
+                <div class="section">
+                    <h3>Time Limit</h3>
+                    <textarea id="time-limit-edit">{{ result.time_limit }}</textarea>
                 </div>
-                {% endfor %}
+                <div class="section">
+                    <h3>Memory Limit</h3>
+                    <textarea id="memory-limit-edit">{{ result.memory_limit }}</textarea>
+                </div>
+                <div class="section">
+                    <h3>Description</h3>
+                    <textarea id="description-edit">{{ result.description }}</textarea>
+                </div>
+                <div class="section">
+                    <h3>Input Constraints</h3>
+                    <textarea id="input-constraints-edit">{{ result.input_constraints }}</textarea>
+                </div>
+                <div class="section">
+                    <h3>Output Constraints</h3>
+                    <textarea id="output-constraints-edit">{{ result.output_constraints }}</textarea>
+                </div>
+                <div class="section">
+                    <h3>Examples</h3>
+                    {% for example in result.examples %}
+                    <div class="example-edit">
+                        <h4>Input</h4>
+                        <textarea class="example-input">{{ example.input }}</textarea>
+                        <h4>Output</h4>
+                        <textarea class="example-output">{{ example.output }}</textarea>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="section">
+                    <h3>Notes</h3>
+                    <textarea id="note-edit">{{ result.note }}</textarea>
+                </div>
             </div>
-            <div class="section">
-                <h3>Notes</h3>
-                <textarea id="note_edit">{{ result.note }}</textarea>
+            <div class="split solution-edit hidden">
+                <div class="section">
+                    <h3>Editorial</h3>
+                    <textarea id="solution-in-natural-language-edit">{{ result.solution_in_natural_language }}</textarea>
+                </div>
+                <div class="section">
+                    <h3>Time Complexity</h3>
+                    <textarea id="time-complexity-edit">{{ result.time_complexity }}</textarea>
+                </div>
+                <div class="section">
+                    <h3>Space Complexity</h3>
+                    <textarea id="space-complexity-edit">{{ result.space_complexity }}</textarea>
+                </div>
+                <div class="section">
+                    <h3>Difficulty</h3>
+                    <textarea id="difficulty-edit">{{ result.difficulty }}</textarea>
+                </div>
             </div>
-            <div class="section">
-                <h3>Solution in Natural Language</h3>
-                <textarea id="solution_in_natural_language_edit">{{ result.solution_in_natural_language }}</textarea>
-            </div>
-            <div class="section">
-                <h3>Time Complexity</h3>
-                <textarea id="time_complexity_edit">{{ result.time_complexity }}</textarea>
-            </div>
-            <div class="section">
-                <h3>Space Complexity</h3>
-                <textarea id="space_complexity_edit">{{ result.space_complexity }}</textarea>
-            </div>
-            <div class="section">
-                <h3>Difficulty</h3>
-                <textarea id="difficulty_edit">{{ result.difficulty }}</textarea>
-            </div>
-            <button id="saveButton" class="corner-button">Save</button>
         </div>
-        <a href="/" class="back-button">Back to Home</a>
+        <div class="container right-container">
+            <div class="split problem-preview">
+                <div class="section">
+                    <h1 id="title-preview">{{ result.title }}</h1>
+                    <div class="limits">
+                        <p>Time Limit: <span id="time-limit-preview">{{ result.time_limit }}</span> | Memory Limit: <span id="memory-limit-preview">{{ result.memory_limit }}</span></p>
+                    </div>
+                    <div class="section">
+                        <h3>Description</h3>
+                        <div id="description-preview">{{ result.description }}</div>
+                    </div>
+                    <div class="section">
+                        <h3>Input Constraints</h3>
+                        <div id="input-constraints-preview">{{ result.input_constraints }}</div>
+                    </div>
+                    <div class="section">
+                        <h3>Output Constraints</h3>
+                        <div id="output-constraints-preview">{{ result.output_constraints }}</div>
+                    </div>
+                    <div class="section">
+                        <h3>Examples</h3>
+                        {% for example in result.examples %}
+                        <div class="example-preview">
+                            <h4>Input</h4>
+                            <pre>{{ example.input | e }}</pre>
+                            <h4>Output</h4>
+                            <pre>{{ example.output | e }}</pre>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="section">
+                        <h3>Notes</h3>
+                        <div id="note-preview">{{ result.note }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="split solution-preview hidden">
+                <div class="section">
+                    <h3>Editorial</h3>
+                    <div id="solution-in-natural-language-preview">{{ result.solution_in_natural_language }}</div>
+                </div>
+                <div class="section">
+                    <h3>Time Complexity</h3>
+                    <div id="time-complexity-preview">{{ result.time_complexity }}</div>
+                </div>
+                <div class="section">
+                    <h3>Space Complexity</h3>
+                    <div id="space-complexity-preview">{{ result.space_complexity }}</div>
+                </div>
+                <div class="section">
+                    <h3>Difficulty</h3>
+                    <div id="difficulty-preview">{{ result.difficulty }}</div>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>

@@ -3,23 +3,9 @@ body {
     margin: 0;
     padding: 0;
     background-color: #f4f4f4;
-}
-
-.container {
-    max-width: 800px;
-    margin: 2em auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    position: relative;
-}
-
-h1 {
-    font-size: 2em;
-    margin-bottom: 1em;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
 }
 
 .form-section {
@@ -32,7 +18,45 @@ label {
     font-weight: bold;
 }
 
-input, select, textarea {
+.top-buttons {
+    display: flex;
+    justify-content: flex-start;
+    padding: 10px;
+    background-color: #f4f4f4;
+}
+
+.top-buttons button {
+    margin: 0 10px;
+    padding: 10px 20px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+.top-buttons button:hover {
+    background-color: #45a049;
+}
+
+.main-content {
+    display: flex;
+    flex: 1;
+}
+
+.container {
+    width: 800px;
+    margin: 2em auto;
+    padding: 30px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.container input, select {
     margin-top: 0.5em;
     padding: 0.5em;
     border: 1px solid #ccc;
@@ -40,37 +64,75 @@ input, select, textarea {
     font-size: 1em;
 }
 
-#description_edit {
-    height: 300px;
-    width: 98%;
-}
-#input_constraints_edit {
-    height: 150px;
-    width: 98%;
-}
-#output_constraints_edit {
-    height: 150px;
-    width: 98%;
-}
-#note_edit {
-    height: 300px;
-    width: 98%;
-}
-#solution_in_natural_language_edit {
-    height: 300px;
-    width: 98%;
-}
-#time_complexity_edit {
-    height: 100px;
-    width: 98%;
-}
-#space_complexity_edit {
-    height: 100px;
-    width: 98%;
+.left-container,
+.right-container {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: #ffffff;
+    border-right: 1px solid #ccc;
+    border-radius: 10px;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
 }
 
-#story {
-    font-size: 1.2em;
+.split {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+h1 {
+    font-size: 2em;
+    margin-bottom: 1em;
+    text-align: center;
+}
+
+.section {
+    margin-top: 2em;
+}
+
+.section h3 {
+    font-size: 1.5em;
+}
+
+.section div {
+    margin: 0.5em 0;
+    line-height: 1.5;
+    white-space: normal;
+}
+
+.container textarea {
+    width: 97%;
+    height: 100px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+    resize: vertical;
+}
+
+textarea#description-edit,
+textarea#note-edit,
+textarea#solution-in-natural-language-edit {
+    height: 300px;
+}
+
+textarea#input-constraints-edit,
+textarea#output-constraints-edit {
+    height: 150px;
+}
+
+textarea#time-complexity-edit,
+textarea#space-complexity-edit {
+    height: 100px;
+}
+
+textarea#title-edit,
+textarea#time-limit-edit,
+textarea#memory-limit-edit {
+    height: 50px;
 }
 
 button {
@@ -86,20 +148,6 @@ button {
 
 button:hover {
     background-color: #45a049;
-}
-
-.section {
-    margin-top: 2em;
-}
-
-.section h3 {
-    font-size: 1.5em;
-}
-
-.section div {
-    margin: 0.5em 0;
-    line-height: 1.5;
-    white-space: normal;
 }
 
 .example {
@@ -125,42 +173,23 @@ button:hover {
     margin-bottom: 1em;
 }
 
-.back-button {
-    display: inline-block;
-    margin-top: 2em;
-    padding: 0.75em 1.5em;
-    background-color: #4caf50;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    text-decoration: none;
-    font-size: 1em;
-    text-align: center;
-}
-
-.back-button:hover {
-    background-color: #45a049;
-}
-
-.corner-button {
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    padding: 0.5em 1em;
-    background-color: #4caf50;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.corner-button:hover {
-    background-color: #45a049;
-}
-
 input[readonly], select[readonly], textarea[readonly] {
     background-color: #f0f0f0;
     color: #a0a0a0;
     border: 1px solid #ccc;
     pointer-events: none;
+}
+
+.error-message {
+    color: red;
+    margin-bottom: 20px;
+    border: 1px solid red;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #ffe6e6;
+}
+
+.hidden {
+    visibility: hidden;
+    position: absolute;
 }
