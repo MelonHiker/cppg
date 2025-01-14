@@ -7,6 +7,11 @@
 <body>
     <div class="container">
         <h1>CPPG Web UI</h1>
+        {% if error %}
+        <div class="error-message">
+            <p>{{ error }}</p>
+        </div>
+        {% endif %}
         <form id="generateForm" method="post" action="/generate">
             <div class="form-section">
                 <label for="skill1">Skill 1:</label>
