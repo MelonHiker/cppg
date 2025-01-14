@@ -150,20 +150,10 @@ button:hover {
     background-color: #45a049;
 }
 
-.example {
-    margin-top: 1em;
-}
-
-.example h4 {
-    font-size: 1em;
-    margin: 0.5em 0;
-}
-
-.example pre {
+.example-preview pre {
     background: #f3f3f3;
     padding: 1em;
     border-radius: 4px;
-    white-space: normal;
 }
 
 .limits {
