@@ -3,7 +3,10 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, Field
+from src.log import setup_logger
 from src.cppg import CPPG
+
+logger = setup_logger()
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -47,7 +50,7 @@ def generate(
         result = Problem(**result_dict)
         return templates.TemplateResponse("result.html", {"request": request, "result": result})
     except Exception as e:
-        print(e)
+        logger.warning(str(e))
         return templates.TemplateResponse("index.html", {"request": request, "error": str(e)})
 
 if __name__ == "__main__":

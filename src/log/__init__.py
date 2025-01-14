@@ -1,7 +1,7 @@
 import logging
 from os.path import abspath, dirname, join
 
-file_name = "llm_interaction.log"
+file_name = "logs.log"
 logger_path = join(dirname(abspath(__file__)), file_name)
 
 def setup_logger():
