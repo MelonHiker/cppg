@@ -1,8 +1,8 @@
 from src.stage.random_problem import get_random_problems
 from src.configs.config_loader import settings
-from litellm import completion
+from litellm import acompletion
 
-def generate_problem(min_difficulty: int, max_difficulty: int, skill_1: str, skill_2: str, story: str, logger) -> str:
+async def generate_problem(min_difficulty: int, max_difficulty: int, skill_1: str, skill_2: str, story: str, logger) -> str:
     example_1 = get_random_problems(3, min_difficulty, max_difficulty, skill_1, None, logger)
     example_2 = get_random_problems(3, min_difficulty, max_difficulty, skill_2, skill_1, logger)
     system_prompt = settings.problem_generator_prompt.system
@@ -10,7 +10,7 @@ def generate_problem(min_difficulty: int, max_difficulty: int, skill_1: str, ski
 
     logger.info(user_prompt)
 
-    response = completion(
+    response = await acompletion(
     model=settings.model,
     temperaturel=settings.problem_generator_prompt.temperature,
     messages=[{"role": "system", "content": system_prompt},
