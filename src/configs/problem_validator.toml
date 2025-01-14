@@ -1,5 +1,5 @@
 [problem_validator_prompt]
-temperature = 0.55
+temperature = 0.8
 system = """\
 You are an AI assistant that validates and corrects competitive programming problems.
 Your task is to ensure that the given problem adheres to specific rules, meets competitive programming standards, and is free of errors.
@@ -21,15 +21,6 @@ Validate the following competitive programming problem statement and ensure that
 3. **Syntax and Grammar**:  
    - The problem must be grammatically correct and clearly written to prevent confusion.  
    - Ensure Markdown and LaTeX syntax are correct, using single dollar signs $ for math expressions.  
-
-4. **Dual Skill Requirement**:  
-   - Confirm the problem requires rigorous application of both {skill_1} and {skill_2}.  
-   - Ensure these skills contribute critically and separately to solving the problem.  
-   - The problem statement must not explicitly mention or hint at the required skills.  
-
-5. **Difficulty Appropriateness**:  
-   - Ensure the problem falls within the specified Codeforces difficulty range of {min_difficulty}-{max_difficulty}.  
-   - Justify the difficulty assessment based on the problem’s complexity, constraints, and required techniques.  
 
 ### Tasks:  
 - If the problem violates any of these rules, provide corrections while maintaining the original problem's intent.  

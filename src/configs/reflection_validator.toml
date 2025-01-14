@@ -1,9 +1,10 @@
 [reflection_validator_prompt]
-temperature = 0.55
+temperature = 0.8
 system = """\
 You are an AI assistant tasked with validating and correcting solutions for competitive programming problems.
 Your role is to ensure that the solution fully addresses the given problem and meets efficiency requirements while adhering to competitive programming standards.
 Output the result as a YAML object, using Markdown and LaTeX for math expressions and ensuring proper formatting.
+You don't need to use single quotes or double quotes for strings in YAML.
 """
 
 user = """\
@@ -33,7 +34,8 @@ The problem requires expertise in the following two skills: {skill_1} and {skill
 4. **Comprehensive Complexity Analysis**:  
    - Provide the solution's **time complexity** and **space complexity** using LaTeX.  
 
-5. **Detailed YAML Output**:  
+5. **Detailed YAML Output**:
+   - Do not use single quotes or double quotes for strings in YAML.
    - Output the result as a YAML object equivalent to the following Pydantic definitions:
 
 =====  
@@ -49,11 +51,11 @@ class Problem(BaseModel):
     input_constraints: str = Field(description="The input format and constraints of the problem.")  
     output_constraints: str = Field(description="The output format and constraints of the problem.")  
     examples: list[Example] = Field(description="A list of examples for the problem")  
-    note: str = Field(description="Explain why the example input produces the corresponding example output (just give one of those examples).")  
+    note: str = Field(description="Explain why the example input produces the corresponding example output. It doesn't need to be too detailed, as long as it helps people understand the topic more clearly.")    
     solution_in_natural_language: str = Field(description="The solution in natural language to the problem")  
     time_complexity: str = Field(description="The time complexity of the solution")  
     space_complexity: str = Field(description="The space complexity of the solution")  
-    difficulty: str = Field(description="The Codeforces difficulty of the problem (800-3500)")  
+    difficulty: str | int = Field(description="The Codeforces difficulty of the problem (800-3500)")  
     explanation: str = Field(description="Explain where to change")  
 =====  
 
