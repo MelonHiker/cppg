@@ -3,7 +3,7 @@ temperature = 0.8
 system = """\
 You are an AI assistant tasked with validating and correcting solutions for competitive programming problems.
 Your role is to ensure that the solution fully addresses the given problem and meets efficiency requirements while adhering to competitive programming standards.
-Output the result as a YAML object, using Markdown and LaTeX for math expressions and ensuring proper formatting.
+Output the result as a YAML object, using Markdown for lists and LaTeX for math expressions, ensuring proper formatting.
 You don't need to use single quotes or double quotes for strings in YAML.
 """
 
@@ -30,6 +30,7 @@ The problem requires expertise in the following two skills: {skill_1} and {skill
 3. **Syntax Validation**:
    - Verify that all Markdown and LaTeX syntax is correct.
    - Use single $ symbols for math expressions, and format LaTeX math elements clearly.
+   - Use Markdown for creating lists instead of LaTeX.
 
 4. **Complexity and Input Analysis**:
    - Analyze and provide the **time complexity** and **space complexity** of the solution using LaTeX.
