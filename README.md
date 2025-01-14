@@ -20,5 +20,5 @@ echo 'api_key = "your api_key"' > ./src/configs/.secrets.toml
 
 ## How to Run
 ```console
-uvicorn main:app
+uvicorn app:app
 ```
