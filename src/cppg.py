@@ -3,10 +3,12 @@ from src.stage.problem_generator import generate_problem
 from src.stage.problem_validator import validate_problem
 from src.stage.problem_reflection import reflect_problem
 from src.stage.reflection_validator import validate_reflection
-from src.stage.check_problem_skills_and_difficulty import check_skills_difficulty
+from src.stage.problem_selector import select_problem
+from src.stage.problem_solver import solve_problem
 from src.log import clear_log, setup_logger
 from tqdm import tqdm
 from typing import List
+import asyncio
 import yaml
 import os
 
@@ -19,8 +21,8 @@ class CPPG:
     def generate(self, min_difficulty: int, max_difficulty: int, skill_1: str, skill_2: str, story="") -> dict:
         with tqdm(total=100) as pbar:
             pbar.set_description("Generating problem")
-            problem = self._generate_and_check_problem(min_difficulty, max_difficulty, skill_1, skill_2, story, pbar)
-            pbar.n = 40
+            problem = asyncio.run(self._generate_problem(min_difficulty, max_difficulty, skill_1, skill_2, story))
+            pbar.update(40)
             
             pbar.set_description("Validating problem")
             problem = self._validate_problem(min_difficulty, max_difficulty, problem, skill_1, skill_2)
@@ -36,18 +38,14 @@ class CPPG:
             
         return result
 
-    def _generate_and_check_problem(self, min_difficulty: int, max_difficulty: int, skill_1: str, skill_2: str, story: str, pbar) -> str:
-        iteration = 0
-        while iteration < 20:
-            problem = generate_problem(min_difficulty, max_difficulty, skill_1, skill_2, story, self.logger)
-            pbar.update(2)
-            if check_skills_difficulty(min_difficulty, max_difficulty, problem, skill_1, skill_2, self.logger):
-                break
-            iteration += 1
-        else:
-            raise Exception(f"Too many iteration!")
+    def solve(self, problem: dict, language: str) -> str:
+        problem = str(problem)
+        return solve_problem(problem, language, self.logger)
 
-        return problem
+    async def _generate_problem(self, min_difficulty: int, max_difficulty: int, skill_1: str, skill_2: str, story: str) -> str:
+        tasks = [generate_problem(min_difficulty, max_difficulty, skill_1, skill_2, story, self.logger) for _ in range(5)]
+        problems = await asyncio.gather(*tasks)
+        return select_problem(problems, min_difficulty, max_difficulty, skill_1, skill_2, self.logger)
 
     def _validate_problem(self, min_difficulty: int, max_difficulty: int, problem: str, skill_1: str, skill_2: str) -> str:
         return validate_problem(min_difficulty, max_difficulty, problem, skill_1, skill_2, self.logger)
@@ -69,7 +67,8 @@ class CPPG:
             "solution_in_natural_language", 
             "time_complexity", 
             "space_complexity", 
-            "difficulty"
+            "difficulty",
+            "explanation"
         ]
         return self.load_yaml(data, keys)
     
@@ -83,7 +82,7 @@ class CPPG:
             if not data:
                 self.logger.info(f"Failed to parse AI YAML prediction: {e}")
         return data
-    
+
     def _try_fix_yaml(self, response_text: str, keys_fix_yaml: List[str] = []) -> dict:
         response_text_lines = response_text.split('\n')
 

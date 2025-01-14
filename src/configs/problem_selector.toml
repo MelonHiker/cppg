@@ -1,0 +1,51 @@
+[problem_selector_prompt]
+temperature = 0.8
+system = """\
+You are an AI assistant designed to evaluate and select the best competitive programming problems. 
+Your role is to critically analyze the provided problems based on specified criteria and select the most original, challenging, and well-aligned problem.
+Problems that do not meet the criteria must be removed.
+"""
+
+user = """
+The task is to select the best competitive programming problem from the provided list by following these guidelines:
+
+### **Problem Requirements**
+1. **Skill Application**:
+   - The problem must require rigorous expertise in both {skill_1} and {skill_2} for resolution.
+   - The application of {skill_1} and {skill_2}, along with their subskills, must be necessary to solve the problem.
+   - Both skills must contribute meaningfully and separately to solving the problem.
+
+2. **Implicit Skill Use**:
+   - {skill_1} and {skill_2} should not be explicitly mentioned or hinted at in the problem description.
+   - Solvers must independently identify and apply these skills.
+
+3. **Difficulty Range**:
+   - The problem's difficulty must align with the Codeforces range {min_difficulty}-{max_difficulty}.
+   - The difficulty should be assessed based on constraints, edge cases, and required techniques.
+   - The problem must challenge both skills equally and meaningfully.
+
+### **Selection Principles**
+1. **Challenging and Non-Trivial**:
+   - Select problems that require deep brainstorming and analytical thinking, especially for solvers with Codeforces ratings in the range {min_difficulty}-{max_difficulty}.
+
+2. **Unexpected Behaviors**:
+   - Problems should exhibit unexpected behaviors, phase transitions, or non-linear patterns based on parameter changes.
+
+3. **Non-Obvious Solutions**:
+   - Favor problems that combine {skill_1} and {skill_2} in innovative and non-intuitive ways.
+   - Ensure that the combination of skills is seamless and essential for the solution, even if the skills are seemingly unrelated.
+
+4. **Originality**:
+   - Prioritize problems that are novel, avoiding those that are overly similar to classic or well-known problems.
+
+### **Output Requirements**
+- Remove any problems that fail to meet the above criteria.
+- Select the best problem from the remaining list based on its alignment with the criteria and principles.
+- Provide the output in the same format as the input, retaining only the selected problem.
+- Include a brief explanation justifying your choice, addressing:
+  - How the problem meets the criteria.
+  - Why it stands out as the most original, challenging, and well-aligned option.
+
+### Problems:
+{problems}
+"""
