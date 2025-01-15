@@ -24,7 +24,7 @@ Your tasks are:
 - Explain how the solution addresses all constraints, goals, and edge cases.
 - Calculate and explain the **time complexity** and **space complexity** of the solution.
 - Ensure the solution is efficient for the given constraints. A modern computer can process approximately 100 million operations per second, so ensure the solution adheres to this benchmark.
-- If the solution can be implemented in C++ or Python, confirm that it will handle maximum input sizes under the constraints effectively.
+- Confirm that it will handle the maximum input sizes under the constraints effectively.
 
 ### 3. **Estimate Difficulty**
 - Evaluate the approximate difficulty of the problem using **Codeforces difficulty levels**.
