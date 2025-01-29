@@ -10,7 +10,7 @@ def select_problem(problems: list, min_difficulty: int, max_difficulty: int, ski
 
     response = completion(
     model=settings.model,
-    temperaturel=settings.problem_selector_prompt.temperature,
+    temperature=settings.problem_selector_prompt.temperature,
     messages=[{"role": "system", "content": system_prompt},
               {"role": "user", "content": user_prompt}]
     )

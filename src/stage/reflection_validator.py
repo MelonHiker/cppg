@@ -9,7 +9,7 @@ def validate_reflection(problem: str, reflection: str, skill_1: str, skill_2: st
     logger.info(user_prompt)
     
     response = completion(
-    temperaturel=settings.reflection_validator_prompt.temperature,
+    temperature=settings.reflection_validator_prompt.temperature,
     model=settings.model,
     messages=[{"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_prompt}]
