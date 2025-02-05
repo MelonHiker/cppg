@@ -4,22 +4,27 @@ import yaml
 if __name__ == "__main__":
     skill_1 = "dp"
     skill_2 = "binary search"
-    print(f"You choose {skill_1} and {skill_2}")
-
     min_difficulty = 1600
     max_difficulty = 2000
-
-    story = "I ate a cat."
+    story = "MelonWaler ate a cat."
 
     cppg = CPPG()
+    
+    # generate problem
     problem = cppg.generate(min_difficulty, max_difficulty, skill_1, skill_2, story)
 
-    file_name = "generated_problem.yaml"
-    with open(file_name, 'w') as f:
-        yaml.dump(problem, f)
+    # save problem
+    file_path = "generated_problem.yaml"
+    with open(file_path, "w") as f:
+        yaml.safe_dump(problem, f)
     
-    code = cppg.solve(problem, "c++")
+    # with open(file_path, "r") as f:
+    #     problem = yaml.safe_load(f)
 
-    file_name = "code.cpp"
-    with open(file_name, 'w') as f:
+    # solve problem
+    code = cppg.solve(problem, "python")
+
+    # save code
+    file_name = "answer.py"
+    with open("answer.py", "w") as f:
         f.write(code)
