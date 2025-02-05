@@ -7,6 +7,7 @@ from src.stage.problem_selector import select_problem
 from src.stage.problem_solver import solve_problem
 from src.stage.code_debugger import debug
 from src.stage.code_tester import test_code
+from src.stage.testcase_generator import testcase_generator
 from src.log import clear_log, setup_logger
 from tqdm import tqdm
 from typing import List
@@ -54,6 +55,9 @@ class CPPG:
             if (response == "Accept"):
                 return code
         return "Exceeded the number of debugging attempts."
+
+    def testcase(self, problem) -> str:
+        return self.load_code(testcase_generator(problem, self.logger), "python")
 
     async def _generate_problem(self, min_difficulty: int, max_difficulty: int, skill_1: str, skill_2: str, story: str) -> str:
         tasks = [generate_problem(min_difficulty, max_difficulty, skill_1, skill_2, self.logger) for _ in range(self.number_of_sample)]

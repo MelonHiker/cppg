@@ -1,0 +1,221 @@
+[testcase_generator_prompt]
+temperature = 0.2
+system = """\
+You are an AI assistant tasked with generating test cases for competitive programming problems.
+Your task is to write a test case generator in Python that generates input test cases.
+"""
+
+user = """\
+## Problem:
+{problem}
+
+### Sample Input:
+{sample_input}
+
+### Input Constraints:
+{input_constraints}
+
+## Guidelines for the generator function:
+
+1. Identify the input structure, such as sequence, tree, connected graph, etc.
+2. Read the input constraints carefully. Ensure every variable is within the given range and meets specific requirements, such as no self-loops, acyclic graphs, etc.
+3. For every variable x, take min_x and max_x as function parameters.
+4. Find the relationships between variables and ensure they do not cause conflicts.
+   For example, in a connected graph with edges G(N, M), M should be at least N - 1. Therefore, your function should set min_M = max(min_M, N - 1).
+5. Ensure arguments meet the input constraints. If not, raise a ValueError.
+
+The following are examples of generator functions:
+# generate tree (1-based)
+def gen(min_n, max_n):
+    if (not isinstance(min_n, int) or not isinstance(min_n, int) or min_n < 1):
+        raise ValueError("n must be a positive integer")
+    
+    if (min_n > max_n):
+        raise ValueError("min_n should less than or equal to max_n")
+    
+    n = random.randint(min_n, max_n)
+    print(n)
+    
+    nodes = [i for i in range(1, n + 1)]
+    random.shuffle(nodes)
+    for v in range(2, n + 1):
+        u = random.randint(1, v - 1)
+        v = nodes[v - 1]
+        u = nodes[u - 1]
+        if (random.randint(0, 1)):
+            u, v = v, u
+        print(u, v)
+
+# generate simple positive weighted graph (1-based)
+def gen(min_n, max_n, min_m, max_m, min_weight, max_weight):
+    if (not all(isinstance(x, int) and x > 0 for x in [min_n, max_n, min_m, max_m, min_weight, max_weight])):
+        raise ValueError("n, m and weight must be positive intergers")
+    
+    if (min_n > max_n or min_m > max_m or min_weight > max_weight):
+        raise ValueError("min should less than or equal to max")
+
+    n = random.randint(min_n, max_n)
+    max_m = min(max_m, n * (n - 1) // 2)
+    m = random.randint(min_m, max_m)
+    print(n, m)
+
+    # Generate all possible edges
+    all_possible_edges = []
+    for u in range(1, n + 1):
+        for v in range(u + 1, n + 1):
+            all_possible_edges.append((u, v))
+
+    # choose m edges
+    edges = random.sample(all_possible_edges, m)
+    random.shuffle(edges)
+
+    # output edges
+    nodes = [i for i in range(1, n + 1)]
+    random.shuffle(nodes)
+    for edge in edges:
+        u, v = edge
+        u = nodes[u - 1]
+        v = nodes[v - 1]
+        if (random.randint(0, 1)):
+            u, v = v, u
+        print(u, v, random.randint(min_weight, max_weight))
+
+# Generate a random palindrome string with only letters where length is n
+def gen(min_n, max_n):
+    if (not isinstance(min_n, int) or not isinstance(min_n, int) or min_n < 1):
+        raise ValueError("n must be a positive integer")
+    
+    if (min_n > max_n):
+        raise ValueError("min_n should less than or equal to max_n")
+    
+    n = random.randint(min_n, max_n)
+    print(n)
+
+    alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    result = [random.choice(alphabet) for _ in range((n + 1) // 2)]
+    result.extend(result[0:n // 2][::-1])
+    print(*result, sep="")
+
+# generate float matrix
+def gen(min_n, max_n, min_m, max_m, min_value, max_value):
+    if (not all(isinstance(x, int) and x > 0 for x in [min_n, max_n, min_m, max_m, min_value, min_value])):
+        raise ValueError("n and m must be positive integers")
+    
+    if (min_n > max_n or min_m > max_m or min_value > max_value):
+        raise ValueError("min should less than or equal to max")
+    
+    n = random.randint(min_n, max_n)
+    m = random.randint(min_n, max_n) 
+    print(n, m)
+    
+    for i in range(n):
+        line = [random.uniform(min_value, max_value) for j in range(m)]
+        print(*line)
+  
+# generate a random sequence of distinct element
+def gen(min_n, max_n, min_value, max_value):
+    if (not all(isinstance(x, int) and x > 0 for x in [min_n, max_n, min_value, min_value])):
+        raise ValueError("n and value must be positive integers")
+    
+    if (min_n > max_n or min_value > max_value):
+        raise ValueError("min should less than or equal to max")
+    
+    n = random.randint(min_value, max_value)
+    print(n)
+    
+    seq = random.sample(range(min_value, max_value + 1), n)
+    print(*seq)
+
+# generate connected simple graph (1-based)
+def gen(min_n, max_n, min_m, max_m):
+    if (not all(isinstance(x, int) and x > 0 for x in [min_n, max_n, min_m, max_m])):
+        raise ValueError("n and m must be positive intergers")
+
+    n = random.randint(min_n, max_n)
+
+    min_m = max(min_m, n - 1)
+    max_m = min(max_m, (n * (n - 1)) // 2)
+    m = random.randint(min_m, max_m)
+
+    print(n, m)
+    
+    # Generate a tree
+    used_edges = set()
+    for v in range(2, n + 1):
+        u = random.randint(1, v - 1)
+        used_edges.add((u, v))
+    
+    # Generate all possible extra edges
+    all_possible_edges = []
+    for u in range(1, n + 1):
+        for v in range(u + 1, n + 1):
+            if ((u, v) in used_edges or (v, u) in used_edges):
+                continue
+            all_possible_edges.append((u, v))
+
+    # Add extra edges
+    required_edges = m - (n - 1)
+    edges = random.sample(all_possible_edges, required_edges)
+    edges.extend(used_edges)
+    random.shuffle(edges)
+
+    # output edges
+    nodes = [i for i in range(1, n + 1)]
+    random.shuffle(nodes)
+    for edge in edges:
+        u, v = edge
+        u = nodes[u - 1]
+        v = nodes[v - 1]
+        if (random.randint(0, 1)):
+            u, v = v, u
+        print(u, v)
+
+# generate connected graph (1-based, self-loop, multiple edge)
+def gen(min_n, max_n, min_m, max_m):
+    if (not all(isinstance(x, int) and x > 0 for x in [min_n, max_n, min_m, max_m])):
+        raise ValueError("n and m must be positive intergers")
+
+    n = random.randint(min_n, max_n)
+
+    min_m = max(min_m, n - 1)
+    m = random.randint(min_m, max_m)
+    
+    print(n, m)
+
+    # Generate a tree
+    edges = []
+    for v in range(2, n + 1):
+        u = random.randint(1, v - 1)
+        edges.append((u, v))
+    
+    # add extra edges
+    for _ in range(n, m + 1):
+        edges.append((random.randint(1, n), random.randint(1, n)))
+
+    random.shuffle(edges)
+
+    # output edges
+    nodes = [i for i in range(1, n + 1)]
+    random.shuffle(nodes)
+    for edge in edges:
+        u, v = edge
+        u = nodes[u - 1]
+        v = nodes[v - 1]
+        if (random.randint(0, 1)):
+            u, v = v, u
+        print(u, v)
+
+## **Output Format**
+Your output must be a single code block containing the solution in Python that fully satisfies the above requirements.
+Your explanation should be embedded in the comments.
+
+## Example Output
+```python
+def gen(min_n, max_n, ...):
+    ...
+
+## important
+The generator only outputs input test cases. You don't need to think about how to generate the output.
+
+```python
+"""
