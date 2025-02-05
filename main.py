@@ -24,7 +24,12 @@ if __name__ == "__main__":
     # solve problem
     code = cppg.solve(problem, "python")
 
-    # save code
     file_name = "answer.py"
     with open("answer.py", "w") as f:
         f.write(code)
+
+    # generate testcase
+    gen = cppg.testcase(problem)
+
+    with open("gen.py", "w") as file:
+        file.write(gen)
