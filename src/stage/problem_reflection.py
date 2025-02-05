@@ -8,10 +8,12 @@ def reflect_problem(problem: str, logger) -> str:
     logger.info(user_prompt)
 
     response = completion(
-    model=settings.model,
-    temperature=settings.problem_reflection_prompt.temperature,
-    messages=[{"role": "system", "content": system_prompt},
-              {"role": "user", "content": user_prompt}]
+        model=settings.model,
+        temperature=settings.problem_reflection_prompt.temperature,
+        messages=[
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_prompt}
+        ]
     )
     content = response.choices[0].message.content
 

@@ -1,36 +1,45 @@
 [problem_validator_prompt]
-temperature = 0.8
+temperature = 0.6
 system = """\
 You are an AI assistant that validates and corrects competitive programming problems.
 Your task is to ensure that the given problem adheres to specific rules, meets competitive programming standards, and is free of errors.
-Output the corrected problem in the same format as the input and provide a detailed explanation of the changes made or why the problem is valid as-is.
 """
 
 user = """\
 Validate the following competitive programming problem statement and ensure that the following rules are met:
 
-1. **Problem Solvability**:  
-   - Verify that the problem can be solved within the specified time and memory limits.  
-   - Assume a modern computer can run $10^8$ operations per second. Ensure constraints and input sizes are reasonable for this assumption.  
+1. **Problem Solvability**:
+   - Verify that the problem can be solved within the specified time and memory limits.
+   - Assume a modern computer can run $10^8$ operations per second. Ensure constraints and input sizes are reasonable for this assumption.
 
-2. **Clarity and Completeness**:  
-   - The problem statement must be unambiguous and contain all necessary details for the solution.  
-   - Carefully review the input, output, examples, and notes to ensure they align with the problem description.  
-   - Verify that all variables and terms are explained clearly and consistently.  
+2. **Clarity and Completeness**:
+   - The problem statement must be unambiguous and contain all necessary details for the solution.
+   - Carefully review the input, output, examples, and notes to ensure they align with the problem description.
+   - Verify that all variables and terms are explained clearly and consistently.
 
-3. **Syntax and Grammar**:  
-   - The problem must be grammatically correct and clearly written to prevent confusion.  
-   - Ensure Markdown and LaTeX syntax are correct, using single dollar signs $ for math expressions.  
+3. **Syntax and Grammar**:
+   - The problem must be grammatically correct and clearly written to prevent confusion.
+   - Ensure Markdown and LaTeX syntax are correct, using single dollar signs $ for math expressions.
 
-### Tasks:  
-- If the problem violates any of these rules, provide corrections while maintaining the original problem's intent.  
-- Output the corrected problem in the same format as the input.  
-- If no corrections are necessary, confirm the problem's validity and explain why.  
+### Tasks:
+- If the problem violates any of these rules, provide corrections while maintaining the original problem's intent.
+- Output the corrected problem in the same format as the input.
+- If no corrections are necessary, confirm the problem's validity and explain why.
 
-### Example Output:  
-- Provide the corrected problem statement (if applicable).  
-- Include a brief explanation of changes made or validation reasoning.
-
-**Problem to Validate:**  
+**Problem to Validate:**
 {problem}
+
+The output must be a YAML object equivalent to type $Problem, according to the following Pydantic definitions:
+=====
+class Problem(BaseModel):
+    problem: str = Field(description="The corrected problem in the same format as the input")
+    explains: str = Field(description="A detailed explanation of the changes made or why the problem is valid as-is")
+=====
+
+Example YAML output:
+```yaml
+problem: |
+  ...
+explains: |
+  ...
 """

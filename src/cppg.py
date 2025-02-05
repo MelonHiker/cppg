@@ -5,6 +5,8 @@ from src.stage.problem_reflection import reflect_problem
 from src.stage.reflection_validator import validate_reflection
 from src.stage.problem_selector import select_problem
 from src.stage.problem_solver import solve_problem
+from src.stage.code_debugger import debug
+from src.stage.code_tester import test_code
 from src.log import clear_log, setup_logger
 from tqdm import tqdm
 from typing import List
@@ -17,6 +19,8 @@ class CPPG:
         clear_log()
         os.environ["GEMINI_API_KEY"] = settings.api_key
         self.logger = setup_logger()
+        self.number_of_sample = 5
+        self.number_of_try = 10
 
     def generate(self, min_difficulty: int, max_difficulty: int, skill_1: str, skill_2: str, story="") -> dict:
         with tqdm(total=100) as pbar:
@@ -39,22 +43,40 @@ class CPPG:
         return result
 
     def solve(self, problem: dict, language: str) -> str:
-        problem = str(problem)
-        return solve_problem(problem, language, self.logger)
+        code = self.load_code(solve_problem(problem, language, self.logger), language)
+        response = test_code(code, problem["examples"])
+        if (response == "Accept"):
+            return code
+
+        for _ in range(self.number_of_try):
+            code = self.load_code(debug(problem, code, response, language, self.logger), language)
+            response = test_code(code, problem["examples"])
+            if (response == "Accept"):
+                return code
+        return "Exceeded the number of debugging attempts."
 
     async def _generate_problem(self, min_difficulty: int, max_difficulty: int, skill_1: str, skill_2: str, story: str) -> str:
-        tasks = [generate_problem(min_difficulty, max_difficulty, skill_1, skill_2, story, self.logger) for _ in range(5)]
-        problems = await asyncio.gather(*tasks)
-        return select_problem(problems, min_difficulty, max_difficulty, skill_1, skill_2, self.logger)
+        tasks = [generate_problem(min_difficulty, max_difficulty, skill_1, skill_2, self.logger) for _ in range(self.number_of_sample)]
+        responses = await asyncio.gather(*tasks)
+
+        problems = []
+        keys = ["statement", "explains"]
+        for response in responses:
+            problem = self.load_yaml(response, keys)
+            problems.append(problem["statement"])
+
+        return select_problem(problems, min_difficulty, max_difficulty, skill_1, skill_2, story, self.logger)
 
     def _validate_problem(self, min_difficulty: int, max_difficulty: int, problem: str, skill_1: str, skill_2: str) -> str:
-        return validate_problem(min_difficulty, max_difficulty, problem, skill_1, skill_2, self.logger)
+        response = validate_problem(min_difficulty, max_difficulty, problem, skill_1, skill_2, self.logger)
+        keys = ["problem", "explains"]
+        return self.load_yaml(response, keys)["problem"]
 
     def _reflect_on_problem(self, problem: dict) -> str:
         return reflect_problem(problem, self.logger)
 
     def _validate_reflection(self, problem: dict, reflection: dict, skill_1: str, skill_2: str) -> dict:
-        data = validate_reflection(problem, reflection, skill_1, skill_2, self.logger)
+        response = validate_reflection(problem, reflection, skill_1, skill_2, self.logger)
         keys = [
             "title", 
             "time_limit", 
@@ -70,8 +92,13 @@ class CPPG:
             "difficulty",
             "explanation"
         ]
-        return self.load_yaml(data, keys)
-    
+        return self.load_yaml(response, keys)
+
+    def load_code(self, response_text: str, language: str):
+        response_text = response_text.rstrip("` \n")
+        response_text = response_text.removeprefix(f'```{language}').rstrip('`')
+        return response_text
+
     def load_yaml(self, response_text: str, keys_fix_yaml: List[str] = []) -> dict:
         response_text = response_text.rstrip("` \n")
         response_text = response_text.removeprefix('```yaml').rstrip('`')

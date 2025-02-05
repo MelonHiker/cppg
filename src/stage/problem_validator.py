@@ -8,10 +8,12 @@ def validate_problem(min_difficulty: int, max_difficulty: int, problem: str, ski
     logger.info(user_prompt)
 
     response = completion(
-    model=settings.model,
-    temperature=settings.problem_validator_prompt.temperature,
-    messages=[{"role": "system", "content": system_prompt},
-              {"role": "user", "content": user_prompt}]
+        model=settings.model,
+        temperature=settings.problem_validator_prompt.temperature,
+        messages=[
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_prompt}
+        ]
     )
     content = response.choices[0].message.content
     

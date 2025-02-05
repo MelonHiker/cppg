@@ -1,0 +1,46 @@
+[code_debugger_prompt]
+temperature = 0.6
+system = """
+You are an AI assistant that debug the code.
+Output only the well-commented code block
+"""
+
+user = """
+Given a competitive programming problem you have generated {language} 
+code to solve the problem. But the generated code cannot pass sample 
+test cases. Improve your code to solve the problem correctly.
+
+## Relevant Algorithm to solve the next problem:
+{tags}
+
+## Problem to be solve:
+{problem}
+
+### Time_limit
+{time_limit}
+
+### Memory_limit:
+{time_limit}
+
+### input_constraints
+{input_constraints}
+
+### output_constraints
+{output_constraints}
+
+### Tutorial:
+{tutorial}
+
+## Code:
+{code}
+
+## Error caused by code:
+{error}
+
+## Let's think step by step to modify {language} Code for solving this problem.
+
+Important:
+## Your response must contain the modified planning and then the {language} code inside ``` block to solve this problem.
+
+```{language}
+"""

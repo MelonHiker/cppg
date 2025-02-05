@@ -1,5 +1,5 @@
 [problem_reflection_prompt]  
-temperature = 0.8
+temperature = 0.6
 system = """\
 The self-reflection process should be thorough and cover every aspect of the problem.
 Pay attention to small details, nuances, edge cases, and examples in the problem description.
@@ -26,10 +26,6 @@ Your tasks are:
 - Ensure the solution is efficient for the given constraints. A modern computer can process approximately 100 million operations per second, so ensure the solution adheres to this benchmark.
 - Confirm that it will handle the maximum input sizes under the constraints effectively.
 
-### 3. **Estimate Difficulty**
-- Evaluate the approximate difficulty of the problem using **Codeforces difficulty levels**.
-- Justify the assigned difficulty level based on the complexity and required techniques.
-
 ### Guidelines for Output:
 - Use Markdown for formatting, and apply LaTeX syntax for any math-related expressions (e.g., $O(n)$, $n \\leq 10^5$).
 - Ensure the explanation is precise, thorough, and easy to understand.
@@ -43,7 +39,4 @@ Your tasks are:
 1. [Step-by-step solution explanation]
 2. **Time Complexity**: [e.g., $O(n \\log n)$]
 3. **Space Complexity**: [e.g., $O(n)$]
-
-#### **Difficulty**
-- [Estimated difficulty level with justification]
 """

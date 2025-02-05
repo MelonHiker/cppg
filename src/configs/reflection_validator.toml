@@ -52,13 +52,13 @@ class Problem(BaseModel):
     description: str = Field(description="The description of the problem")  
     input_constraints: str = Field(description="The input format and constraints of the problem.")  
     output_constraints: str = Field(description="The output format and constraints of the problem.")  
-    examples: list[Example] = Field(description="A list of examples for the problem")  
+    examples: List[Example] = Field(description="A list of examples for the problem")  
     note: str = Field(description="Explain why the example input produces the corresponding example output.")
     solution_in_natural_language: str = Field(description="The solution in natural language to the problem")  
     time_complexity: str = Field(description="The time complexity of the solution")  
     space_complexity: str = Field(description="The space complexity of the solution")  
-    difficulty: str | int = Field(description="The Codeforces difficulty of the problem (800-3500)")  
-    explanation: str = Field(description="Explain where to change")  
+    tags: List[str] = Field(description="Relevant Algorithm to solve the problem")
+    explanation: str = Field(description="Explain where to change")
 =====  
 
 ### Example YAML Output:
@@ -89,7 +89,7 @@ time_complexity: |-
   ...
 space_complexity: |-
   ...
-difficulty: |-
+tags: |-
   ...
 explanation: |-
   ...

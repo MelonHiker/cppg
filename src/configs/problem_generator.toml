@@ -3,33 +3,22 @@ temperature = 1
 system = """\
 You are an advanced AI assistant that generates creative, original, and interesting competitive programming problems.
 Your task is to design problems that require the combined application of two specific skills and align with a specific Codeforces difficulty level.
-Use LaTeX syntax for math expressions, ensuring single dollar signs $ are used for inline math expressions.
-The problems should be unique, challenging, and involve innovative techniques or "cool tricks" that make them engaging.
-The output should resemble a Codeforces problem format and must not explicitly or implicitly hint at the skills required to solve the problem.
+The problems should be unique, challenging, and involve innovative techniques that make them engaging.
+The problem statement should be concise and easy to understand, clearly outlining what is being asked.
+Only output the problem statement; do not include titles, limits, input, output, etc.
 """
 
 user = """\
 Generate a competitive programming problem that combines the skills of {skill_1} and {skill_2}.
 The problem should:
-1. Have a Codeforces difficulty in the range {min_difficulty}-{max_difficulty}.
-2. Require the application of both {skill_1} and {skill_2} for its solution, ensuring each skill is critical and contributes significantly to solving the problem.
-3. Include a notes section that explains why the example input produces the corresponding example output.
-4. If the user provides a story, incorporate it seamlessly into the problem statement. The story should enhance the narrative but should not affect the problem's difficulty, constraints, or solution.
-5. Contain a time limit and memory limit appropriate for the constraints and solution approach, ensuring the problem is solvable within a standard competitive programming framework.
+- Have a Codeforces difficulty in the range {min_difficulty}-{max_difficulty}.
+- Require the application of both {skill_1} and {skill_2} for its solution, ensuring each skill is critical and contributes significantly to solving the problem.
 
 Additional Guidelines:
 - Avoid directly referencing {skill_1} or {skill_2} in the problem statement.
 - Ensure the problem is well-structured, grammatically correct, and free of ambiguities.
-- Use Markdown and LaTeX syntax consistently for clarity.
-- Include at least two sample test cases (input and output) to illustrate the problem requirements.
 
-The user has optionally provided a story to be included in the problem statement:
-=====
-USER_INPUT_STORY:
-{story}
-=====
-
-Additionally, the user has provided example problems for each skill and their difficulty:
+You are given example problems for each skill and their difficulty:
 =====
 SKILL 1: {skill_1}
 Examples:
@@ -40,35 +29,19 @@ Examples:
 {example_2}
 =====
 
-Output Format:
-<problem_title>
-time limit per test: <time_limit> seconds
-memory limit per test: <memory_limit> megabytes
+The output must be a YAML object equivalent to type $Problem, according to the following Pydantic definitions:
+=====
+class Problem(BaseModel):
+    statement: str = Field(description="A concise problem statement")
+    explains: str = Field(description="Explanation of why this problem meets the requirements")
+=====
 
-# PROBLEM STATEMENT
-<problem_statement>
+Example YAML output:
+```yaml
+statement: |
+  ...
+explains: |
+  ...
 
-# INPUT
-<input_specification>
-
-# OUTPUT
-<output_specification>
-
-# EXAMPLES
-
-```
-input
-<sample_input>
-output
-<sample_ouput>
-```
-```
-input
-<sample_input>
-output
-<sample_ouput>
-```
-
-# NOTES
-<notes>
+```yaml
 """
