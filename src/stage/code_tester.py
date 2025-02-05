@@ -23,6 +23,10 @@ def test_code(code: str, sampleIO: list):
         expected_output = [line.rstrip() for line in sample_output.splitlines() if line.strip()]
 
         if (generated_output != expected_output):
-            return "Wrong Answer"
+            msg = "Wrong Answer\n"
+            msg += f"input:\n{sample_input}\n"
+            msg += f"generated_output:\n{"\n".join(generated_output)}\n"
+            msg += f"expected_output:\n{"\n".join(expected_output)}\n"
+            return msg
 
     return "Accept"

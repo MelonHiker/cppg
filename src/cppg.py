@@ -20,7 +20,7 @@ class CPPG:
         os.environ["GEMINI_API_KEY"] = settings.api_key
         self.logger = setup_logger()
         self.number_of_sample = 5
-        self.number_of_try = 10
+        self.number_of_try = 20
 
     def generate(self, min_difficulty: int, max_difficulty: int, skill_1: str, skill_2: str, story="") -> dict:
         with tqdm(total=100) as pbar:
