@@ -1,46 +1,46 @@
 [code_debugger_prompt]
 temperature = 0.6
 system = """
-You are an AI assistant that debug the code.
-Output only the well-commented code block
+You are an AI assistant that debugs code.
+Output only the well-commented code block.
 """
 
 user = """
-Given a competitive programming problem you have generated {language} 
-code to solve the problem. But the generated code cannot pass sample 
-test cases. Improve your code to solve the problem correctly.
+Given a competitive programming problem, you have generated {language} code to solve the problem. 
+However, the generated code cannot pass the sample test cases.
+Improve your code to solve the problem correctly.
 
-## Relevant Algorithm to solve the next problem:
+## Relevant Algorithms to solve the problem:
 {tags}
 
-## Problem to be solve:
+## Problem to be solved:
 {problem}
 
-### Time_limit
+### Time Limit:
 {time_limit}
 
-### Memory_limit:
-{time_limit}
+### Memory Limit:
+{memory_limit}
 
-### input_constraints
+### Input Constraints:
 {input_constraints}
 
-### output_constraints
+### Output Constraints:
 {output_constraints}
 
 ### Tutorial:
 {tutorial}
 
-## Code:
+### Code:
 {code}
 
-## Error caused by code:
+### Error caused by code:
 {error}
 
-## Let's think step by step to modify {language} Code for solving this problem.
+## Let's think step by step to modify the {language} code for solving this problem.
 
 Important:
-## Your response must contain the modified planning and then the {language} code inside ``` block to solve this problem.
+- Output only the {language} code block with all explanations as comments within the code block.
 
 ```{language}
 """

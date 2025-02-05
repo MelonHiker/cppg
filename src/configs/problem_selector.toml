@@ -50,7 +50,7 @@ USER_INPUT_STORY:
 - Remove any problems that fail to meet the above criteria.
 - Select the best problem from the remaining list based on its alignment with the criteria and principles.
 - The output should resemble a Codeforces problem format, retaining only the selected problem.
-- Include a notes section that simply explains why the example input produces the corresponding example output.
+- Include a notes section that briefly explains why the example input produces the corresponding example output. Do not explain the algorithms needed; the notes are only for better understanding the problem.
 - If the user provides a story, incorporate it seamlessly into the problem statement. The story should enhance the narrative but should not affect the problem's difficulty, constraints, or solution.
 - Contain a time limit and memory limit appropriate for the constraints and solution approach, ensuring the problem is solvable within a standard competitive programming framework.
 - Ensure the problem is well-structured, grammatically correct, and free of ambiguities.
