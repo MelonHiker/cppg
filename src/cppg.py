@@ -93,7 +93,7 @@ class CPPG:
             "solution_in_natural_language", 
             "time_complexity", 
             "space_complexity", 
-            "difficulty",
+            "tags",
             "explanation"
         ]
         return self.load_yaml(response, keys)
