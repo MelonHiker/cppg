@@ -1,22 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <title>CPPG - Problem Result</title>
-  <link rel="stylesheet" href="/static/css/styles.css">
-  
-  <!-- MathJax configuration for single-dollar inline math -->
-  <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-      tex2jax: {
-        inlineMath: [['$', '$'], ['\\(','\\)']],
-        processEscapes: true
-      }
-    });
-  </script>
+    <meta charset="utf-8">
+    <title>CPPG - Problem Result</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    
+    <!-- MathJax configuration for single-dollar inline math -->
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [['$', '$'], ['\\(','\\)']],
+            processEscapes: true
+        }
+        });
+    </script>
 
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+    <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 </head>
 <body>
     <!-- Hidden element with serialized problem JSON -->
@@ -70,6 +72,7 @@
                 <br/>
             </div>
             <div class="right-panel">
+                <button id="download-statement" class="download-btn">Download PDF</button>
                 <h2 id="title-preview">{{ problem.title }}</h2>
                 <div class="limits">
                     <p>time limit: <span id="time-limit-preview">{{ problem.time_limit }}</span> | memory limit: <span id="memory-limit-preview">{{ problem.memory_limit }}</span></p>
@@ -113,6 +116,7 @@
                 <br/>
             </div>
             <div class="right-panel">
+                <button id="download-tutorial" class="download-btn">Download PDF</button>
                 <h2>Tutorial</h2>
                 <h3>Solution in natural language:</h3>
                 <div id="solution-in-natural-language-preview">
@@ -160,7 +164,7 @@
                 <button id="run-code" class="run-btn">Run</button>
             </div>
             <div class="right-panel">
-                <!-- Statement Preview Section in Solution Tab -->
+                <p>I think gpt is the collaborator for this project.</p>
             </div>
         </div>
     </div>

@@ -6,11 +6,6 @@ document.querySelectorAll(".tab-button").forEach(btn => {
             content.classList.add("hidden");
         });
         document.getElementById(tab).classList.remove("hidden");
-        
-        // When switching to the solution tab, update the statement preview.
-        if (tab === "solution") {
-            renderContent();
-        }
     });
 });
   
@@ -121,6 +116,32 @@ document.addEventListener("DOMContentLoaded", function() {
             elem.addEventListener("input", debouncedRenderContent);
         }
     });
+
+    // Download statement as PDF
+    document.getElementById("download-statement").addEventListener("click", function() {
+        const { jsPDF } = window.jspdf;
+        const statementRightPanel = document.querySelector("#statement .right-panel");
+
+        html2canvas(statementRightPanel).then(canvas => {
+            const imgData = canvas.toDataURL("image/png");
+            const pdf = new jsPDF();
+            pdf.addImage(imgData, "PNG", 10, 10);
+            pdf.save("statement.pdf");
+        });
+    });
+
+    // Download solution as PDF
+    document.getElementById("download-tutorial").addEventListener("click", function() {
+        const { jsPDF } = window.jspdf;
+        const tutorialRightPanel = document.querySelector("#tutorial .right-panel");
+
+        html2canvas(tutorialRightPanel).then(canvas => {
+            const imgData = canvas.toDataURL("image/png");
+            const pdf = new jsPDF();
+            pdf.addImage(imgData, "PNG", 10, 10);
+            pdf.save("tutorial.pdf");
+        });
+    });
 });
 
 // Provided markdown and LaTeX rendering functions
@@ -167,13 +188,15 @@ function updateProblemData() {
 
 function renderContent() {
     const sections = [
-        "title-edit",
-        "time-limit-edit",
-        "memory-limit-edit",
-        "description-edit",
-        "input-constraints-edit",
-        "output-constraints-edit",
-        "note-edit"
+        "title",
+        "time-limit",
+        "memory-limit",
+        "description",
+        "input-constraints",
+        "output-constraints",
+        "note",
+        "time-complexity",
+        "space-complexity"
     ];
 
     sections.forEach(id => {
@@ -197,13 +220,6 @@ function renderContent() {
         document.getElementById("tags-preview").textContent = document.getElementById("tags-edit").value;
     }
     
-    // Copy statement preview into the Solution tab
-    const statementRightPanel = document.querySelector("#statement .right-panel");
-    const statementPreview = document.querySelector("#solution .right-panel");
-    if (statementRightPanel && statementPreview) {
-        statementPreview.innerHTML = statementRightPanel.innerHTML;
-    }
-    
     // Finally update the hidden JSON data
     updateProblemData();
 }
@@ -223,6 +239,9 @@ document.querySelectorAll("textarea:not(.code-editor)").forEach(function(textare
 });
 
 // Handle font size slider
-document.getElementById("font-size-slider").addEventListener("input", (e) => {
+document.querySelector("#solution #font-size-slider").addEventListener("input", (e) => {
     document.getElementById("solution-editor").style.fontSize = `${e.target.value}px`;
+});
+document.querySelector("#test #font-size-slider").addEventListener("input", (e) => {
+    document.getElementById("test-editor").style.fontSize = `${e.target.value}px`;
 });
