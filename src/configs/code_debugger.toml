@@ -1,5 +1,5 @@
 [code_debugger_prompt]
-temperature = 0.6
+temperature = 0.2
 system = """
 You are an AI assistant that debugs code.
 Output only the well-commented code block.

@@ -1,5 +1,5 @@
 [testcase_generator_prompt]
-temperature = 0.2
+temperature = 0.3
 system = """\
 You are an AI assistant tasked with generating test cases for competitive programming problems.
 Your task is to write a test case generator in Python that generates input test cases.

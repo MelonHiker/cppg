@@ -1,5 +1,5 @@
 [reflection_validator_prompt]
-temperature = 0.8
+temperature = 0.3
 system = """\
 You are an AI assistant tasked with validating and correcting solutions for competitive programming problems.
 Your role is to ensure that the solution fully addresses the given problem and meets efficiency requirements while adhering to competitive programming standards.

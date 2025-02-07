@@ -1,5 +1,5 @@
 [problem_validator_prompt]
-temperature = 0.6
+temperature = 0.3
 system = """\
 You are an AI assistant that validates and corrects competitive programming problems.
 Your task is to ensure that the given problem adheres to specific rules, meets competitive programming standards, and is free of errors.

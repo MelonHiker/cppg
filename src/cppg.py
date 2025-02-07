@@ -17,13 +17,13 @@ import os
 
 class CPPG:
     def __init__(self) -> None:
-        clear_log()
         os.environ["GEMINI_API_KEY"] = settings.api_key
         self.logger = setup_logger()
         self.number_of_sample = 5
         self.number_of_try = 20
 
     def generate(self, min_difficulty: int, max_difficulty: int, skill_1: str, skill_2: str, story="") -> dict:
+        clear_log()
         with tqdm(total=100) as pbar:
             pbar.set_description("Generating problem")
             problem = asyncio.run(self._generate_problem(min_difficulty, max_difficulty, skill_1, skill_2, story))
@@ -56,7 +56,7 @@ class CPPG:
                 return code
         return "Exceeded the number of debugging attempts."
 
-    def testcase(self, problem) -> str:
+    def testcase(self, problem: dict) -> str:
         return self.load_code(testcase_generator(problem, self.logger), "python")
 
     async def _generate_problem(self, min_difficulty: int, max_difficulty: int, skill_1: str, skill_2: str, story: str) -> str:
