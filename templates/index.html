@@ -6,47 +6,56 @@
     <link rel="stylesheet" href="/static/css/styles.css" />
 </head>
 <body>
-    <h1>Generate a Competitive Programming Problem</h1>
-    {% if error %}
-      <div class="error">{{ error }}</div>
-    {% endif %}
-    
-    {% set skills = [
-      "2-sat", "binary search", "bitmasks", "brute force", "chinese remainder theorem",
-      "combinatorics", "constructive algorithms", "data structures", "dfs and similar",
-      "divide and conquer", "dp", "dsu", "expression parsing", "fft", "flows", "games",
-      "geometry", "graph matchings", "graphs", "greedy", "hashing", "implementation",
-      "math", "matrices", "meet-in-the-middle", "number theory", "probabilities",
-      "schedules", "shortest paths", "sortings", "string suffix structures", "strings",
-      "ternary search", "trees", "two pointers"
-    ] %}
-    
-    <form action="/generate" method="post" id="problem-form">
-        <label>Skill 1:</label>
-        <select name="skill1" required>
-            {% for skill in skills %}
-                <option value="{{ skill }}">{{ skill }}</option>
-            {% endfor %}
-        </select>
-        <br/>
-        <label>Skill 2:</label>
-        <select name="skill2" required>
-            {% for skill in skills %}
-                <option value="{{ skill }}">{{ skill }}</option>
-            {% endfor %}
-        </select>
-        <br/>
-        <label>Minimum Difficulty:</label>
-        <input type="number" name="minDiff" placeholder="800-3500" required min="800" max="3500" />
-        <br/>
-        <label>Maximum Difficulty:</label>
-        <input type="number" name="maxDiff" placeholder="800-3500" required min="800" max="3500" />
-        <br/>
-        <label>Story (optional):</label>
-        <textarea name="story" placeholder="Provide a story about this problem."></textarea>
-        <br/>
-        <button type="submit">Generate Problem</button>
-    </form>
+    <div class="container">
+        <h1>CPPG: Competitive Programming Problem Generator</h1>
+        {% if error %}
+          <div class="error">{{ error }}</div>
+        {% endif %}
+        
+        {% set skills = [
+          "2-sat", "binary search", "bitmasks", "brute force", "chinese remainder theorem",
+          "combinatorics", "constructive algorithms", "data structures", "dfs and similar",
+          "divide and conquer", "dp", "dsu", "expression parsing", "fft", "flows", "games",
+          "geometry", "graph matchings", "graphs", "greedy", "hashing", "implementation",
+          "math", "matrices", "meet-in-the-middle", "number theory", "probabilities",
+          "schedules", "shortest paths", "sortings", "string suffix structures", "strings",
+          "ternary search", "trees", "two pointers"
+        ] %}
+        
+        <form action="/generate" method="post" id="problem-form">
+            <div class="form-group">
+                <label>Skill 1:</label>
+                <select name="skill1" required>
+                    {% for skill in skills %}
+                        <option value="{{ skill }}">{{ skill }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Skill 2:</label>
+                <select name="skill2" required>
+                    {% for skill in skills %}
+                        <option value="{{ skill }}">{{ skill }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Minimum Difficulty:</label>
+                <input type="number" name="minDiff" placeholder="800-3500" required min="800" max="3500" />
+            </div>
+            <div class="form-group">
+                <label>Maximum Difficulty:</label>
+                <input type="number" name="maxDiff" placeholder="800-3500" required min="800" max="3500" />
+            </div>
+            <div class="form-group">
+                <label>Story (optional):</label>
+                <textarea name="story" placeholder="Provide a story about this problem."></textarea>
+            </div>
+            <div class="form-group">
+                <button type="submit">Generate Problem</button>
+            </div>
+        </form>
+    </div>
     
     <!-- Loading overlay -->
     <div id="loading-overlay">

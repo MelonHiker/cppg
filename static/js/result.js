@@ -6,6 +6,11 @@ document.querySelectorAll(".tab-button").forEach(btn => {
         content.classList.add("hidden");
       });
       document.getElementById(tab).classList.remove("hidden");
+      
+      // When switching to the solution tab, update the statement preview.
+      if (tab === "solution") {
+          renderContent();
+      }
     });
   });
   
@@ -202,12 +207,11 @@ function renderContent() {
         document.getElementById("tags-preview").textContent = document.getElementById("tags-edit").value;
     }
     
-    // Copy problem preview into the Solution tab
-    const problemRightPanel = document.querySelector("#statement .right-panel");
-    const problemPreviewSolution = document.getElementById("statement-preview");
-    if (problemRightPanel && problemPreviewSolution) {
-        // Use the innerHTML of the existing problem preview container.
-        problemPreviewSolution.innerHTML = problemRightPanel.innerHTML;
+    // Copy statement preview into the Solution tab
+    const statementRightPanel = document.querySelector("#statement .right-panel");
+    const statementPreview = document.getElementById("statement-preview");
+    if (statementRightPanel && statementPreview) {
+        statementPreview.innerHTML = statementRightPanel.innerHTML;
     }
     
     // Finally update the hidden JSON data
