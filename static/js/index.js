@@ -23,6 +23,8 @@ window.addEventListener("DOMContentLoaded", function() {
             event.preventDefault();
             return false;
         }
+        // Show the loading overlay when the form is submitted.
+        document.getElementById("loading-overlay").style.display = "flex";
         return true;
     });
 });
