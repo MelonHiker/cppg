@@ -129,4 +129,4 @@ class CPPG:
             self.logger.info(f"Successfully parsed AI prediction after adding |-\n")
             return data
         except:
-            raise "yaml parsing error"
+            raise RuntimeError("yaml parsing error")
