@@ -132,16 +132,32 @@
     <div class="tab-content hidden" id="solution">
         <div class="split">
             <div class="left-panel">
-                <label>Select Language:</label>
-                <select id="language-select">
-                    <option value="python">Python</option>
-                    <option value="cpp">C++</option>
-                    <option value="java">Java</option>
-                </select>
-                <br/>
-                <button id="generate-solution">Generate Solution</button>
-                <br/>
-                <textarea id="solution-editor" class="code-editor" placeholder="Write your solution here..."></textarea>
+                <!-- Toolbar above the code editor -->
+                <div class="toolbar">
+                    <select id="language-select" class="dropdown">
+                        <option value="python">Python</option>
+                    </select>
+                    <div class="slider-container">
+                        <label for="font-size-slider" class="slider-label">Font Size</label>
+                        <input
+                            id="font-size-slider"
+                            type="range"
+                            min="12"
+                            max="24"
+                            value="14"
+                            class="slider"
+                        />
+                    </div>
+                    <button id="generate-solution" class="generate-btn">Generate<br>Solution</button>
+                </div>
+                <!-- Code editor -->
+                <textarea
+                    id="solution-editor"
+                    class="code-editor"
+                    placeholder="# Enter your code here"
+                ></textarea>
+                <!-- Run button (if required) -->
+                <button id="run-code" class="run-btn">Run</button>
             </div>
             <div class="right-panel">
                 <!-- Statement Preview Section in Solution Tab -->
@@ -155,9 +171,32 @@
     <div class="tab-content hidden" id="test">
         <div class="split">
             <div class="left-panel">
-                <button id="generate-test">Generate Test Script</button>
-                <br/>
-                <textarea id="test-editor" class="code-editor" placeholder="Generated Test Script"></textarea>
+                <!-- Toolbar above the code editor -->
+                <div class="toolbar">
+                    <select id="language-select" class="dropdown">
+                        <option value="python">Python</option>
+                    </select>
+                    <div class="slider-container">
+                        <label for="font-size-slider" class="slider-label">Font Size</label>
+                        <input
+                            id="font-size-slider"
+                            type="range"
+                            min="12"
+                            max="24"
+                            value="14"
+                            class="slider"
+                        />
+                    </div>
+                    <button id="generate-test" class="generate-btn">Generate<br>Test Script</button>
+                </div>
+                <!-- Code editor -->
+                <textarea
+                    id="test-editor"
+                    class="code-editor"
+                    placeholder="# Enter your code here"
+                ></textarea>
+                <!-- Run button-->
+                <button id="run-test" class="run-btn">Run</button>
             </div>
             <div class="right-panel">
                 <p>You are too electric and the web page is broken.</p>

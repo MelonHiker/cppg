@@ -9,7 +9,7 @@ Problems that do not meet the criteria must be removed.
 user = """
 The task is to select the best competitive programming problem from the provided list by following these guidelines:
 
-### **Problem Requirements**
+# **Problem Requirements**
 1. **Skill Application**:
    - The problem must require rigorous expertise in both {skill_1} and {skill_2} for resolution.
    - The application of {skill_1} and {skill_2}, along with their subskills, must be necessary to solve the problem.
@@ -24,7 +24,7 @@ The task is to select the best competitive programming problem from the provided
    - The difficulty should be assessed based on constraints, edge cases, and required techniques.
    - The problem must challenge both skills equally and meaningfully.
 
-### **Selection Principles**
+# **Selection Principles**
 1. **Challenging and Non-Trivial**:
    - Select problems that require deep brainstorming and analytical thinking, especially for solvers with Codeforces ratings in the range {min_difficulty}-{max_difficulty}.
 
@@ -38,15 +38,13 @@ The task is to select the best competitive programming problem from the provided
 4. **Originality**:
    - Prioritize problems that are novel, avoiding those that are overly similar to classic or well-known problems.
 
-### Problems:
+# **Problems**:
 {problems}
 
-=====
-USER_INPUT_STORY:
+## **USER_INPUT_STORY**:
 {story}
-=====
 
-### **Output Requirements**
+# **Output Requirements**
 - Remove any problems that fail to meet the above criteria.
 - Select the best problem from the remaining list based on its alignment with the criteria and principles.
 - The output should resemble a Codeforces problem format, retaining only the selected problem.
@@ -60,21 +58,21 @@ USER_INPUT_STORY:
   - How the problem meets the criteria.
   - Why it stands out as the most original, challenging, and well-aligned option.
 
-### **Output Format**:
+## **Output Format**:
 <problem_title>
 time limit per test: <time_limit> seconds
 memory limit per test: <memory_limit> megabytes
 
-# PROBLEM STATEMENT
+### Description
 <problem_statement>
 
-# INPUT
+### Input Constraints
 <input_specification>
 
-# OUTPUT
+### Output Constraints
 <output_specification>
 
-# EXAMPLES
+### Examples
 
 ```
 input
@@ -89,6 +87,6 @@ output
 <sample_ouput>
 ```
 
-# NOTES
+### Note
 <notes>
 """

@@ -231,3 +231,8 @@ document.querySelectorAll("textarea:not(.code-editor)").forEach(function(textare
       this.style.height = this.scrollHeight + "px";
     });
 });
+
+// Handle font size slider
+document.getElementById("font-size-slider").addEventListener("input", (e) => {
+    document.getElementById("solution-editor").style.fontSize = `${e.target.value}px`;
+});
