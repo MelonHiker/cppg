@@ -1,41 +1,22 @@
-from fastapi import FastAPI, Form, Request
-from fastapi.responses import HTMLResponse
+from fastapi import FastAPI, Request, Form, Body
+from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from pydantic import BaseModel, Field
 from src.log import setup_logger
 from src.cppg import CPPG
 
-logger = setup_logger()
-
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
-
 templates = Jinja2Templates(directory="templates")
+logger = setup_logger()
 
-class Example(BaseModel):
-    input: str = Field(description="The sample input of the problem")
-    output: str = Field(description="The sample output of the problem")
-
-class Problem(BaseModel):
-    title: str
-    time_limit: str
-    memory_limit: str
-    description: str
-    input_constraints: str
-    output_constraints: str
-    examples: list[Example]
-    note: str
-    solution_in_natural_language: str
-    time_complexity: str
-    space_complexity: str
-    difficulty: str | int
-
-@app.get("/", response_class=HTMLResponse)
+@app.get("/")
 def index(request: Request):
+    # Render the index page with a form for input.
+    # Note: The form on index.html uses POST /generate.
     return templates.TemplateResponse("index.html", {"request": request})
 
-@app.post("/generate", response_class=HTMLResponse)
+@app.post("/generate")
 def generate(
     request: Request,
     skill1: str = Form(...),
@@ -46,13 +27,42 @@ def generate(
 ):
     cppg = CPPG()
     try:
-        result_dict = cppg.generate(minDiff, maxDiff, skill1, skill2, story)
-        result = Problem(**result_dict)
-        return templates.TemplateResponse("result.html", {"request": request, "result": result})
+        problem = cppg.generate(minDiff, maxDiff, skill1, skill2, story)
+        # Render result page with problem dict.
+        return templates.TemplateResponse("result.html", {
+            "request": request,
+            "problem": problem
+        })
+    except Exception as e:
+        logger.error(f"Generation failed: {str(e)}")
+        return templates.TemplateResponse("index.html", {
+            "request": request,
+            "error": str(e)
+        })
+
+@app.post("/generate-solution")
+def generate_solution(
+    request: Request,
+    problem: dict = Body(...),
+    language: str = Body(...)
+):
+    cppg = CPPG()
+    try:
+        solution = cppg.solve(problem, language)
+        return JSONResponse({"solution": solution})
     except Exception as e:
         logger.warning(str(e))
-        return templates.TemplateResponse("index.html", {"request": request, "error": str(e)})
+        return JSONResponse({"error": str(e)})
 
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+@app.post("/generate-test")
+def generate_test(
+    request: Request,
+    problem: dict = Body(...)
+):
+    cppg = CPPG()
+    try:
+        test_script = cppg.testcase(problem)
+        return JSONResponse({"test_script": test_script})
+    except Exception as e:
+        logger.warning(str(e))
+        return JSONResponse({"error": str(e)})

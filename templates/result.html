@@ -1,259 +1,170 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{{ result.title }}</title>
-    <link rel="stylesheet" href="{{ url_for('static', path='styles.css') }}" />
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">
-        MathJax.Hub.Config({
-            tex2jax: {
-                inlineMath: [['$', '$'], ['\\(', '\\)']],
-                displayMath: [['$$', '$$'], ['\\[', '\\]']],
-                processEscapes: true
-            }
-        });
-    </script>
-    <script>
-        function parseMarkdown(text) {
-            var scripts = text.match(/<script[^>]*>([\s\S]*?)<\/script>/gi);
-            text = marked.parse(text);
-            return text.replace(/<script[^>]*>([\s\S]*?)<\/script>/gi, m => scripts.shift());
-        }
+  <meta charset="utf-8">
+  <title>CPPG - Problem Result</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+  
+  <!-- MathJax configuration for single-dollar inline math -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$', '$'], ['\\(','\\)']],
+        processEscapes: true
+      }
+    });
+  </script>
 
-        function renderContent() {
-            const sections = [
-                'description',
-                'input-constraints',
-                'output-constraints',
-                'note',
-                'solution-in-natural-language',
-                'time-complexity',
-                'space-complexity',
-                'difficulty'
-            ];
-            sections.forEach(id => {
-                const div = document.getElementById(id + "-preview");
-                var div2 = document.createElement('div');
-                div2.innerHTML = document.getElementById(id + "-edit").value;
-                MathJax.Hub.Queue(
-                    ['Typeset', MathJax.Hub, div2],
-                    function() {
-                        div.innerHTML = parseMarkdown(div2.innerHTML);
-                        div.querySelectorAll('.MathJax').forEach(e => e.remove());
-                        MathJax.Hub.Typeset(div);
-                    }
-                );
-            });
-
-            // Update examples
-            const exampleInputs = document.querySelectorAll(".example-edit .example-input");
-            const exampleOutputs = document.querySelectorAll(".example-edit .example-output");
-            exampleInputs.forEach((textarea, index) => {
-                const pre = document.querySelectorAll(".example-preview pre")[index * 2];
-                pre.textContent = textarea.value;
-            });
-            exampleOutputs.forEach((textarea, index) => {
-                const pre = document.querySelectorAll(".example-preview pre")[index * 2 + 1];
-                pre.textContent = textarea.value;
-            });
-
-            // Update title, time limit, and memory limit
-            document.getElementById("title-preview").textContent = document.getElementById("title-edit").value;
-            document.getElementById("time-limit-preview").textContent = document.getElementById("time-limit-edit").value;
-            document.getElementById("memory-limit-preview").textContent = document.getElementById("memory-limit-edit").value;
-        }
-
-        function debounce(func, wait) {
-            let timeout;
-            return function(...args) {
-                clearTimeout(timeout);
-                timeout = setTimeout(() => func.apply(this, args), wait);
-            };
-        }
-
-        document.addEventListener("DOMContentLoaded", function() {
-            const sections = [
-                'description',
-                'input-constraints',
-                'output-constraints',
-                'note',
-                'solution-in-natural-language',
-                'time-complexity',
-                'space-complexity',
-                'difficulty'
-            ];
-            const debouncedRenderContent = debounce(renderContent, 300);
-            sections.forEach(id => {
-                document.getElementById(id + "-edit").addEventListener("input", debouncedRenderContent);
-            });
-
-            // Add event listeners for example inputs and outputs
-            const exampleInputs = document.querySelectorAll(".example-edit .example-input");
-            const exampleOutputs = document.querySelectorAll(".example-edit .example-output");
-            exampleInputs.forEach(textarea => {
-                textarea.addEventListener("input", debouncedRenderContent);
-            });
-            exampleOutputs.forEach(textarea => {
-                textarea.addEventListener("input", debouncedRenderContent);
-            });
-
-            // Add event listeners for title, time limit, and memory limit
-            const simpleSections = [
-                "title",
-                "time-limit",
-                "memory-limit"
-            ];
-            simpleSections.forEach(id => {
-                document.getElementById(id + "-edit").addEventListener("input", () => {
-                    document.getElementById(id + "-preview").textContent = document.getElementById(id + "-edit").value;
-                });
-            });
-
-            renderContent();
-
-            document.getElementById('solutionButton').addEventListener('click', showSolution);
-            document.getElementById('statementButton').addEventListener('click', showProblem);
-        });
-
-        function showSolution() {
-            document.querySelector('.problem-preview').classList.add('hidden');
-            document.querySelector('.problem-edit').classList.add('hidden');
-            document.querySelector('.solution-preview').classList.remove('hidden');
-            document.querySelector('.solution-edit').classList.remove('hidden');
-        }
-
-        function showProblem() {
-            document.querySelector('.problem-preview').classList.remove('hidden');
-            document.querySelector('.problem-edit').classList.remove('hidden');
-            document.querySelector('.solution-preview').classList.add('hidden');
-            document.querySelector('.solution-edit').classList.add('hidden');
-        }
-    </script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
 </head>
 <body>
-    <div class="top-buttons">
-        <button id="statementButton">Statement</button>
-        <button id="solutionButton">Solution</button>
-        <button id="testButton">Test</button>
+    <!-- Hidden element with serialized problem JSON -->
+    <script id="problem-data" type="application/json">
+    {{ problem | tojson | safe }}
+    </script>
+    
+    <!-- Tab Buttons -->
+    <div class="tabs">
+        <button class="tab-button" data-tab="statement">Statement</button>
+        <button class="tab-button" data-tab="tutorial">Tutorial</button>
+        <button class="tab-button" data-tab="solution">Solution</button>
+        <button class="tab-button" data-tab="test">Test</button>
     </div>
-    <div class="main-content">
-        <div class="container left-container">
-            <div class="split problem-edit">
-                <div class="section">
-                    <h3>Title</h3>
-                    <textarea id="title-edit">{{ result.title }}</textarea>
-                </div>
-                <div class="section">
-                    <h3>Time Limit</h3>
-                    <textarea id="time-limit-edit">{{ result.time_limit }}</textarea>
-                </div>
-                <div class="section">
-                    <h3>Memory Limit</h3>
-                    <textarea id="memory-limit-edit">{{ result.memory_limit }}</textarea>
-                </div>
-                <div class="section">
-                    <h3>Description</h3>
-                    <textarea id="description-edit">{{ result.description }}</textarea>
-                </div>
-                <div class="section">
-                    <h3>Input Constraints</h3>
-                    <textarea id="input-constraints-edit">{{ result.input_constraints }}</textarea>
-                </div>
-                <div class="section">
-                    <h3>Output Constraints</h3>
-                    <textarea id="output-constraints-edit">{{ result.output_constraints }}</textarea>
-                </div>
-                <div class="section">
-                    <h3>Examples</h3>
-                    {% for example in result.examples %}
-                    <div class="example-edit">
-                        <h4>Input</h4>
+
+    <!-- Statement Tab: -->
+    <div class="tab-content" id="statement">
+        <div class="split">
+            <div class="left-panel">
+                <!-- User editable fields for problem (left-panel) -->
+                <label>Title:</label>
+                <input type="text" id="title-edit" value="{{ problem.title }}">
+                <br/>
+                <label>Time Limit:</label>
+                <input type="text" id="time-limit-edit" value="{{ problem.time_limit }}">
+                <br/>
+                <label>Memory Limit:</label>
+                <input type="text" id="memory-limit-edit" value="{{ problem.memory_limit }}">
+                <br/>
+                <label>Description:</label>
+                <textarea id="description-edit">{{ problem.description }}</textarea>
+                <br/>
+                <label>Input Constraints:</label>
+                <textarea id="input-constraints-edit">{{ problem.input_constraints }}</textarea>
+                <br/>
+                <label>Output Constraints:</label>
+                <textarea id="output-constraints-edit">{{ problem.output_constraints }}</textarea>
+                <br/>
+                <label>Examples:</label>
+                <div class="example-edit">
+                    {% for example in problem.examples %}
+                    <div class="example-pair">
                         <textarea class="example-input">{{ example.input }}</textarea>
-                        <h4>Output</h4>
                         <textarea class="example-output">{{ example.output }}</textarea>
                     </div>
                     {% endfor %}
                 </div>
-                <div class="section">
-                    <h3>Notes</h3>
-                    <textarea id="note-edit">{{ result.note }}</textarea>
-                </div>
+                <br/>
+                <label>Note:</label>
+                <textarea id="note-edit">{{ problem.note }}</textarea>
+                <br/>
             </div>
-            <div class="split solution-edit hidden">
-                <div class="section">
-                    <h3>Editorial</h3>
-                    <textarea id="solution-in-natural-language-edit">{{ result.solution_in_natural_language }}</textarea>
+            <div class="right-panel">
+                <h2 id="title-preview">{{ problem.title }}</h2>
+                <div class="limits">
+                    <p>time limit: <span id="time-limit-preview">{{ problem.time_limit }}</span> | memory limit: <span id="memory-limit-preview">{{ problem.memory_limit }}</span></p>
                 </div>
-                <div class="section">
-                    <h3>Time Complexity</h3>
-                    <textarea id="time-complexity-edit">{{ result.time_complexity }}</textarea>
+                <h3>Description</h3>
+                <div id="description-preview"></div>
+                <h3>Input Constraints</h3>
+                <div id="input-constraints-preview"></div>
+                <h3>Output Constraints</h3>
+                <div id="output-constraints-preview"></div>
+                <h3>Examples</h3>
+                <div class="example-preview">
+                    {% for example in problem.examples %}
+                    <h4>Input</h4>
+                    <pre>{{ example.input }}</pre>
+                    <h4>Output</h4>
+                    <pre>{{ example.output }}</pre>
+                    {% endfor %}
                 </div>
-                <div class="section">
-                    <h3>Space Complexity</h3>
-                    <textarea id="space-complexity-edit">{{ result.space_complexity }}</textarea>
-                </div>
-                <div class="section">
-                    <h3>Difficulty</h3>
-                    <textarea id="difficulty-edit">{{ result.difficulty }}</textarea>
-                </div>
+                <h3>Note</h3>
+                <div id="note-preview"></div>
             </div>
         </div>
-        <div class="container right-container">
-            <div class="split problem-preview">
-                <div class="section">
-                    <h1 id="title-preview">{{ result.title }}</h1>
-                    <div class="limits">
-                        <p>Time Limit: <span id="time-limit-preview">{{ result.time_limit }}</span> | Memory Limit: <span id="memory-limit-preview">{{ result.memory_limit }}</span></p>
-                    </div>
-                    <div class="section">
-                        <h3>Description</h3>
-                        <div id="description-preview">{{ result.description }}</div>
-                    </div>
-                    <div class="section">
-                        <h3>Input Constraints</h3>
-                        <div id="input-constraints-preview">{{ result.input_constraints }}</div>
-                    </div>
-                    <div class="section">
-                        <h3>Output Constraints</h3>
-                        <div id="output-constraints-preview">{{ result.output_constraints }}</div>
-                    </div>
-                    <div class="section">
-                        <h3>Examples</h3>
-                        {% for example in result.examples %}
-                        <div class="example-preview">
-                            <h4>Input</h4>
-                            <pre>{{ example.input | e }}</pre>
-                            <h4>Output</h4>
-                            <pre>{{ example.output | e }}</pre>
-                        </div>
-                        {% endfor %}
-                    </div>
-                    <div class="section">
-                        <h3>Notes</h3>
-                        <div id="note-preview">{{ result.note }}</div>
-                    </div>
-                </div>
+    </div>
+    
+    <!-- Tutorial Tab: -->
+    <div class="tab-content hidden" id="tutorial">
+        <div class="split">
+            <div class="left-panel">
+                <label>Solution in Natural Language:</label>
+                <textarea id="solution-in-natural-language-edit">{{ problem.solution_in_natural_language }}</textarea>
+                <br/>
+                <label>Time Complexity:</label>
+                <textarea id="time-complexity-edit">{{ problem.time_complexity }}</textarea>
+                <br/>
+                <label>Space Complexity:</label>
+                <textarea id="space-complexity-edit">{{ problem.space_complexity }}</textarea>
+                <br/>
+                <label>Tags (comma separated):</label>
+                <input type="text" id="tags-edit" value="{{ problem.tags | join(', ') }}">
+                <br/>
             </div>
-            <div class="split solution-preview hidden">
-                <div class="section">
-                    <h3>Editorial</h3>
-                    <div id="solution-in-natural-language-preview">{{ result.solution_in_natural_language }}</div>
+            <div class="right-panel">
+                <h2>Tutorial</h2>
+                <h3>Solution in natural language:</h3>
+                <div id="solution-in-natural-language-preview">
+                    {{ problem.solution_in_natural_language }}
                 </div>
-                <div class="section">
-                    <h3>Time Complexity</h3>
-                    <div id="time-complexity-preview">{{ result.time_complexity }}</div>
-                </div>
-                <div class="section">
-                    <h3>Space Complexity</h3>
-                    <div id="space-complexity-preview">{{ result.space_complexity }}</div>
-                </div>
-                <div class="section">
-                    <h3>Difficulty</h3>
-                    <div id="difficulty-preview">{{ result.difficulty }}</div>
+                <h3>Time Complexity:</h3>
+                <span id="time-complexity-preview">{{ problem.time_complexity }}</span>
+                <h3>Space Complexity:</h3>
+                <span id="space-complexity-preview">{{ problem.space_complexity }}</span>
+                <h3>Tags:</h3>
+                <span id="tags-preview">{{ problem.tags | join(', ') }}</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Solution Tab: -->
+    <div class="tab-content hidden" id="solution">
+        <div class="split">
+            <div class="left-panel">
+                <label>Select Language:</label>
+                <select id="language-select">
+                    <option value="python">Python</option>
+                    <option value="cpp">C++</option>
+                    <option value="java">Java</option>
+                </select>
+                <br/>
+                <button id="generate-solution">Generate Solution</button>
+                <br/>
+                <textarea id="solution-editor" class="code-editor" placeholder="Write your solution here..."></textarea>
+            </div>
+            <div class="right-panel">
+                <!-- Statement Preview Section in Solution Tab -->
+                <div class="statement-preview">
+                    <div id="statement-preview"></div>
                 </div>
             </div>
         </div>
     </div>
+    
+    <div class="tab-content hidden" id="test">
+        <div class="split">
+            <div class="left-panel">
+                <button id="generate-test">Generate Test Script</button>
+                <br/>
+                <textarea id="test-editor" class="code-editor" placeholder="Generated Test Script"></textarea>
+            </div>
+            <div class="right-panel">
+                <p>You are too electric and the web page is broken.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/result.js"></script>
 </body>
 </html>
