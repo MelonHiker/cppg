@@ -1,82 +1,82 @@
 // Helper to switch between tab contents
 document.querySelectorAll(".tab-button").forEach(btn => {
     btn.addEventListener("click", function () {
-      const tab = this.getAttribute("data-tab");
-      document.querySelectorAll(".tab-content").forEach(content => {
-        content.classList.add("hidden");
-      });
-      document.getElementById(tab).classList.remove("hidden");
-      
-      // When switching to the solution tab, update the statement preview.
-      if (tab === "solution") {
-          renderContent();
-      }
+        const tab = this.getAttribute("data-tab");
+        document.querySelectorAll(".tab-content").forEach(content => {
+            content.classList.add("hidden");
+        });
+        document.getElementById(tab).classList.remove("hidden");
+        
+        // When switching to the solution tab, update the statement preview.
+        if (tab === "solution") {
+            renderContent();
+        }
     });
-  });
+});
   
-  // Generate Solution button handler
-  document.getElementById("generate-solution").addEventListener("click", async function () {
-      const button = this;
-      const editor = document.getElementById("solution-editor");
-      const language = document.getElementById("language-select").value;
-      
-      // Read problem data from hidden JSON
-      const problemData = JSON.parse(document.getElementById("problem-data").textContent);
-      
-      button.disabled = true;
-      button.textContent = "Generating...";
-      
-      try {
-          const response = await fetch("/generate-solution", {
-              method: "POST",
-              headers: {"Content-Type": "application/json"},
-              body: JSON.stringify({ problem: problemData, language: language })
-          });
-          const data = await response.json();
-          if(data.error) {
-              alert("Error: " + data.error);
-          } else {
-              editor.value = data.solution;
-          }
-      } catch (error) {
-          alert("Failed to generate solution:" + error.message);
-      } finally {
-          button.disabled = false;
-          button.textContent = "Generate Solution";
-      }
-  });
+// Generate Solution button handler
+document.getElementById("generate-solution").addEventListener("click", async function () {
+    const button = this;
+    const editor = document.getElementById("solution-editor");
+    const language = document.getElementById("language-select").value;
+    
+    // Read problem data from hidden JSON
+    const problemData = JSON.parse(document.getElementById("problem-data").textContent);
+    
+    button.disabled = true;
+    button.textContent = "Generating...";
+    
+    try {
+        const response = await fetch("/generate-solution", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({ problem: problemData, language: language })
+        });
+        const data = await response.json();
+        if(data.error) {
+            alert("Error: " + data.error);
+        } else {
+            editor.value = data.solution;
+        }
+    } catch (error) {
+        alert("Failed to generate solution:" + error.message);
+    } finally {
+        button.disabled = false;
+        button.textContent = "Generate Solution";
+    }
+});
   
-  // Generate Test button handler
-  document.getElementById("generate-test").addEventListener("click", async function () {
-      const button = this;
-      const editor = document.getElementById("test-editor");
+// Generate Test button handler
+document.getElementById("generate-test").addEventListener("click", async function () {
+    const button = this;
+    const editor = document.getElementById("test-editor");
 
-      // Read problem data from hidden JSON
-      const problemData = JSON.parse(document.getElementById("problem-data").textContent);
-      
-      button.disabled = true;
-      button.textContent = "Generating...";
-      
-      try {
-          const response = await fetch("/generate-test", {
-              method: "POST",
-              headers: {"Content-Type": "application/json"},
-              body: JSON.stringify(problemData)
-          });
-          const data = await response.json();
-          if(data.error) {
-              alert("Error: " + data.error);
-          } else {
-              editor.value = data.test_script;
-          }
-      } catch (error) {
-          alert("Failed to generate test script:" + error.message);
-      } finally {
-          button.disabled = false;
-          button.textContent = "Generate Test Script";
-      }
-  });
-  
+    // Read problem data from hidden JSON
+    const problemData = JSON.parse(document.getElementById("problem-data").textContent);
+    
+    button.disabled = true;
+    button.textContent = "Generating...";
+    
+    try {
+        const response = await fetch("/generate-test", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(problemData)
+        });
+        const data = await response.json();
+        if(data.error) {
+            alert("Error: " + data.error);
+        } else {
+            editor.value = data.test_script;
+        }
+    } catch (error) {
+        alert("Failed to generate test script:" + error.message);
+    } finally {
+        button.disabled = false;
+        button.textContent = "Generate Test Script";
+    }
+});
+
 // Debounce helper function.
 function debounce(func, wait) {
     let timeout;
@@ -166,7 +166,15 @@ function updateProblemData() {
 }
 
 function renderContent() {
-    const sections = ['description', 'input-constraints', 'output-constraints', 'note', 'solution-in-natural-language'];
+    const sections = [
+        "title-edit",
+        "time-limit-edit",
+        "memory-limit-edit",
+        "description-edit",
+        "input-constraints-edit",
+        "output-constraints-edit",
+        "note-edit"
+    ];
 
     sections.forEach(id => {
         const previewDiv = document.getElementById(id + "-preview");
@@ -174,7 +182,7 @@ function renderContent() {
         if (previewDiv && editElem) {
             previewDiv.innerHTML = parseMarkdown(editElem.value);
             if (typeof MathJax !== "undefined" && MathJax.Hub) {
-                MathJax.Hub.Queue(['Typeset', MathJax.Hub, previewDiv]);
+                MathJax.Hub.Queue(["Typeset", MathJax.Hub, previewDiv]);
             }
         }
     });
@@ -183,24 +191,6 @@ function renderContent() {
     document.getElementById("title-preview").textContent = document.getElementById("title-edit").value;
     document.getElementById("time-limit-preview").textContent = document.getElementById("time-limit-edit").value;
     document.getElementById("memory-limit-preview").textContent = document.getElementById("memory-limit-edit").value;
-
-    // Render Time Complexity with LaTeX support in Tutorial tab.
-    if(document.getElementById("time-complexity-edit")) {
-        const tcPreview = document.getElementById("time-complexity-preview");
-        tcPreview.innerHTML = parseMarkdown(document.getElementById("time-complexity-edit").value);
-        if (typeof MathJax !== "undefined" && MathJax.Hub) {
-            MathJax.Hub.Queue(['Typeset', MathJax.Hub, tcPreview]);
-        }
-    }
-    
-    // Render Space Complexity with LaTeX support in Tutorial tab.
-    if(document.getElementById("space-complexity-edit")) {
-        const scPreview = document.getElementById("space-complexity-preview");
-        scPreview.innerHTML = parseMarkdown(document.getElementById("space-complexity-edit").value);
-        if (typeof MathJax !== "undefined" && MathJax.Hub) {
-            MathJax.Hub.Queue(['Typeset', MathJax.Hub, scPreview]);
-        }
-    }
     
     // Update Tags.
     if(document.getElementById("tags-edit")) {
@@ -209,7 +199,7 @@ function renderContent() {
     
     // Copy statement preview into the Solution tab
     const statementRightPanel = document.querySelector("#statement .right-panel");
-    const statementPreview = document.getElementById("statement-preview");
+    const statementPreview = document.querySelector("#solution .right-panel");
     if (statementRightPanel && statementPreview) {
         statementPreview.innerHTML = statementRightPanel.innerHTML;
     }
@@ -227,8 +217,8 @@ document.querySelectorAll("textarea:not(.code-editor)").forEach(function(textare
     textarea.style.overflowY = "hidden";
   
     textarea.addEventListener("input", function() {
-      this.style.height = "auto";
-      this.style.height = this.scrollHeight + "px";
+        this.style.height = "auto";
+        this.style.height = this.scrollHeight + "px";
     });
 });
 
