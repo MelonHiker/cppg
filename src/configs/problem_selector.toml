@@ -28,21 +28,20 @@ The task is to select the best competitive programming problem from the provided
 1. **Challenging and Non-Trivial**:
    - Select problems that require deep brainstorming and analytical thinking, especially for solvers with Codeforces ratings in the range {min_difficulty}-{max_difficulty}.
 
-2. **Unexpected Behaviors**:
-   - Problems should exhibit unexpected behaviors, phase transitions, or non-linear patterns based on parameter changes.
-
-3. **Non-Obvious Solutions**:
+2. **Relative Algorithms**:
    - Favor problems that combine {skill_1} and {skill_2} in innovative and non-intuitive ways.
    - Ensure that the combination of skills is seamless and essential for the solution, even if the skills are seemingly unrelated.
 
-4. **Originality**:
+3. **Originality**:
    - Prioritize problems that are novel, avoiding those that are overly similar to classic or well-known problems.
 
 # **Problems**:
 {problems}
 
+=====
 ## **USER_INPUT_STORY**:
 {story}
+=====
 
 # **Output Requirements**
 - Remove any problems that fail to meet the above criteria.

@@ -2,9 +2,12 @@ from src.configs.config_loader import settings
 from litellm import completion
 
 def select_problem(problems: list, min_difficulty: int, max_difficulty: int, skill_1: str, skill_2: str, story: str, logger) -> str:
-    problems = "\n=====\n".join(problems)
+    problems_prompt = ""
+    for i in range(len(problems)):
+        problems_prompt += f"problem_{i + 1}:\n{problems[i]}\n"
+
     system_prompt = settings.problem_selector_prompt.system
-    user_prompt = settings.problem_selector_prompt.user.format(min_difficulty=min_difficulty, max_difficulty=max_difficulty, skill_1=skill_1, skill_2=skill_2, problems=problems, story=story)
+    user_prompt = settings.problem_selector_prompt.user.format(min_difficulty=min_difficulty, max_difficulty=max_difficulty, skill_1=skill_1, skill_2=skill_2, problems=problems_prompt, story=story)
     
     logger.info(user_prompt)
 

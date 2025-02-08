@@ -1,4 +1,3 @@
-from src.log import setup_logger
 from src.configs.config_loader import settings
 from litellm import completion
 
