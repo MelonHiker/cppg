@@ -36,6 +36,7 @@ def fetch_problem_details(contest_id: int, index: str, rating: int, tags: list) 
     dic["notes"] = soup.find("div", class_="note").get_text(separator="\n", strip=True) if soup.find("div", class_="note") else ""
     dic["rating"] = rating
     dic["tags"] = tags
+    dic["id"] = f"{contest_id}{index}"
 
     for key, value in dic.items():
         if (isinstance(value, str)):
