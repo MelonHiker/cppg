@@ -3,6 +3,7 @@ import requests
 import glob
 import json
 import os
+import re
 
 def fetch_problem_details(contest_id: int, index: str, rating: int, tags: list) -> str:
     file_path = f"./codeforces/{contest_id}{index}.json"
@@ -10,8 +11,9 @@ def fetch_problem_details(contest_id: int, index: str, rating: int, tags: list) 
         print(f"{file_path} already exists.")
         return
     
-    with open("./codeforces/failure.txt", "r") as file:
-        if (f"{contest_id}{index}\n" in file):
+    with open("./codeforces/failure.json", "r") as file:
+        failure = json.load(file)
+        if (f"{contest_id}{index}\n" in failure["failure"]):
             print(f"Already attempted to fetch problem {contest_id}{index}.")   
             return
 
@@ -35,6 +37,10 @@ def fetch_problem_details(contest_id: int, index: str, rating: int, tags: list) 
     dic["rating"] = rating
     dic["tags"] = tags
 
+    for key, value in dic.items():
+        if (isinstance(value, str)):
+            dic[key] = re.sub(r"\$\$\$(.*?)\$\$\$", r"$\1$", value)
+
     with open(file_path, "w") as file:
         json.dump(dic, file, indent=4)
 
@@ -53,7 +59,7 @@ def update_problems():
     
     problems = response["result"]["problems"]
     for problem in problems:
-        if ("interactive" in problem["tags"] or any("special" in tag for tag in problem["tags"])):
+        if (not problem.get("tags") or "interactive" in problem["tags"] or any("special" in tag for tag in problem["tags"])):
             continue
         try:
             if (problem.get("rating")):
@@ -62,17 +68,20 @@ def update_problems():
                 print(f"Problem {problem["contestId"]}{problem["index"]} didn't has rating.")
         except Exception as e:
             print(f'Fail to fetch problem {problem["contestId"]}{problem["index"]}: {e}')
-            with open("./codeforces/failure.txt", "a") as file:
-                file.write(f"{problem["contestId"]}{problem["index"]}\n")
+            with open("./codeforces/failure.json", "r") as file:
+                failure = json.load(file)
+            with open("./codeforces/failure.json", "w") as file:
+                failure["failure"].append(f"{problem["contestId"]}{problem["index"]}\n")
+                json.dump(failure, file, indent=4)
 
 def update_index():
-    # Glob all JSON files except index.json in the ./codeforces folder
-    json_files = [f for f in glob.glob("./codeforces/*.json") if not f.endswith("index.json")]
+    json_files = [f for f in glob.glob("./codeforces/*.json") if not f.endswith("index.json") and not f.endswith("failure.json")]
     
     table = dict()
     for file_path in json_files:
         with open(file_path, "r") as file:
             problem = json.load(file)
+
         for tag in problem["tags"]:
             if (tag not in table):
                 table[tag] = list()
@@ -81,24 +90,33 @@ def update_index():
     with open("./codeforces/index.json", "w") as file:
         json.dump(table, file, indent=4)
 
-def build_training_set(num: int, directory_path: str):
-    from random import sample
+def build_training_set(tot: int, directory_path: str):
+    from random import sample, shuffle
     import shutil
 
     # clear content
-    files = glob.glob("./sample/*")
+    files = glob.glob("./training/*") + glob.glob("./validation/*") + glob.glob("./test/*")
     for f in files:
         os.remove(f)
 
-    json_files = glob.glob(os.path.join(directory_path, "*.json"))
-    json_files.remove("./codeforces/index.json")
+    json_files = [f for f in glob.glob("./codeforces/*.json") if not f.endswith("index.json") and not f.endswith("failure.json")]
 
-    files = sample(json_files, num)
-    for src in files:
-        dest = src.replace("codeforces", "sample")
+    tot_files = sample(json_files, tot)
+    shuffle(tot_files)
+    training = tot_files[:tot * 4 // 5]
+    validation = tot_files[len(training):len(training) + tot // 10]
+    test = tot_files[len(training) + len(validation):]
+    for src in training:
+        dest = src.replace("codeforces", "training")
+        shutil.copy(src, dest)
+    for src in validation:
+        dest = src.replace("codeforces", "validation")
+        shutil.copy(src, dest)
+    for src in test:
+        dest = src.replace("codeforces", "test")
         shutil.copy(src, dest)
 
 if __name__ == "__main__":
     update_problems()
     update_index()
-    # build_training_set(500, "./codeforces")
+    # build_training_set(1000, "./codeforces")
