@@ -17,8 +17,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
-    <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
-    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="js/paged.polyfill.js"></script>
 </head>
 <body>
     <!-- Hidden element with serialized problem JSON -->
@@ -67,9 +66,11 @@
                 <div class="example-edit">
                     {% for example in problem.examples %}
                     <div class="example-pair">
+                        <label>Input:</label>
                         <div class="grow-wrap" data-replicated-value="{{ example.input }}">
                             <textarea class="example-input" oninput="this.parentNode.dataset.replicatedValue = this.value">{{ example.input }}</textarea>
                         </div>
+                        <label>Output:</label>
                         <div class="grow-wrap" data-replicated-value="{{ example.output }}">
                             <textarea class="example-output" oninput="this.parentNode.dataset.replicatedValue = this.value">{{ example.output }}</textarea>
                         </div>

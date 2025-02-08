@@ -117,30 +117,14 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    // Download statement as PDF
+    // Download statement as PDF using jsPDF.html()
     document.getElementById("download-statement").addEventListener("click", function() {
-        const { jsPDF } = window.jspdf;
-        const statementRightPanel = document.querySelector("#statement .right-panel");
-
-        html2canvas(statementRightPanel).then(canvas => {
-            const imgData = canvas.toDataURL("image/png");
-            const pdf = new jsPDF();
-            pdf.addImage(imgData, "PNG", 10, 10);
-            pdf.save("statement.pdf");
-        });
+        generatePDF("#statement .right-panel", "statement.pdf");
     });
 
-    // Download solution as PDF
+    // Download tutorial as PDF using jsPDF.html()
     document.getElementById("download-tutorial").addEventListener("click", function() {
-        const { jsPDF } = window.jspdf;
-        const tutorialRightPanel = document.querySelector("#tutorial .right-panel");
-
-        html2canvas(tutorialRightPanel).then(canvas => {
-            const imgData = canvas.toDataURL("image/png");
-            const pdf = new jsPDF();
-            pdf.addImage(imgData, "PNG", 10, 10);
-            pdf.save("tutorial.pdf");
-        });
+        generatePDF("#tutorial .right-panel", "tutorial.pdf");
     });
 });
 
@@ -195,6 +179,7 @@ function renderContent() {
         "input-constraints",
         "output-constraints",
         "note",
+        "solution-in-natural-language",
         "time-complexity",
         "space-complexity"
     ];
@@ -234,3 +219,40 @@ document.querySelector("#solution #font-size-slider").addEventListener("input", 
 document.querySelector("#test #font-size-slider").addEventListener("input", (e) => {
     document.getElementById("test-editor").style.fontSize = `${e.target.value}px`;
 });
+
+function generatePDF(selector, filename) {
+    const panel = document.querySelector(selector);
+    if (!panel) return;
+    
+    // Clone the content so we don't affect the live DOM.
+    const clone = panel.cloneNode(true);
+    
+    // Open a new window for printing.
+    const printWindow = window.open('', '', 'width=800,height=600');
+    
+    // Write a basic HTML document that includes your CSS and Paged.js.
+    printWindow.document.write(`
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <meta charset="utf-8">
+            <title>${filename}</title>
+            <link rel="stylesheet" href="/static/css/styles.css">
+            <script src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"></script>
+          </head>
+          <body>
+            <div id="print-content">
+              ${clone.innerHTML}
+            </div>
+          </body>
+        </html>
+    `);
+    printWindow.document.close();
+    
+    // Give Paged.js time to process the content (adjust timeout as needed).
+    setTimeout(() => {
+        printWindow.focus();
+        printWindow.print();
+        printWindow.close();
+    }, 1000);
+}
