@@ -227,17 +227,6 @@ function renderContent() {
 // Optionally call renderContent() on window load.
 window.addEventListener("load", renderContent);
 
-// textarea with auto-resize (excluding code-editor)
-document.querySelectorAll("textarea:not(.code-editor)").forEach(function(textarea) {
-    textarea.style.height = textarea.scrollHeight + "px";
-    textarea.style.overflowY = "hidden";
-  
-    textarea.addEventListener("input", function() {
-        this.style.height = "auto";
-        this.style.height = this.scrollHeight + "px";
-    });
-});
-
 // Handle font size slider
 document.querySelector("#solution #font-size-slider").addEventListener("input", (e) => {
     document.getElementById("solution-editor").style.fontSize = `${e.target.value}px`;

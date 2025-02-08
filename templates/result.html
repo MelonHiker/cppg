@@ -49,26 +49,38 @@
                 <input type="text" id="memory-limit-edit" value="{{ problem.memory_limit }}">
                 <br/>
                 <label>Description:</label>
-                <textarea id="description-edit">{{ problem.description }}</textarea>
+                <div class="grow-wrap" data-replicated-value="{{ problem.description }}">
+                    <textarea id="description-edit" oninput="this.parentNode.dataset.replicatedValue = this.value">{{ problem.description }}</textarea>
+                </div>
                 <br/>
                 <label>Input Constraints:</label>
-                <textarea id="input-constraints-edit">{{ problem.input_constraints }}</textarea>
+                <div class="grow-wrap" data-replicated-value="{{ problem.input_constraints }}">
+                    <textarea id="input-constraints-edit" oninput="this.parentNode.dataset.replicatedValue = this.value">{{ problem.input_constraints }}</textarea>
+                </div>
                 <br/>
                 <label>Output Constraints:</label>
-                <textarea id="output-constraints-edit">{{ problem.output_constraints }}</textarea>
+                <div class="grow-wrap" data-replicated-value="{{ problem.output_constraints }}">
+                    <textarea id="output-constraints-edit" oninput="this.parentNode.dataset.replicatedValue = this.value">{{ problem.output_constraints }}</textarea>
+                </div>
                 <br/>
                 <label>Examples:</label>
                 <div class="example-edit">
                     {% for example in problem.examples %}
                     <div class="example-pair">
-                        <textarea class="example-input">{{ example.input }}</textarea>
-                        <textarea class="example-output">{{ example.output }}</textarea>
+                        <div class="grow-wrap" data-replicated-value="{{ example.input }}">
+                            <textarea class="example-input" oninput="this.parentNode.dataset.replicatedValue = this.value">{{ example.input }}</textarea>
+                        </div>
+                        <div class="grow-wrap" data-replicated-value="{{ example.output }}">
+                            <textarea class="example-output" oninput="this.parentNode.dataset.replicatedValue = this.value">{{ example.output }}</textarea>
+                        </div>
                     </div>
                     {% endfor %}
                 </div>
                 <br/>
                 <label>Note:</label>
-                <textarea id="note-edit">{{ problem.note }}</textarea>
+                <div class="grow-wrap" data-replicated-value="{{ problem.note }}">
+                    <textarea id="note-edit" oninput="this.parentNode.dataset.replicatedValue = this.value">{{ problem.note }}</textarea>
+                </div>
                 <br/>
             </div>
             <div class="right-panel">
@@ -103,13 +115,19 @@
         <div class="split">
             <div class="left-panel">
                 <label>Solution in Natural Language:</label>
-                <textarea id="solution-in-natural-language-edit">{{ problem.solution_in_natural_language }}</textarea>
+                <div class="grow-wrap" data-replicated-value="{{ problem.solution_in_natural_language }}">
+                    <textarea id="solution-in-natural-language-edit" oninput="this.parentNode.dataset.replicatedValue = this.value">{{ problem.solution_in_natural_language }}</textarea>
+                </div>
                 <br/>
                 <label>Time Complexity:</label>
-                <textarea id="time-complexity-edit">{{ problem.time_complexity }}</textarea>
+                <div class="grow-wrap" data-replicated-value="{{ problem.time_complexity }}">
+                    <textarea id="time-complexity-edit" oninput="this.parentNode.dataset.replicatedValue = this.value">{{ problem.time_complexity }}</textarea>
+                </div>
                 <br/>
                 <label>Space Complexity:</label>
-                <textarea id="space-complexity-edit">{{ problem.space_complexity }}</textarea>
+                <div class="grow-wrap" data-replicated-value="{{ problem.space_complexity }}">
+                    <textarea id="space-complexity-edit" oninput="this.parentNode.dataset.replicatedValue = this.value">{{ problem.space_complexity }}</textarea>
+                </div>
                 <br/>
                 <label>Tags (comma separated):</label>
                 <input type="text" id="tags-edit" value="{{ problem.tags | join(', ') }}">

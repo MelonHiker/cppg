@@ -49,7 +49,9 @@
             </div>
             <div class="form-group">
                 <label>Story (optional):</label>
-                <textarea name="story" placeholder="Provide a story about this problem."></textarea>
+                <div class="grow-wrap" data-replicated-value="">
+                    <textarea name="story" placeholder="Provide a story about this problem." oninput="this.parentNode.dataset.replicatedValue = this.value"></textarea>
+                </div>
             </div>
             <div class="form-group">
                 <button type="submit">Generate Problem</button>
