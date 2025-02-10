@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup
+from rag_builder import RAGBuilder
 import requests
 import glob
 import json
@@ -120,4 +121,6 @@ def build_training_set(tot: int, directory_path: str):
 if __name__ == "__main__":
     update_problems()
     update_index()
+    rag = RAGBuilder()
+    rag.update_index()
     # build_training_set(1000, "./codeforces")
