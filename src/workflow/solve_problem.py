@@ -5,7 +5,7 @@ from llama_index.core.workflow import (
     Event,
     step,
 )
-from src.tools.code_runner import CodeRunner
+from src.tools.code_executor import CodeExecutor
 from src.agents.problem_solve_agent import solve_problem
 from src.agents.code_debug_agent import debug_code
 
@@ -21,7 +21,7 @@ class GenSolutionWorkflow(Workflow):
         super().__init__(*args, **kwargs)
         self.problem = problem
         self.language = language
-        self.runner = CodeRunner()
+        self.excutor = CodeExecutor()
 
     @step
     async def problem_solve(self, ev: StartEvent) -> TestEvent:
@@ -30,7 +30,7 @@ class GenSolutionWorkflow(Workflow):
     
     @step
     async def code_test(self, ev: TestEvent) -> StopEvent | DebugEvent:
-        result = self.runner.run_sample_tests(ev.code, "python", self.problem["examples"])
+        result = self.excutor.run_sample_tests(ev.code, self.language, self.problem["examples"])
         if (result == "Accept"):
             return StopEvent(result=ev.code)
         return DebugEvent(code=ev.code, error=result)
