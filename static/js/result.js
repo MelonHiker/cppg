@@ -116,16 +116,6 @@ document.addEventListener("DOMContentLoaded", function() {
             elem.addEventListener("input", debouncedRenderContent);
         }
     });
-
-    // Download statement as PDF using jsPDF.html()
-    document.getElementById("download-statement").addEventListener("click", function() {
-        generatePDF("#statement .right-panel", "statement.pdf");
-    });
-
-    // Download tutorial as PDF using jsPDF.html()
-    document.getElementById("download-tutorial").addEventListener("click", function() {
-        generatePDF("#tutorial .right-panel", "tutorial.pdf");
-    });
 });
 
 // Provided markdown and LaTeX rendering functions
@@ -362,7 +352,3 @@ document.getElementById("download-all-files").addEventListener("click", function
         URL.revokeObjectURL(a.href);
     });
 });
-
-function generatePDF(selector, filename) {
-    console.log("Generating PDF...");
-}
