@@ -1,30 +1,53 @@
-[testcase_generator_prompt]
+[input_generate_agent]
 temperature = 0.3
-system = """\
-You are an AI assistant tasked with generating test cases for competitive programming problems.
-Your task is to write a test case generator in Python that generates input test cases.
-"""
+model = "models/gemini-2.0-flash-thinking-exp"
 
-user = """\
-## Problem:
-{problem}
+prompt_tmpl = '''\
+## Competitive Programming Test Case Generator
 
-### Sample Input:
+### **Task Description:**
+You are an AI assistant specialized in writing Python scripts to generate test cases for competitive programming problems.
+
+Your task is to generate a **Python function** that creates valid input test cases while strictly following the given **input structure analysis report**.
+
+### **Input Analysis Report:**
+{report}
+
+---
+
+### **Sample Input:**
 {sample_input}
 
-### Input Constraints:
-{input_constraints}
+---
 
-## Guidelines for the generator function:
+## **Guidelines for the Generator Function:**  
+1. **Variable Constraints Handling:**  
+   - For each variable $x$, define `min_x` and `max_x` as function parameters.  
+   - Ensure that generated values strictly adhere to the provided input constraints.  
+   
+2. **Variable Relationships & Dependencies:**  
+   - Detect relationships between variables (e.g., in a connected graph $G(N, M)$, $M$ must be at least $N-1$).  
+   - Adjust parameters accordingly, e.g., `min_M = max(min_M, N - 1)`.  
 
-1. Identify the input structure, such as sequence, tree, connected graph, etc.
-2. Read the input constraints carefully. Ensure every variable is within the given range and meets specific requirements, such as no self-loops, acyclic graphs, etc.
-3. For every variable x, take min_x and max_x as function parameters.
-4. Find the relationships between variables and ensure they do not cause conflicts.
-   For example, in a connected graph with edges G(N, M), M should be at least N - 1. Therefore, your function should set min_M = max(min_M, N - 1).
-5. Ensure arguments meet the input constraints. If not, raise a ValueError.
+3. **Validation of Constraints:**  
+   - If any arguments violate constraints, raise a `ValueError`.  
+   - Ensure input values remain valid while generating random test cases.  
 
-The following are examples of generator functions:
+4. **Efficiency & Randomization:**  
+   - Use Python's `random` module for generating randomized yet **valid** test cases.  
+   - Optimize the function for large constraints (e.g., $N \\leq 10^6$).
+
+---
+
+## **Output Format**
+Your output should be a **single Python code block** containing the generator function.  
+- **The function must be named `gen(...)`** and should accept **dynamic constraints** as parameters.  
+- **Provide clear and structured comments** explaining each step inside the function.  
+
+---
+
+## **Example Generator Functions**
+```
 # generate tree (1-based)
 def gen(min_n, max_n):
     if (not isinstance(min_n, int) or not isinstance(min_n, int) or min_n < 1):
@@ -45,7 +68,8 @@ def gen(min_n, max_n):
         if (random.randint(0, 1)):
             u, v = v, u
         print(u, v)
-
+```
+```
 # generate simple positive weighted graph (1-based)
 def gen(min_n, max_n, min_m, max_m, min_weight, max_weight):
     if (not all(isinstance(x, int) and x > 0 for x in [min_n, max_n, min_m, max_m, min_weight, max_weight])):
@@ -79,7 +103,8 @@ def gen(min_n, max_n, min_m, max_m, min_weight, max_weight):
         if (random.randint(0, 1)):
             u, v = v, u
         print(u, v, random.randint(min_weight, max_weight))
-
+```
+```
 # Generate a random palindrome string with only letters where length is n
 def gen(min_n, max_n):
     if (not isinstance(min_n, int) or not isinstance(min_n, int) or min_n < 1):
@@ -95,7 +120,8 @@ def gen(min_n, max_n):
     result = [random.choice(alphabet) for _ in range((n + 1) // 2)]
     result.extend(result[0:n // 2][::-1])
     print(*result, sep="")
-
+```
+```
 # generate float matrix
 def gen(min_n, max_n, min_m, max_m, min_value, max_value):
     if (not all(isinstance(x, int) and x > 0 for x in [min_n, max_n, min_m, max_m, min_value, min_value])):
@@ -111,7 +137,8 @@ def gen(min_n, max_n, min_m, max_m, min_value, max_value):
     for i in range(n):
         line = [random.uniform(min_value, max_value) for j in range(m)]
         print(*line)
-  
+```
+```
 # generate a random sequence of distinct element
 def gen(min_n, max_n, min_value, max_value):
     if (not all(isinstance(x, int) and x > 0 for x in [min_n, max_n, min_value, min_value])):
@@ -125,7 +152,8 @@ def gen(min_n, max_n, min_value, max_value):
     
     seq = random.sample(range(min_value, max_value + 1), n)
     print(*seq)
-
+```
+```
 # generate connected simple graph (1-based)
 def gen(min_n, max_n, min_m, max_m):
     if (not all(isinstance(x, int) and x > 0 for x in [min_n, max_n, min_m, max_m])):
@@ -169,7 +197,8 @@ def gen(min_n, max_n, min_m, max_m):
         if (random.randint(0, 1)):
             u, v = v, u
         print(u, v)
-
+```
+```
 # generate connected graph (1-based, self-loop, multiple edge)
 def gen(min_n, max_n, min_m, max_m):
     if (not all(isinstance(x, int) and x > 0 for x in [min_n, max_n, min_m, max_m])):
@@ -204,6 +233,7 @@ def gen(min_n, max_n, min_m, max_m):
         if (random.randint(0, 1)):
             u, v = v, u
         print(u, v)
+```
 
 ## **Output Format**
 Your output must be a single code block containing the solution in Python that fully satisfies the above requirements.
@@ -214,8 +244,9 @@ Your explanation should be embedded in the comments.
 def gen(min_n, max_n, ...):
     ...
 
-## important
-The generator only outputs input test cases. You don't need to think about how to generate the output.
+if __name__ == "__main__":
+    gen(1, 1000000, ...)
+```
 
 ```python
-"""
+'''

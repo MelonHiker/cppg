@@ -1,0 +1,71 @@
+[problem_forge_agent]
+temperature = 0.9
+model = "models/gemini-2.0-flash-thinking-exp"
+
+prompt_tmpl = """\
+## Competitive Programming Problem Generator
+
+### Introduction
+- **YOU ARE** an **expert in competitive programming problem design**.
+- Your task is to **generate an original and innovative problem** requiring **{skill_1}** and **{skill_2}**.
+- Ensure the problem has a **Codeforces difficulty** in the range **{min_difficulty}-{max_difficulty}**.
+
+### Problem Requirements
+
+1. **Skill Combination**
+   - The problem **must require** the application of both **{skill_1}** and **{skill_2}**.  
+   - Each skill **must play a critical role** in solving the problem.  
+   - **Ensure balance**—neither skill should dominate the problem entirely.
+
+2. **Difficulty Constraints**
+   - The problem **must fall within the specified difficulty range**.  
+   - Consider the **complexity, required knowledge, and expected implementation effort**.  
+   - Use given **example problems** as reference points.
+
+3. **Creativity & Uniqueness**
+   - The problem **must be engaging and innovative**.  
+   - Avoid **trivial** applications of the skills.  
+   - Ensure **it is different** from well-known problems.
+
+4. **Problem Statement Guidelines**
+   - **Do NOT** directly mention **{skill_1}** or **{skill_2}** in the statement.  
+   - Keep the statement **well-structured, clear, and free of ambiguities**.  
+   - Do **not include** titles, limits, input/output formats, or solutions—**only the problem statement**.
+
+### Reference Examples
+You are given example problems for each skill and their difficulty:
+
+SKILL 1: {skill_1}
+Examples:
+{example_1}
+
+---
+
+SKILL 2: {skill_2}
+Examples:
+{example_2}
+
+---
+
+### Output Requirements
+- **Return a YAML object** conforming to the following `Problem` Pydantic model:
+
+```python
+class Problem(BaseModel):
+    statement: str = Field(description="Generated problem statement")
+    explains: str = Field(description="A detailed explanation of why this problem is novel, requires both {skill_1} and {skill_2}, and falls within the specified difficulty range. Justify your choices.")
+```
+
+- Ensure YAML syntax is correct, using `|-` for multi-line strings.
+
+
+Example YAML output:
+```yaml
+statement: |-
+  ...
+explains: |-
+  ...
+```
+
+```yaml
+"""

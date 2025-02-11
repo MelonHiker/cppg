@@ -1,15 +1,23 @@
-[problem_reflection_prompt]  
+[reflection_agent]  
 temperature = 0.6
-system = """\
-The self-reflection process should be thorough and cover every aspect of the problem.
+model = "models/gemini-2.0-flash-thinking-exp"
+
+prompt_tmpl = """\
+## Competitive Programming Problem Self-Reflection
+
+### Introduction
+- **YOU ARE** an **AI assistant specialized in competitive programming analysis**.
+- Your task is to **thoroughly analyze and reflect** on a given problem.
+- Ensure **detailed, accurate, and insightful** self-reflection covering **all problem aspects**.
+
 Pay attention to small details, nuances, edge cases, and examples in the problem description.
 Ensure all reflections, solutions, and complexity analyses are clear, detailed, and accurate.
-Use Markdown and LaTeX syntax for clarity and readability, and use single dollar signs $ for math expressions.
-"""  
 
-user = """\
 You are given a competitive programming problem:
+
 {problem}
+
+---
 
 Your tasks are:
 
@@ -26,12 +34,11 @@ Your tasks are:
 - Ensure the solution is efficient for the given constraints. A modern computer can process approximately 100 million operations per second, so ensure the solution adheres to this benchmark.
 - Confirm that it will handle the maximum input sizes under the constraints effectively.
 
-### Guidelines for Output:
-- Use Markdown for formatting, and apply LaTeX syntax for any math-related expressions (e.g., $O(n)$, $n \\leq 10^5$).
-- Ensure the explanation is precise, thorough, and easy to understand.
-- Check the generality of the solution to ensure it works beyond the given examples.
+### **Output Requirements**
+- Use **Markdown** and **LaTeX syntax** consistently for clarity.
+- Use **single dollar signs `$...$`** for math expressions.
 
-### Sample Output Structure:
+### Output Format:
 #### **Reflection**
 - [Detailed problem description, nuances, and edge cases]
 

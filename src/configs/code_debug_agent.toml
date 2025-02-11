@@ -1,0 +1,54 @@
+[code_debug_agent]
+temperature = 0.2
+model = "models/gemini-2.0-flash-thinking-exp"
+
+prompt_tmpl = """\
+## Debug and Improve {language} Code for Competitive Programming
+
+### Task Description:
+You are an AI assistant specialized in debugging code.  
+Your goal is to **fix** the given {language} code so that it correctly solves the **competitive programming problem** while passing all sample test cases.  
+
+### Instructions:
+1. **Analyze** the provided problem statement, constraints, and expected behavior.
+2. **Identify** and **correct** the errors in the existing {language} code.
+3. **Optimize** the solution for performance while adhering to time and memory constraints.
+4. **Output ONLY** the **well-commented** and **fully functional** code block.
+5. **Ensure that all explanations are within the comments** inside the code block.
+
+---
+
+### **Problem to be Solved:**
+{problem}
+
+### **Relevant Algorithms to Solve the Problem:**
+{tags}
+
+### **Constraints and Limits:**
+- **Time Limit:** {time_limit}
+- **Memory Limit:** {memory_limit}
+- **Input Constraints:** {input_constraints}
+- **Output Constraints:** {output_constraints}
+
+### **Tutorial to Solve the Problem**:
+{tutorial}
+
+### **Error Analysis:**
+- **Generated Code:**  
+
+```{language}
+{code}
+```
+
+- **Observed Error**:
+{error}
+
+---
+
+### Important Notes:
+- Only output the corrected code block with detailed inline comments explaining the fixes.
+- Avoid any redundant explanations outside the code block.
+- Ensure correctness by considering edge cases and constraints.
+
+```{language}
+"""

@@ -1,0 +1,95 @@
+[input_analysis_agent]
+temperature = 0.6
+model = "models/gemini-2.0-flash-thinking-exp"
+
+prompt_tmpl = """\
+## Competitive Programming Input Structure Analysis  
+
+### **Task:**  
+Analyze the **input structure** of a given competitive programming problem and extract its format, constraints, and variable relationships.  
+**Do NOT analyze the meaning of variables—only focus on their structure, constraints, and dependencies.**  
+
+---
+
+### **Problem Statement:**  
+{problem}  
+
+---
+
+### **Input Constraints:**  
+{input_constraints}  
+
+---
+
+### **Sample Input:**  
+{sample_input}
+
+---
+
+## **Analysis Guidelines:**  
+1. **Identify the Input Structure**  
+   - Determine whether the input represents a **sequence, tree, graph, matrix, or other structure**.  
+   - Analyze how variables are **arranged and interdependent**.  
+
+2. **Examine Input Constraints**  
+   - Extract constraints on individual variables and ensure their validity.  
+   - Detect any limits on values (e.g., $1 \\leq n \\leq 10^6$).  
+
+3. **Detect Specific Structural Requirements**  
+   - Check for conditions such as:  
+     - **Graph-specific properties:** Connected, acyclic, tree, DAG, self-loops, or multiple edges.  
+     - **Sequence properties:** Increasing, distinct elements, sorted, or palindrome.  
+     - **Mathematical properties:** Prime numbers, even/odd constraints, divisibility rules.  
+
+4. **Abstract the Input Dependencies**  
+   - Focus **only** on how one variable **affects the next variable** in the input.  
+   - Identify dependencies like:  
+     - If $n$ represents nodes, $m$ (edges) must satisfy $m \\geq n-1$.  
+     - If a matrix has dimensions $n \\times m$, the input structure must follow this format.  
+
+---
+
+## **Output Format - Structured Input Analysis**  
+
+### **Input Structure:**  
+- **Type:** `<Graph / Tree / Sequence / Matrix / Other>`  
+- **Variable Dependencies:**  
+  - **Variable X affects Variable Y** (explain the dependency in terms of structure, e.g., $n$ defines the number of edges $m$).  
+
+### **Ranges for Input Values:**  
+- **Explicitly list the upper and lower bounds for each variable.**  
+
+### **Key Constraints:**  
+- **Describe any constraints** (e.g., "Graph must be connected", "Matrix has distinct elements").  
+
+### **Problem Input Format:**  
+- **Show input format with variable placeholders**
+
+### **Input Explanation:**  
+- **Break down how variables are structured without interpreting their meaning.**  
+
+---
+
+## **Example Output for Input Analysis:**
+
+### **Input Structure:**
+- Type: Sequence
+- Variable Dependencies:
+  - $n$ determines the length of the sequence 
+
+### **Ranges for Input Values:**  
+- $1 \\leq n \\leq 10^6$
+- $1 \\leq a_i \\leq 10^9$
+
+### **Key Constraints:**  
+- All given variables are integers.
+- The sequence has no duplicate values. 
+
+### **Problem Input Format:**  
+$n$
+$a_1 a_2 \\ldots a_n$
+
+### **Input Explanation:**  
+- The first line contains an integer $n$, defining the sequence length.
+- The second line contains $n$ integers representing the sequence elements.
+"""

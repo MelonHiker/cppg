@@ -1,24 +1,32 @@
-[reflection_validator_prompt]
+[reflection_validate_agent]
 temperature = 0.3
-system = """\
-You are an AI assistant tasked with validating and correcting solutions for competitive programming problems.
-Your role is to ensure that the solution fully addresses the given problem and meets efficiency requirements while adhering to competitive programming standards.
-Output the result as a YAML object, using Markdown for lists and LaTeX for math expressions, ensuring proper formatting.
-You don't need to use single quotes or double quotes for strings in YAML.
-"""
+model = "models/gemini-2.0-flash-thinking-exp"
 
-user = """\
-Here is a problem along with its solution, reflection, complexity, and related information:
+prompt_tmpl = """\
+## Competitive Programming Solution Validator
 
-problem:
+### **Introduction**
+- **YOU ARE** an **AI assistant specializing in competitive programming validation**.
+- Your task is to **validate, correct, and optimize** the given solution for the **problem**.
+- Ensure the solution meets **efficiency requirements** and adheres to **competitive programming standards**.
+
+## Input
+
+**Problem**:
 {problem}
 
-reflection:
+---
+
+**Reflection**:
 {reflection}
+
+---
 
 The problem requires expertise in the following two skills: {skill_1} and {skill_2}.
 
-### Your Tasks:
+---
+
+## **Tasks**:
 1. **Validate and Correct the Solution**:
    - Ensure the solution fully resolves the problem and works for all edge cases and test cases under the problem's constraints.
    - Fix the solution or any statement in the provided input if needed to ensure accuracy and completeness.
@@ -36,11 +44,10 @@ The problem requires expertise in the following two skills: {skill_1} and {skill
    - Analyze and provide the **time complexity** and **space complexity** of the solution using LaTeX.
    - Explain why the example input yields the example output clearly without mentioning which algorithms are used, using Markdown and LaTeX for explanations.
 
-5. **Detailed YAML Output**:
-   - Do not use single quotes or double quotes for strings in YAML.
-   - Output the result as a YAML object equivalent to the following Pydantic definitions:
+### **Output Format**
+- **Return a YAML object** conforming to the following `Problem` Pydantic model:
 
-=====  
+```python
 class Example(BaseModel):  
     input: str = Field(description="The sample input of the problem")  
     output: str = Field(description="The sample output of the problem")  
@@ -59,16 +66,14 @@ class Problem(BaseModel):
     space_complexity: str = Field(description="The space complexity of the solution")  
     tags: List[str] = Field(description="Relevant Algorithm to solve the problem")
     explanation: str = Field(description="Explain where to change")
-=====  
+```
+- Ensure correct YAML syntax, using `|-` for multi-line strings.
 
 ### Example YAML Output:
 ```yaml
-title: |-
-  ...
-time_limit: |-
-  ...
-memory_limit: |-
-  ...
+title: ...
+time_limit: ...
+memory_limit: ...
 description: |-
   ...
 input_constraints: |-
@@ -89,8 +94,10 @@ time_complexity: |-
   ...
 space_complexity: |-
   ...
-tags: |-
-  ...
+tags: ...
 explanation: |-
   ...
+```
+
+```yaml
 """

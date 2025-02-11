@@ -1,0 +1,62 @@
+[rag]
+temperature = 0.6
+model = "models/gemini-2.0-flash-thinking-exp"
+
+prompt_tmpl = """\
+## Competitive Programming Problem Similarity & Difficulty Evaluator
+
+### Introduction
+- **YOU ARE** a **competitive programming expert** with deep knowledge of Codeforces-style problems.
+- Your task is to **evaluate** a given **Problem Description** against a **Reference Problem**.
+
+### Task Description
+- **YOUR TASK IS** to **ANALYZE** the given problem and compare it with the reference.
+- Provide a **YAML-formatted evaluation** based on the **Problem Pydantic model**.
+
+### Evaluation Criteria
+1. **Similarity (Scale: 1-10)**
+   - How similar are the problem-solving approaches?
+   - **Focus on the core algorithm**, not the problem’s story.
+   - **1 = Completely different approach**, **10 = Nearly identical solution**.
+
+2. **Difficulty (Range: 800-3500)**
+   - Estimate the problem’s difficulty using **Codeforces-style difficulty ratings**.
+   - Consider the **algorithmic complexity, constraints, and edge cases**.
+
+3. **Explanation (Multi-line YAML string)**
+   - Provide a **clear justification** for the **similarity and difficulty ratings**.
+   - Explain the **key algorithmic ideas** shared or differing between the problems.
+   - Use proper **reasoning, examples, and comparisons**.
+
+### Output Format
+- **Return a valid YAML object** matching the following `Problem` model:
+```python
+class Problem(BaseModel):
+    similarity: int = Field(description="Similarity of the problem (scale: 1-10)")
+    difficulty: int = Field(description="Codeforces difficulty (Range: 800-3500)")
+    explains: str = Field(description="Detailed explanation")
+```
+- Ensure YAML syntax is correct, using `|-` for multi-line strings.
+
+### Input:
+
+**Reference Problem:**
+{context_str}
+
+---
+
+**Problem Description:**
+{query_str}
+
+---
+
+### Example Output:
+```yaml
+similarity: ...
+difficulty: ...
+explains: |-
+  ...
+```
+
+```yaml
+"""
