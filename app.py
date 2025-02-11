@@ -11,13 +11,11 @@ templates = Jinja2Templates(directory="templates")
 logger = setup_logger()
 
 @app.get("/")
-def index(request: Request):
-    # Render the index page with a form for input.
-    # Note: The form on index.html uses POST /generate.
+async def index(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
 @app.post("/generate")
-def generate(
+async def generate(
     request: Request,
     skill1: str = Form(...),
     skill2: str = Form(...),
@@ -27,8 +25,7 @@ def generate(
 ):
     cppg = CPPG()
     try:
-        problem = cppg.generate(minDiff, maxDiff, skill1, skill2, story)
-        # Render result page with problem dict.
+        problem = await cppg.generate_problem(minDiff, maxDiff, skill1, skill2, story)
         return templates.TemplateResponse("result.html", {
             "request": request,
             "problem": problem
@@ -41,27 +38,27 @@ def generate(
         })
 
 @app.post("/generate-solution")
-def generate_solution(
+async def generate_solution(
     request: Request,
     problem: dict = Body(...),
     language: str = Body(...)
 ):
     cppg = CPPG()
     try:
-        solution = cppg.solve(problem, language)
+        solution = await cppg.solve_problem(problem, language)
         return JSONResponse({"solution": solution})
     except Exception as e:
         logger.warning(str(e))
         return JSONResponse({"error": str(e)})
 
 @app.post("/generate-test")
-def generate_test(
+async def generate_test(
     request: Request,
     problem: dict = Body(...)
 ):
     cppg = CPPG()
     try:
-        test_script = cppg.testcase(problem)
+        test_script = await cppg.generate_testcase(problem)
         return JSONResponse({"test_script": test_script})
     except Exception as e:
         logger.warning(str(e))

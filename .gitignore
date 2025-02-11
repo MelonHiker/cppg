@@ -12,7 +12,7 @@ venv/
 src/configs/.secrets.toml
 
 # IDEA project-specific settings and configuration files
-.idea/
+idea/
 
 # logging file
 *.log
