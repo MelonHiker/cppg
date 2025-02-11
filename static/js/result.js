@@ -220,39 +220,149 @@ document.querySelector("#test #font-size-slider").addEventListener("input", (e) 
     document.getElementById("test-editor").style.fontSize = `${e.target.value}px`;
 });
 
+document.getElementById("run-solution").addEventListener("click", async function () {
+    const editor = document.getElementById("solution-editor");
+    const language = document.getElementById("language-select").value;
+    const stdinInput = document.getElementById("execution-stdin").value;
+    const outputElem = document.getElementById("execution-output");
+
+    this.disabled = true;
+    this.textContent = "Running...";
+    try {
+        const response = await fetch("/run-solution", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                code: editor.value,
+                language: language,
+                stdin_input: stdinInput
+            })
+        });
+        const data = await response.json();
+        outputElem.value = data.error_message ? data.error_message : data.execution_output;
+    } catch (error) {
+        outputElem.value = "Error: " + error.message;
+    } finally {
+        this.disabled = false;
+        this.textContent = "Run";
+    }
+});
+
+// New run-test button handler for Test Tab multiple file generation
+document.getElementById("run-test").addEventListener("click", async function () {
+    const code = document.getElementById("test-editor").value;
+    const filenameBase = document.getElementById("filename-input").value.trim();
+    const startIndex = Number(document.getElementById("start-index").value);
+    const endIndex = Number(document.getElementById("end-index").value);
+    const filesContainer = document.getElementById("files-container");
+    filesContainer.innerHTML = ""; // clear previous files
+
+    if (!filenameBase || isNaN(startIndex) || isNaN(endIndex) || endIndex < startIndex) {
+        filesContainer.innerHTML = "<p style='color:red;'>Please enter valid filename and index range.</p>";
+        return;
+    }
+
+    // Process multiple executions
+    let allFiles = [];
+    for (let i = startIndex; i <= endIndex; i++) {
+        try {
+            const response = await fetch("/run-test", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({ code: code, language: "python", stdin_input: "" })
+            });
+            const data = await response.json();
+            if (data.error_message) {
+                filesContainer.innerHTML = `<p style='color:red;'>Error: ${data.error_message}</p>`;
+                return;
+            }
+            // Store file content along with computed filename
+            const fileObj = {
+                filename: `${filenameBase.replace(/\.[^/.]+$/, "")}_${i}${filenameBase.match(/\.[^/.]+$/) || ".txt"}`,
+                content: data.execution_output
+            };
+            allFiles.push(fileObj);
+
+            // Create file entry UI element
+            const fileEntry = document.createElement("div");
+            fileEntry.className = "file-entry";
+            fileEntry.style.border = "1px solid #ccc";
+            fileEntry.style.borderRadius = "8px";
+            fileEntry.style.padding = "10px";
+            fileEntry.style.marginBottom = "10px";
+            fileEntry.style.display = "flex";
+            fileEntry.style.justifyContent = "space-between";
+            fileEntry.style.alignItems = "center";
+
+            // Filename display
+            const nameSpan = document.createElement("span");
+            nameSpan.textContent = fileObj.filename;
+
+            // Preview button
+            const previewBtn = document.createElement("button");
+            previewBtn.textContent = "Preview";
+            previewBtn.onclick = () => alert(fileObj.content);
+
+            // Download button
+            const downloadBtn = document.createElement("button");
+            downloadBtn.textContent = "Download";
+            downloadBtn.onclick = () => {
+                const blob = new Blob([fileObj.content], { type: "text/plain" });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = fileObj.filename;
+                a.click();
+                URL.revokeObjectURL(url);
+            };
+
+            // Delete button
+            const deleteBtn = document.createElement("button");
+            deleteBtn.textContent = "Delete";
+            deleteBtn.onclick = () => {
+                fileEntry.remove();
+                // Optionally remove from allFiles array if needed
+            };
+
+            // Append all UI elements to file entry
+            fileEntry.appendChild(nameSpan);
+            fileEntry.appendChild(previewBtn);
+            fileEntry.appendChild(downloadBtn);
+            fileEntry.appendChild(deleteBtn);
+
+            // Append file entry to container
+            filesContainer.appendChild(fileEntry);
+
+        } catch (error) {
+            filesContainer.innerHTML = `<p style='color:red;'>Execution failed: ${error.message}</p>`;
+            return;
+        }
+    }
+
+    // Store generated files in a global variable for download-all
+    window.generatedTestFiles = allFiles;
+});
+
+// Download All Files Feature using JSZip
+document.getElementById("download-all-files").addEventListener("click", function () {
+    if (!window.generatedTestFiles || window.generatedTestFiles.length === 0) {
+        alert("No files generated.");
+        return;
+    }
+    // Create a zip file containing all generated files.
+    let zip = new JSZip();
+    window.generatedTestFiles.forEach(file => {
+        zip.file(file.filename, file.content);
+    });
+    zip.generateAsync({ type: "blob" }).then(function (content) {
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(content);
+        a.download = "all_generated_files.zip";
+        a.click();
+        URL.revokeObjectURL(a.href);
+    });
+});
+
 function generatePDF(selector, filename) {
-    const panel = document.querySelector(selector);
-    if (!panel) return;
-    
-    // Clone the content so we don't affect the live DOM.
-    const clone = panel.cloneNode(true);
-    
-    // Open a new window for printing.
-    const printWindow = window.open('', '', 'width=800,height=600');
-    
-    // Write a basic HTML document that includes your CSS and Paged.js.
-    printWindow.document.write(`
-        <!DOCTYPE html>
-        <html>
-          <head>
-            <meta charset="utf-8">
-            <title>${filename}</title>
-            <link rel="stylesheet" href="/static/css/styles.css">
-            <script src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"></script>
-          </head>
-          <body>
-            <div id="print-content">
-              ${clone.innerHTML}
-            </div>
-          </body>
-        </html>
-    `);
-    printWindow.document.close();
-    
-    // Give Paged.js time to process the content (adjust timeout as needed).
-    setTimeout(() => {
-        printWindow.focus();
-        printWindow.print();
-        printWindow.close();
-    }, 1000);
+    console.log("Generating PDF...");
 }

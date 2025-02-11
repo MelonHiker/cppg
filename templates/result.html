@@ -17,7 +17,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
-    <script src="js/paged.polyfill.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" async></script>
 </head>
 <body>
     <!-- Hidden element with serialized problem JSON -->
@@ -181,10 +181,20 @@
                     placeholder="# Enter your code here"
                 ></textarea>
                 <!-- Run button (if required) -->
-                <button id="run-code" class="run-btn">Run</button>
+                <button id="run-solution" class="run-btn">Run</button>
             </div>
             <div class="right-panel">
-                <p>I think gpt is the collaborator for this project.</p>
+                <!-- New input textarea for stdin -->
+                <label for="execution-stdin">Input:</label>
+                <div class="grow-wrap" data-replicated-value="{{ problem.time_complexity }}">
+                    <textarea id="execution-stdin" placeholder="Enter input here"></textarea>
+                </div>
+                <br/>
+                <!-- New output textarea for execution result -->
+                <label for="execution-output">Output:</label>
+                <div class="grow-wrap" data-replicated-value="{{ problem.time_complexity }}">
+                    <textarea id="execution-output" readonly placeholder="Execution result will appear here"></textarea>
+                </div>
             </div>
         </div>
     </div>
@@ -216,11 +226,20 @@
                     class="code-editor"
                     placeholder="# Enter your code here"
                 ></textarea>
+                <!-- New Input Fields for Multiple File Generation -->
+                <div class="file-generation-params">
+                    <input id="filename-input" type="text" placeholder="Filename (e.g., test.txt)" />
+                    <input id="start-index" type="number" placeholder="Start Index" />
+                    <input id="end-index" type="number" placeholder="End Index" />
+                </div>
                 <!-- Run button-->
                 <button id="run-test" class="run-btn">Run</button>
             </div>
             <div class="right-panel">
-                <p>You are too electric and the web page is broken.</p>
+                <button id="download-all-files" class="download-btn" style="float:right; margin-bottom:10px;">Download All Files</button>
+                <div id="files-container">
+                    <!-- Generated file entries will be appended here -->
+                </div>
             </div>
         </div>
     </div>
