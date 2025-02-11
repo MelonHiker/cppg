@@ -75,18 +75,21 @@ memory limit per test: <memory_limit> megabytes
 
 ### Examples
 
-```
+---
+
 input
 <sample_input>
 output
 <sample_ouput>
-```
-```
+
+---
+
 input
 <sample_input>
 output
 <sample_ouput>
-```
+
+---
 
 ### Note
 <notes>

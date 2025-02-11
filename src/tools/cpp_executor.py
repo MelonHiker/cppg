@@ -29,7 +29,7 @@ class CppCodeExecutor:
                 input=stdin_input.encode("utf-8"),
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
-                timeout=10,
+                timeout=5,
             )
             return {
                 "execution_output": run_result.stdout.decode("utf-8"),
