@@ -93,38 +93,3 @@ class GenProblemWorkflow(Workflow):
     async def reflection_validate(self, ev: ReflectionValidateEvent) -> StopEvent:
         result = await validate_reflection(ev.problem, ev.reflection, self.skill_1, self.skill_2)
         return StopEvent(result=result)
-
-
-if __name__ == "__main__":
-    async def main(min_difficulty: int, max_difficulty: int, skill_1: str, skill_2: str, story: str=""):
-        workflow = GenProblemWorkflow(min_difficulty, max_difficulty, skill_1, skill_2, story, timeout=300, verbose=True)
-        result = await workflow.run()
-        return result
-
-    import os
-    from phoenix.otel import register
-    from src.configs.config_loader import settings
-
-    os.environ["GEMINI_API_KEY"] = settings.GEMINI_API_KEY
-
-    # Add Phoenix API Key for tracing
-    os.environ["PHOENIX_CLIENT_HEADERS"] = f"api_key={settings.PHOENIX_API_KEY}"
-    os.environ["PHOENIX_COLLECTOR_ENDPOINT"] = "https://app.phoenix.arize.com"
-
-    # configure the Phoenix tracer
-    tracer_provider = register(
-        project_name="cppg",
-        set_global_tracer_provider=False
-    )
-
-    from openinference.instrumentation.llama_index import LlamaIndexInstrumentor
-    LlamaIndexInstrumentor().instrument(tracer_provider=tracer_provider)
-
-    import asyncio
-    min_difficulty = 1500
-    max_difficulty = 2000
-    skill_1 = "dp"
-    skill_2 = "binary search"
-    story = "MelonWaler ate a cat."
-    response = asyncio.run(main(min_difficulty, max_difficulty, skill_1, skill_2, story))
-    print(response)
