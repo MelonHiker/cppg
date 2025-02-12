@@ -10,8 +10,8 @@ async def solve_problem(problem: dict, language: str) -> str:
         sample_IO=problem['examples'],
         time_limit=problem['time_limit'],
         memory_limit=problem['memory_limit'],
-        input_specification=problem['input_specification'],
-        output_specification=problem['output_specification'],
+        input_specifications=problem['input_specifications'],
+        output_specifications=problem['output_specifications'],
         tutorial=problem['solution_in_natural_language'],
         language=language
     )

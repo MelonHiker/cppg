@@ -5,7 +5,8 @@ file_name = "logs.log"
 logger_path = join(dirname(abspath(__file__)), file_name)
 
 def setup_logger():
-    file_format = logging.Formatter("%(filename)s :: %(levelname)s\n%(message)s\n")
+    file_format = logging.Formatter(fmt="%(filename)s :: %(levelname)s\n%(message)s\n",
+                                    datefmt="%Y-%m-%d %H:%M:%S")
 
     file_handler = logging.FileHandler(logger_path, mode="a")
     file_handler.setFormatter(file_format)  

@@ -16,8 +16,8 @@ Analyze the **input structure** of a given competitive programming problem and e
 
 ---
 
-### **Input Specification:**  
-{input_specification}  
+### **Input Specifications:**  
+{input_specifications}  
 
 ---
 
@@ -31,8 +31,8 @@ Analyze the **input structure** of a given competitive programming problem and e
    - Determine whether the input represents a **sequence, tree, graph, matrix, or other structure**.  
    - Analyze how variables are **arranged and interdependent**.  
 
-2. **Examine Input Specification**  
-   - Extract specification on individual variables and ensure their validity.  
+2. **Examine Input Specifications**  
+   - Extract specifications on individual variables and ensure their validity.  
    - Detect any limits on values (e.g., $1 \\leq n \\leq 10^6$).  
 
 3. **Detect Specific Structural Requirements**  

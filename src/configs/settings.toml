@@ -1,0 +1,15 @@
+[GenProblemWorkflow]
+num_of_samples = 5
+timeout = 300
+verbose = true
+
+[GenSolutionWorkflow]
+timeout = 120
+verbose = true
+
+[GenTestWorkflow]
+timeout = 120
+verbose = true
+
+[phoenix]
+working_dir = "./phoenix"

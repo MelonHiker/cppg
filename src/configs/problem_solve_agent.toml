@@ -22,11 +22,11 @@ Your output must be a single code block in the specified language, with detailed
 ### Memory limit:
 {time_limit}
 
-### Input Specification
-{input_specification}
+### Input Specifications
+{input_specifications}
 
-### Output Specification
-{output_specinput_specification}
+### Output Specifications
+{output_specifications}
 
 ### Tutorial:
 {tutorial}

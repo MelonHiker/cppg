@@ -57,8 +57,8 @@ class Problem(BaseModel):
     time_limit: str  
     memory_limit: str  
     description: str = Field(description="The description of the problem")  
-    input_specification: str = Field(description="The input format and constraints of the problem.")  
-    output_specification: str = Field(description="The output format and constraints of the problem.")  
+    input_specifications: str = Field(description="The input format and constraints of the problem.")  
+    output_specifications: str = Field(description="The output format and constraints of the problem.")  
     examples: List[Example] = Field(description="A list of examples for the problem")  
     note: str = Field(description="Explain why the example input produces the corresponding example output.")
     solution_in_natural_language: str = Field(description="The solution in natural language to the problem")  
@@ -79,9 +79,9 @@ time_limit: ...
 memory_limit: ...
 description: |-
   ...
-input_specification: |-
+input_specifications: |-
   ...
-output_specification: |-
+output_specifications: |-
   ...
 examples:
 - input: |-

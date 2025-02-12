@@ -31,7 +31,7 @@ prompt_tmpl = """\
 
 - **If the problem has errors or inconsistencies**, **correct them** while preserving the **original intent**.
 - **If the problem is valid**, confirm its correctness and provide a brief explanation.
-- **Output the corrected problem** in the same format as the input.
+- **Output the complete corrected problem**.
 
 ### **Input**
 
@@ -45,7 +45,7 @@ prompt_tmpl = """\
 
 ```python
 class Problem(BaseModel):
-    problem: str = Field(description="The corrected problem in the same format as the input")
+    problem: str = Field(description="The complete corrected problem")
     explains: str = Field(description="A detailed explanation of the changes made or why the problem is valid as-is")
 ```
 ## Important Notes:

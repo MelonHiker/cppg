@@ -6,6 +6,7 @@ from llama_index.core.workflow import (
     Event,
     step,
 )
+from llama_index.core.workflow.retry_policy import ConstantDelayRetryPolicy
 from src.agents.problem_forge_agent import forge_problem
 from src.agents.detail_craft_agent import detail_craft
 from src.agents.problem_validate_agent import validate_problem
@@ -13,6 +14,7 @@ from src.agents.reflection_agent import reflect_problem
 from src.agents.reflection_validate_agent import validate_reflection
 from src.tools.llm_parser import LLMParser
 from build.rag_builder import RAGBuilder
+from src.configs.config_loader import settings
 
 class ForgeEvent(Event):
     pass
@@ -35,7 +37,7 @@ class ReflectionValidateEvent(Event):
     problem: str
     reflection: str
 
-NUMBER_OF_SAMPLE = 5
+config = settings.GenProblemWorkflow
 
 class GenProblemWorkflow(Workflow):
     def __init__(self, min_difficulty: int, max_difficulty: int, skill_1: str, skill_2: str, story: str, *args, **kwargs):
@@ -50,10 +52,10 @@ class GenProblemWorkflow(Workflow):
 
     @step
     async def start(self, ctx: Context, ev: StartEvent) -> ForgeEvent:
-        for _ in range(NUMBER_OF_SAMPLE):
+        for _ in range(config.num_of_samples):
             ctx.send_event(ForgeEvent())
 
-    @step(num_workers=NUMBER_OF_SAMPLE)
+    @step(num_workers=config.num_of_samples, retry_policy=ConstantDelayRetryPolicy(delay=10, maximum_attempts=2))
     async def problem_forge(self, ev: ForgeEvent) -> PREvent:
         problem = await forge_problem(self.min_difficulty, self.max_difficulty, self.skill_1, self.skill_2)
         response = await self.query_engine.aquery(problem["statement"])
@@ -65,7 +67,7 @@ class GenProblemWorkflow(Workflow):
     
     @step
     async def pointwise_ranking(self, ctx: Context, ev: PREvent) -> DetailCraftEvent | StartEvent:
-        problems = ctx.collect_events(ev, [PREvent] * NUMBER_OF_SAMPLE)
+        problems = ctx.collect_events(ev, [PREvent] * config.num_of_samples)
         if problems is None:
             return None
         problems = [x for x in problems if self.min_difficulty <= x.difficulty <= self.max_difficulty]
@@ -74,22 +76,22 @@ class GenProblemWorkflow(Workflow):
         problems.sort(key=lambda x: (x.similarity, -x.difficulty))
         return DetailCraftEvent(statement=problems[0].statement)
     
-    @step
+    @step(retry_policy=ConstantDelayRetryPolicy(delay=5, maximum_attempts=3))
     async def problem_detail_craft(self, ev: DetailCraftEvent) -> ProblemValidateEvent:
         result = await detail_craft(ev.statement, self.story)
         return ProblemValidateEvent(problem=result)
     
-    @step
+    @step(retry_policy=ConstantDelayRetryPolicy(delay=5, maximum_attempts=3))
     async def problem_validate(self, ev: ProblemValidateEvent) -> ReflectionEvent:
         result = await validate_problem(ev.problem)
         return ReflectionEvent(problem=result["problem"])
     
-    @step
+    @step(retry_policy=ConstantDelayRetryPolicy(delay=5, maximum_attempts=3))
     async def reflection(self, ev: ReflectionEvent) -> ReflectionValidateEvent:
         result = await reflect_problem(ev.problem)
         return ReflectionValidateEvent(problem=ev.problem, reflection=result)
     
-    @step
+    @step(retry_policy=ConstantDelayRetryPolicy(delay=5, maximum_attempts=3))
     async def reflection_validate(self, ev: ReflectionValidateEvent) -> StopEvent:
         result = await validate_reflection(ev.problem, ev.reflection, self.skill_1, self.skill_2)
         return StopEvent(result=result)
