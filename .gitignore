@@ -3,7 +3,12 @@
 
 # Python virtual environment
 venv/
+
+# asdf version manager
 .tool-versions
+
+# pyenv version manager
+.python-version
 
 # Python cache files
 **/__pycache__/

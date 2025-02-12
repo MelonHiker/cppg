@@ -2,16 +2,27 @@
 
 ## Requirements
 
-- Python 3.12 or higher
-- Git LFS
+- Python 3.12
 
 ## Installation
 
 1.  **Create and activate a virtual environment:**
-
+    Choose the appropriate command for your operating system:
+    
+    **Linux/macOS:**
     ```console
     python3 -m venv venv
     source ./venv/bin/activate
+    ```
+
+    **Windows (cmd):**
+    ```console
+    .\venv\Scripts\activate.bat
+    ```
+
+    **Windows (PowerShell):**
+    ```console
+    .\venv\Scripts\activate.ps1
     ```
 2.  **Install dependencies:**
 
