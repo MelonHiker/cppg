@@ -19,7 +19,6 @@ async def lifespan(app: FastAPI):
     if (not os.path.exists(dir_path)):
         os.makedirs(dir_path)
     os.environ["PHOENIX_WORKING_DIR"] = dir_path
-    os.environ["GRPC_VERBOSITY"] = "ERROR"
 
     llama_index.core.set_global_handler("arize_phoenix")
 
