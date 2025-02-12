@@ -1,6 +1,6 @@
-from src.workflow.generate_problem import GenProblemWorkflow
-from src.workflow.solve_problem import GenSolutionWorkflow
-from src.workflow.generate_testcase import GenTestWorkflow
+from src.workflows.generate_problem import GenProblemWorkflow
+from src.workflows.solve_problem import GenSolutionWorkflow
+from src.workflows.generate_testcase import GenTestWorkflow
 from src.configs.config_loader import settings
 
 class CPPG:

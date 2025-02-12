@@ -1,6 +1,6 @@
 [GenProblemWorkflow]
 num_of_samples = 5
-timeout = 300
+timeout = 420
 verbose = true
 
 [GenSolutionWorkflow]
