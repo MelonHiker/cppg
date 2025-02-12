@@ -92,8 +92,8 @@ document.addEventListener("DOMContentLoaded", function() {
         "time-limit-edit",
         "memory-limit-edit",
         "description-edit",
-        "input-specification-edit",
-        "output-specification-edit",
+        "input-specifications-edit",
+        "output-specifications-edit",
         "note-edit"
     ];
     statementElements.forEach(id => {
@@ -132,8 +132,8 @@ function updateProblemData() {
     problem.time_limit = document.getElementById("time-limit-edit").value;
     problem.memory_limit = document.getElementById("memory-limit-edit").value;
     problem.description = document.getElementById("description-edit").value;
-    problem.input_specification = document.getElementById("input-specification-edit").value;
-    problem.output_specification = document.getElementById("output-specification-edit").value;
+    problem.input_specifications = document.getElementById("input-specifications-edit").value;
+    problem.output_specifications = document.getElementById("output-specifications-edit").value;
     
     // Collect examples from the edit part
     problem.examples = [];
@@ -166,8 +166,8 @@ function renderContent() {
         "time-limit",
         "memory-limit",
         "description",
-        "input-specification",
-        "output-specification",
+        "input-specifications",
+        "output-specifications",
         "note",
         "solution-in-natural-language",
         "time-complexity",
@@ -311,7 +311,6 @@ document.getElementById("run-test").addEventListener("click", async function () 
             deleteBtn.textContent = "Delete";
             deleteBtn.onclick = () => {
                 fileEntry.remove();
-                // Optionally remove from allFiles array if needed
             };
 
             // Append all UI elements to file entry
@@ -347,7 +346,7 @@ document.getElementById("download-all-files").addEventListener("click", function
     zip.generateAsync({ type: "blob" }).then(function (content) {
         const a = document.createElement("a");
         a.href = URL.createObjectURL(content);
-        a.download = "all_generated_files.zip";
+        a.download = "test_case.zip";
         a.click();
         URL.revokeObjectURL(a.href);
     });

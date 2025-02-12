@@ -52,14 +52,14 @@
                     <textarea id="description-edit" oninput="this.parentNode.dataset.replicatedValue = this.value">{{ problem.description }}</textarea>
                 </div>
                 <br/>
-                <label>Input Specification:</label>
-                <div class="grow-wrap" data-replicated-value="{{ problem.input_specification }}">
-                    <textarea id="input-specification-edit" oninput="this.parentNode.dataset.replicatedValue = this.value">{{ problem.input_specification }}</textarea>
+                <label>Input Specifications:</label>
+                <div class="grow-wrap" data-replicated-value="{{ problem.input_specifications }}">
+                    <textarea id="input-specifications-edit" oninput="this.parentNode.dataset.replicatedValue = this.value">{{ problem.input_specifications }}</textarea>
                 </div>
                 <br/>
-                <label>Output Specification:</label>
-                <div class="grow-wrap" data-replicated-value="{{ problem.output_specification }}">
-                    <textarea id="output-specification-edit" oninput="this.parentNode.dataset.replicatedValue = this.value">{{ problem.output_specification }}</textarea>
+                <label>Output Specifications:</label>
+                <div class="grow-wrap" data-replicated-value="{{ problem.output_specifications }}">
+                    <textarea id="output-specifications-edit" oninput="this.parentNode.dataset.replicatedValue = this.value">{{ problem.output_specifications }}</textarea>
                 </div>
                 <br/>
                 <label>Examples:</label>
@@ -91,10 +91,10 @@
                 </div>
                 <h3>Description</h3>
                 <div id="description-preview"></div>
-                <h3>Input Specification</h3>
-                <div id="input-specification-preview"></div>
-                <h3>Output Specification</h3>
-                <div id="output-specification-preview"></div>
+                <h3>Input Specifications</h3>
+                <div id="input-specifications-preview"></div>
+                <h3>Output Specifications</h3>
+                <div id="output-specifications-preview"></div>
                 <h3>Examples</h3>
                 <div class="example-preview">
                     {% for example in problem.examples %}
