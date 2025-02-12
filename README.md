@@ -21,14 +21,11 @@
 3.  **Configure API Keys:**
 
     *   Create a `.secrets.toml` file in the `./src/configs/` directory.
-    *   Add your Gemini and Phoenix API keys to the file:
+    *   Add your Gemini API keys to the file:
 
         ```toml
         GEMINI_API_KEY = "YOUR_GEMINI_API_KEY"
-        PHOENIX_API_KEY = "YOUR_PHOENIX_API_KEY"
         ```
-
-    **Important:** Replace `"YOUR_GEMINI_API_KEY"` and `"YOUR_PHOENIX_API_KEY"` with your actual API keys.
 
 ## Running the Application
 
@@ -37,6 +34,9 @@ uvicorn app:app --reload
 ```
 The `--reload` flag enables automatic server restarts upon code changes, which is helpful during development.
 
-## Observability
+The application will be available at http://localhost:8000/
 
-This application is instrumented for observability using Phoenix. You can view traces of all calls [HERE](https://app.phoenix.arize.com/).
+## Observability
+This application is instrumented for observability using Phoenix. You can view traces of all calls at: http://localhost:6006/.
+
+You can also visualize the workflow diagrams in the drawing_workflows directory
