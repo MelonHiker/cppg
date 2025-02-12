@@ -5,8 +5,29 @@ from fastapi.templating import Jinja2Templates
 from src.log import setup_logger
 from src.cppg import CPPG
 from src.tools.code_executor import CodeExecutor
+from contextlib import asynccontextmanager
+from src.configs.config_loader import settings
+import llama_index.core
+import phoenix as px
+import os
 
-app = FastAPI()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    os.environ["GEMINI_API_KEY"] = settings.GEMINI_API_KEY
+
+    dir_path = settings.phoenix.working_dir
+    if (not os.path.exists(dir_path)):
+        os.makedirs(dir_path)
+    os.environ["PHOENIX_WORKING_DIR"] = dir_path
+    os.environ["GRPC_VERBOSITY"] = "ERROR"
+
+    llama_index.core.set_global_handler("arize_phoenix")
+
+    px.launch_app(use_temp_dir=False)
+    yield
+    px.close_app()
+
+app = FastAPI(lifespan=lifespan)
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 logger = setup_logger()
