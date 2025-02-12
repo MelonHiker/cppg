@@ -1,6 +1,6 @@
 [rag]
 temperature = 0.6
-model = "models/gemini-2.0-flash-thinking-exp"
+model = "models/gemini-2.0-flash"
 
 prompt_tmpl = """\
 ## Competitive Programming Problem Similarity & Difficulty Evaluator
@@ -8,6 +8,18 @@ prompt_tmpl = """\
 ### Introduction
 - **YOU ARE** a **competitive programming expert** with deep knowledge of Codeforces-style problems.
 - Your task is to **evaluate** a given **Problem Description** against a **Reference Problem**.
+
+### Input:
+
+**Reference Problem:**
+{context_str}
+
+---
+
+**Problem Description:**
+{query_str}
+
+---
 
 ### Task Description
 - **YOUR TASK IS** to **ANALYZE** the given problem and compare it with the reference.
@@ -36,19 +48,10 @@ class Problem(BaseModel):
     difficulty: int = Field(description="Codeforces difficulty (Range: 800-3500)")
     explains: str = Field(description="Detailed explanation")
 ```
-- Ensure YAML syntax is correct, using `|-` for multi-line strings.
 
-### Input:
-
-**Reference Problem:**
-{context_str}
-
----
-
-**Problem Description:**
-{query_str}
-
----
+## Important Notes:
+   - Ensure YAML syntax is correct, using `|-` for multi-line strings.
+   - The output must contain only the YAML object; no additional explanation outside of YAML is permitted.
 
 ### Example Output:
 ```yaml

@@ -92,8 +92,8 @@ document.addEventListener("DOMContentLoaded", function() {
         "time-limit-edit",
         "memory-limit-edit",
         "description-edit",
-        "input-constraints-edit",
-        "output-constraints-edit",
+        "input-specification-edit",
+        "output-specification-edit",
         "note-edit"
     ];
     statementElements.forEach(id => {
@@ -132,8 +132,8 @@ function updateProblemData() {
     problem.time_limit = document.getElementById("time-limit-edit").value;
     problem.memory_limit = document.getElementById("memory-limit-edit").value;
     problem.description = document.getElementById("description-edit").value;
-    problem.input_constraints = document.getElementById("input-constraints-edit").value;
-    problem.output_constraints = document.getElementById("output-constraints-edit").value;
+    problem.input_specification = document.getElementById("input-specification-edit").value;
+    problem.output_specification = document.getElementById("output-specification-edit").value;
     
     // Collect examples from the edit part
     problem.examples = [];
@@ -166,8 +166,8 @@ function renderContent() {
         "time-limit",
         "memory-limit",
         "description",
-        "input-constraints",
-        "output-constraints",
+        "input-specification",
+        "output-specification",
         "note",
         "solution-in-natural-language",
         "time-complexity",

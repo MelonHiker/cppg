@@ -27,8 +27,8 @@ Your goal is to **fix** the given {language} code so that it correctly solves th
 ### **Constraints and Limits:**
 - **Time Limit:** {time_limit}
 - **Memory Limit:** {memory_limit}
-- **Input Constraints:** {input_constraints}
-- **Output Constraints:** {output_constraints}
+- **Input Specification:** {input_specification}
+- **Output Specification:** {output_specification}
 
 ### **Tutorial to Solve the Problem**:
 {tutorial}

@@ -5,7 +5,7 @@ async def analysis_input(problem: dict, sample_input: str):
     config = settings.input_analysis_agent
     prompt = config.prompt_tmpl.format(
         problem=problem['description'],
-        input_constraints=problem['input_constraints'],
+        input_specification=problem['input_specification'],
         sample_input=sample_input
     )
     llm = Gemini(

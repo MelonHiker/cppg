@@ -11,13 +11,13 @@ async def forge_problem(min_difficulty: int, max_difficulty: int, skill_1: str, 
     for problem in problems_1:
         example_1 += f"difficulty: {problem['rating']}\n"
         example_1 += problem["problem_statement"]
-        example_1 += "\n---\n"
+        example_1 += "\n\n---\n\n"
     
     example_2 = ""
     for problem in problems_2:
         example_2 += f"difficulty: {problem['rating']}\n"
         example_2 += problem["problem_statement"]
-        example_2 += "\n---\n"
+        example_2 += "\n\n---\n\n"
     
     config = settings.problem_forge_agent
     llm = Gemini(

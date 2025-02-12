@@ -1,6 +1,6 @@
 [problem_forge_agent]
 temperature = 0.9
-model = "models/gemini-2.0-flash-thinking-exp"
+model = "models/gemini-2.0-flash"
 
 prompt_tmpl = """\
 ## Competitive Programming Problem Generator
@@ -35,17 +35,15 @@ prompt_tmpl = """\
 ### Reference Examples
 You are given example problems for each skill and their difficulty:
 
+---
+
 SKILL 1: {skill_1}
 Examples:
 {example_1}
 
----
-
 SKILL 2: {skill_2}
 Examples:
 {example_2}
-
----
 
 ### Output Requirements
 - **Return a YAML object** conforming to the following `Problem` Pydantic model:
@@ -56,8 +54,9 @@ class Problem(BaseModel):
     explains: str = Field(description="A detailed explanation of why this problem is novel, requires both {skill_1} and {skill_2}, and falls within the specified difficulty range. Justify your choices.")
 ```
 
-- Ensure YAML syntax is correct, using `|-` for multi-line strings.
-
+## Important Notes:
+   - Ensure YAML syntax is correct, using `|-` for multi-line strings.
+   - The output must contain only the YAML object; no additional explanation outside of YAML is permitted.
 
 Example YAML output:
 ```yaml

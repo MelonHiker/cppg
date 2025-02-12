@@ -16,17 +16,17 @@ Your output must be a single code block in the specified language, with detailed
 ### Sample Input/Output:
 {sample_IO}
 
-### Time_limit
+### Time limit
 {time_limit}
 
-### Memory_limit:
+### Memory limit:
 {time_limit}
 
-### input_constraints
-{input_constraints}
+### Input Specification
+{input_specification}
 
-### output_constraints
-{output_constraints}
+### Output Specification
+{output_specinput_specification}
 
 ### Tutorial:
 {tutorial}
