@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-from rag_builder import RAGBuilder
+from build.rag_builder import RAGBuilder
 import requests
 import glob
 import json
@@ -92,35 +92,8 @@ def update_index():
     with open("./codeforces/index.json", "w") as file:
         json.dump(table, file, indent=4)
 
-def build_training_set(tot: int, directory_path: str):
-    from random import sample, shuffle
-    import shutil
-
-    # clear content
-    files = glob.glob("./training/*") + glob.glob("./validation/*") + glob.glob("./test/*")
-    for f in files:
-        os.remove(f)
-
-    json_files = [f for f in glob.glob("./codeforces/*.json") if not f.endswith("index.json") and not f.endswith("failure.json")]
-
-    tot_files = sample(json_files, tot)
-    shuffle(tot_files)
-    training = tot_files[:tot * 4 // 5]
-    validation = tot_files[len(training):len(training) + tot // 10]
-    test = tot_files[len(training) + len(validation):]
-    for src in training:
-        dest = src.replace("codeforces", "training")
-        shutil.copy(src, dest)
-    for src in validation:
-        dest = src.replace("codeforces", "validation")
-        shutil.copy(src, dest)
-    for src in test:
-        dest = src.replace("codeforces", "test")
-        shutil.copy(src, dest)
-
 if __name__ == "__main__":
     update_problems()
     update_index()
     rag = RAGBuilder()
     rag.update_index()
-    # build_training_set(1000, "./codeforces")
