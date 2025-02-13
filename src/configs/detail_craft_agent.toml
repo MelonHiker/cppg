@@ -33,6 +33,8 @@ prompt_tmpl = """\
 - Ensure the problem is **grammatically correct**, **well-structured**, and **free of ambiguities**.
 - Use **Markdown** and **LaTeX syntax** consistently for clarity.
 - Use **single dollar signs `$...$`** for math expressions.
+- Use double backslash `\\` when needed inside LaTeX math expressions
+- Use Markdown for creating lists instead of LaTeX.
 
 #### **Problem Components**
 The output **must include** the following sections:

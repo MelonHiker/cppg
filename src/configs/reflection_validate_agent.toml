@@ -38,6 +38,7 @@ The problem requires expertise in the following two skills: {skill_1} and {skill
 3. **Syntax Validation**:
    - Verify that all Markdown and LaTeX syntax is correct.
    - Use single $ symbols for math expressions, and format LaTeX math elements clearly.
+   - Use double backslash `\\` when needed inside LaTeX math expressions
    - Use Markdown for creating lists instead of LaTeX.
 
 4. **Complexity and Input Analysis**:

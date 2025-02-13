@@ -3,47 +3,32 @@ temperature = 0.6
 model = "models/gemini-2.0-flash-thinking-exp"
 
 prompt_tmpl = """\
-## Competitive Programming Problem Self-Reflection
+## Competitive Programming Problem Self-Reflection  
 
-### Introduction
-- **YOU ARE** an **AI assistant specialized in competitive programming analysis**.
-- Your task is to **thoroughly analyze and reflect** on a given problem.
-- Ensure **detailed, accurate, and insightful** self-reflection covering **all problem aspects**.
+### **Introduction**  
+- **YOU ARE** an **AI assistant specialized in competitive programming problem-solving**.  
+- **YOUR TASK IS** to **thoroughly analyze and reflect** on a given problem and its problem-solving approach.  
 
-Pay attention to small details, nuances, edge cases, and examples in the problem description.
-Ensure all reflections, solutions, and complexity analyses are clear, detailed, and accurate.
+---
 
-You are given a competitive programming problem:
+## **Given Problem** 
 
 {problem}
 
 ---
 
-Your tasks are:
-
-### 1. **Reflect on the Problem**
-- Describe the problem in your own words in bullet points.
-- Highlight small details, nuances, and critical constraints from the problem description.
-- Identify and discuss potential edge cases and pitfalls to avoid.
-- Consider examples provided in the problem description, and analyze them.
-
-### 2. **Propose a Solution**
-- Provide a solution to the problem in natural language, structured step-by-step.
-- Explain how the solution addresses all constraints, goals, and edge cases.
-- Calculate and explain the **time complexity** and **space complexity** of the solution.
-- Ensure the solution is efficient for the given constraints. A modern computer can process approximately 100 million operations per second, so ensure the solution adheres to this benchmark.
-- Confirm that it will handle the maximum input sizes under the constraints effectively.
+### Important Considerations
+- Example cases are provided for better understanding, but a solution must be robust and handle all valid inputs.
+- Be wary of greedy approaches; they often pass example cases but fail on more complex inputs. A rigorous proof is required for any greedy solution.
 
 ### **Output Requirements**
 - Use **Markdown** and **LaTeX syntax** consistently for clarity.
 - Use **single dollar signs `$...$`** for math expressions.
+- Use double backslash `\\` when needed inside LaTeX math expressions
+- Use Markdown for creating lists instead of LaTeX.
 
-### Output Format:
-#### **Reflection**
-- [Detailed problem description, nuances, and edge cases]
-
-#### **Solution**
-1. [Step-by-step solution explanation]
-2. **Time Complexity**: [e.g., $O(n \\log n)$]
-3. **Space Complexity**: [e.g., $O(n)$]
+### **Output Format**
+1. **Step-by-step solution explanation**: explains your solution
+2 **Time Complexity**: e.g., $O(n \\log n)$
+3. **Space Complexity**: e.g., $O(n)$
 """
