@@ -136,6 +136,18 @@ document.addEventListener("DOMContentLoaded", function() {
             elem.addEventListener("input", debouncedRenderContent);
         }
     });
+
+    // For examples
+    document.querySelectorAll(".example-edit .example-pair").forEach(pair => {
+        const inputArea = pair.querySelector(".example-input");
+        const outputArea = pair.querySelector(".example-output");
+        if (inputArea) {
+            inputArea.addEventListener("input", debouncedRenderContent);
+        }
+        if (outputArea) {
+            outputArea.addEventListener("input", debouncedRenderContent);
+        }
+    });
     
     // For Tutorial tab editable fields.
     const tutorialElements = [
@@ -217,6 +229,18 @@ function renderContent() {
                 MathJax.Hub.Queue(["Typeset", MathJax.Hub, previewDiv]);
             }
         }
+    });
+    
+    // Update examples
+    const exampleInputs = document.querySelectorAll(".example-input");
+    const exampleOutputs = document.querySelectorAll(".example-output");
+    exampleInputs.forEach((textarea, index) => {
+        const pre = document.querySelectorAll(".example-preview pre")[index * 2];
+        pre.textContent = textarea.value;
+    });
+    exampleOutputs.forEach((textarea, index) => {
+        const pre = document.querySelectorAll(".example-preview pre")[index * 2 + 1];
+        pre.textContent = textarea.value;
     });
 
     // Update basic fields in Statement tab.
