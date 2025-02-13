@@ -273,8 +273,23 @@ textarea.code-editor::-webkit-scrollbar-thumb:hover {
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
-
 #generate-tutorial:hover {
+    background-color: #005a9e;
+}
+
+.download-btn {
+    position: absolute;
+    top: 20px;
+    right: 10px;
+    background-color: #0078d7;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.download-btn:hover {
     background-color: #005a9e;
 }
 
