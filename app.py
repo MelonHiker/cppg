@@ -58,6 +58,19 @@ async def generate(
             "error": str(e)
         })
 
+@app.post("/generate-tutorial")
+async def generate_tutorial(
+    request: Request,
+    problem: dict = Body(...),
+):
+    cppg = CPPG()
+    try:
+        reflection = await cppg.generate_reflection(problem)
+        return JSONResponse(reflection)
+    except Exception as e:
+        logger.warning(str(e))
+        return JSONResponse({"error": str(e)})
+
 @app.post("/generate-solution")
 async def generate_solution(
     request: Request,

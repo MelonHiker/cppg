@@ -188,8 +188,8 @@ select {
     cursor: pointer;
 }
 
-/* Generate Button Styling */
-.generate-btn {
+/* Generate code Button Styling */
+.generate-code {
     background-color: #9c9c9c;
     color: white;
     border: none;
@@ -201,7 +201,7 @@ select {
     transition: background-color 0.3s ease;
 }
 
-.generate-btn:hover {
+.generate-code:hover {
     background-color: #808080;
 }
 
@@ -261,7 +261,7 @@ textarea.code-editor::-webkit-scrollbar-thumb:hover {
     text-align: center;
 }
 
-.download-btn {
+#generate-tutorial {
     position: absolute;
     top: 20px;
     right: 10px;
@@ -274,7 +274,7 @@ textarea.code-editor::-webkit-scrollbar-thumb:hover {
     transition: background-color 0.3s ease;
 }
 
-.download-btn:hover {
+#generate-tutorial:hover {
     background-color: #005a9e;
 }
 

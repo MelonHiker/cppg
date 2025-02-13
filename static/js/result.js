@@ -9,6 +9,40 @@ document.querySelectorAll(".tab-button").forEach(btn => {
     });
 });
   
+// Generate Tutorial button handler
+document.getElementById("generate-tutorial").addEventListener("click", async function () {
+    // Read problem data from hidden JSON
+    const problemData = JSON.parse(document.getElementById("problem-data").textContent);
+    
+    const button = this;
+    button.disabled = true;
+    button.textContent = "Generating...";
+    
+    try {
+        const response = await fetch("/generate-tutorial", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(problemData)
+        });
+        const data = await response.json();
+        if(data.error) {
+            alert("Error: " + data.error);
+        } else {
+            document.getElementById("solution-explanation-edit").value = data.solution_explanation;
+            document.getElementById("time-complexity-edit").value = data.time_complexity;
+            document.getElementById("space-complexity-edit").value = data.space_complexity;
+            document.getElementById("tags-edit").value = data.tags;
+            document.querySelectorAll("textarea").forEach(t => t.dispatchEvent(new Event('input', { bubbles: true, cancelable: true })));
+            renderContent();
+        }
+    } catch (error) {
+        alert("Failed to generate solution:" + error.message);
+    } finally {
+        button.disabled = false;
+        button.textContent = "Generate Solution";
+    }
+});
+
 // Generate Solution button handler
 document.getElementById("generate-solution").addEventListener("click", async function () {
     const button = this;
@@ -105,7 +139,7 @@ document.addEventListener("DOMContentLoaded", function() {
     
     // For Tutorial tab editable fields.
     const tutorialElements = [
-        "solution-in-natural-language-edit",
+        "solution-explanation-edit",
         "time-complexity-edit",
         "space-complexity-edit",
         "tags-edit"
@@ -151,7 +185,7 @@ function updateProblemData() {
     problem.note = document.getElementById("note-edit").value;
     
     // Tutorial tab fields
-    problem.solution_in_natural_language = document.getElementById("solution-in-natural-language-edit").value;
+    problem.solution_explanation = document.getElementById("solution-explanation-edit").value;
     problem.time_complexity = document.getElementById("time-complexity-edit").value;
     problem.space_complexity = document.getElementById("space-complexity-edit").value;
     problem.tags = document.getElementById("tags-edit").value;
@@ -169,7 +203,7 @@ function renderContent() {
         "input-specifications",
         "output-specifications",
         "note",
-        "solution-in-natural-language",
+        "solution-explanation",
         "time-complexity",
         "space-complexity"
     ];
@@ -184,7 +218,7 @@ function renderContent() {
             }
         }
     });
-    
+
     // Update basic fields in Statement tab.
     document.getElementById("title-preview").textContent = document.getElementById("title-edit").value;
     document.getElementById("time-limit-preview").textContent = document.getElementById("time-limit-edit").value;

@@ -112,11 +112,12 @@
     
     <!-- Tutorial Tab: -->
     <div class="tab-content hidden" id="tutorial">
+        <button id="generate-tutorial">Generate Tutorial</button>
         <div class="split">
             <div class="left-panel">
-                <label>Solution in Natural Language:</label>
-                <div class="grow-wrap" data-replicated-value="{{ problem.solution_in_natural_language }}">
-                    <textarea id="solution-in-natural-language-edit" oninput="this.parentNode.dataset.replicatedValue = this.value">{{ problem.solution_in_natural_language }}</textarea>
+                <label>Solution Explanation:</label>
+                <div class="grow-wrap" data-replicated-value="{{ problem.solution_explanation }}">
+                    <textarea id="solution-explanation-edit" oninput="this.parentNode.dataset.replicatedValue = this.value">{{ problem.solution_explanation }}</textarea>
                 </div>
                 <br/>
                 <label>Time Complexity:</label>
@@ -129,15 +130,15 @@
                     <textarea id="space-complexity-edit" oninput="this.parentNode.dataset.replicatedValue = this.value">{{ problem.space_complexity }}</textarea>
                 </div>
                 <br/>
-                <label>Tags (comma separated):</label>
+                <label>Tags:</label>
                 <input type="text" id="tags-edit" value="{{ problem.tags | join(', ') }}">
                 <br/>
             </div>
             <div class="right-panel">
                 <h2>Tutorial</h2>
-                <h3>Solution in natural language:</h3>
-                <div id="solution-in-natural-language-preview">
-                    {{ problem.solution_in_natural_language }}
+                <h3>Solution Explanation:</h3>
+                <div id="solution-explanation-preview">
+                    {{ problem.solution_explanation }}
                 </div>
                 <h3>Time Complexity:</h3>
                 <span id="time-complexity-preview">{{ problem.time_complexity }}</span>
@@ -170,7 +171,7 @@
                             class="slider"
                         />
                     </div>
-                    <button id="generate-solution" class="generate-btn">Generate<br>Solution</button>
+                    <button id="generate-solution" class="generate-code">Generate<br>Solution</button>
                 </div>
                 <!-- Code editor -->
                 <textarea
@@ -178,7 +179,6 @@
                     class="code-editor"
                     placeholder="# Enter your code here"
                 ></textarea>
-                <!-- Run button (if required) -->
                 <button id="run-solution" class="run-btn">Run</button>
             </div>
             <div class="right-panel">
@@ -216,7 +216,7 @@
                             class="slider"
                         />
                     </div>
-                    <button id="generate-test" class="generate-btn">Generate<br>Test Script</button>
+                    <button id="generate-test" class="generate-code">Generate<br>Test Script</button>
                 </div>
                 <!-- Code editor -->
                 <textarea
