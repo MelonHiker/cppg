@@ -11,9 +11,23 @@ prompt_tmpl = """\
 
 ---
 
-## **Given Problem** 
-
+## Problem to be solve:
 {problem}
+
+### Sample Input/Output:
+{sample_IO}
+
+### Time limit
+{time_limit}
+
+### Memory limit:
+{time_limit}
+
+### Input Specifications
+{input_specifications}
+
+### Output Specifications
+{output_specifications}
 
 ---
 
@@ -29,6 +43,7 @@ prompt_tmpl = """\
 
 ### **Output Format**
 1. **Step-by-step solution explanation**: explains your solution
-2 **Time Complexity**: e.g., $O(n \\log n)$
-3. **Space Complexity**: e.g., $O(n)$
+2. **Tags**: Relevant Algorithm to solve the problem
+3 **Time Complexity**: e.g., $O(n \\log n)$
+4. **Space Complexity**: e.g., $O(n)$
 """

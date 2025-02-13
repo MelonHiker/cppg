@@ -10,19 +10,30 @@ prompt_tmpl = """\
 - Your task is to **validate, correct, and optimize** the given solution for the **problem**.
 - Ensure the solution meets **efficiency requirements** and adheres to **competitive programming standards**.
 
-## Input
+---
 
-**Problem**:
+## Problem to be solve:
 {problem}
+
+### Sample Input/Output:
+{sample_IO}
+
+### Time limit
+{time_limit}
+
+### Memory limit:
+{time_limit}
+
+### Input Specifications
+{input_specifications}
+
+### Output Specifications
+{output_specifications}
 
 ---
 
 **Reflection**:
 {reflection}
-
----
-
-The problem requires expertise in the following two skills: {skill_1} and {skill_2}.
 
 ---
 
@@ -46,23 +57,11 @@ The problem requires expertise in the following two skills: {skill_1} and {skill
    - Explain why the example input yields the example output clearly without mentioning which algorithms are used, using Markdown and LaTeX for explanations.
 
 ### **Output Format**
-- **Return a YAML object** conforming to the following `Problem` Pydantic model:
+- **Return a YAML object** conforming to the following `Reflection` Pydantic model:
 
 ```python
-class Example(BaseModel):  
-    input: str = Field(description="The sample input of the problem")  
-    output: str = Field(description="The sample output of the problem")  
-
-class Problem(BaseModel):  
-    title: str = Field(description="The title of the problem")  
-    time_limit: str  
-    memory_limit: str  
-    description: str = Field(description="The description of the problem")  
-    input_specifications: str = Field(description="The input format and constraints of the problem.")  
-    output_specifications: str = Field(description="The output format and constraints of the problem.")  
-    examples: List[Example] = Field(description="A list of examples for the problem")  
-    note: str = Field(description="Explain why the example input produces the corresponding example output.")
-    solution_in_natural_language: str = Field(description="The solution in natural language to the problem")  
+class Reflection(BaseModel):  
+    solution_explanation: str = Field(description="Step-by-step solution explanation")  
     time_complexity: str = Field(description="The time complexity of the solution")  
     space_complexity: str = Field(description="The space complexity of the solution")  
     tags: List[str] = Field(description="Relevant Algorithm to solve the problem")
@@ -75,24 +74,7 @@ class Problem(BaseModel):
 
 ### Example YAML Output:
 ```yaml
-title: ...
-time_limit: ...
-memory_limit: ...
-description: |-
-  ...
-input_specifications: |-
-  ...
-output_specifications: |-
-  ...
-examples:
-- input: |-
-    ...
-  output: |-
-    ...
-...
-note: |-
-  ...
-solution_in_natural_language: |-
+solution_explanation: |-
   ...
 time_complexity: |-
   ...

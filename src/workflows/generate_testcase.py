@@ -13,17 +13,13 @@ class CodeEvent(Event):
     sample_input: str
 
 class GenTestWorkflow(Workflow):
-    def __init__(self, problem: dict, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.problem = problem
-
     @step
     async def input_analysis(self, ev: StartEvent) -> CodeEvent:
         sample_input = []
-        for example in self.problem["examples"]:
+        for example in ev.problem["examples"]:
             sample_input.append(example["input"])
         sample_input = "\n---\n".join(sample_input)
-        result = await analysis_input(self.problem, sample_input)
+        result = await analysis_input(ev.problem, sample_input)
         return CodeEvent(report=result, sample_input=sample_input)
     
     @step

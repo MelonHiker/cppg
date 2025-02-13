@@ -10,8 +10,6 @@ from llama_index.core.workflow.retry_policy import ConstantDelayRetryPolicy
 from src.agents.problem_forge_agent import forge_problem
 from src.agents.detail_craft_agent import detail_craft
 from src.agents.problem_validate_agent import validate_problem
-from src.agents.reflection_agent import reflect_problem
-from src.agents.reflection_validate_agent import validate_reflection
 from src.tools.llm_parser import LLMParser
 from build.rag_builder import RAGBuilder
 from src.configs.config_loader import settings
@@ -29,13 +27,6 @@ class DetailCraftEvent(Event):
 
 class ProblemValidateEvent(Event):
     problem: str
-
-class ReflectionEvent(Event):
-    problem: str
-
-class ReflectionValidateEvent(Event):
-    problem: str
-    reflection: str
 
 config = settings.GenProblemWorkflow
 
@@ -82,16 +73,6 @@ class GenProblemWorkflow(Workflow):
         return ProblemValidateEvent(problem=result)
     
     @step(retry_policy=ConstantDelayRetryPolicy(delay=5, maximum_attempts=3))
-    async def problem_validate(self, ev: ProblemValidateEvent) -> ReflectionEvent:
+    async def problem_validate(self, ev: ProblemValidateEvent) -> StopEvent:
         result = await validate_problem(ev.problem)
-        return ReflectionEvent(problem=result["problem"])
-    
-    @step(retry_policy=ConstantDelayRetryPolicy(delay=5, maximum_attempts=3))
-    async def reflection(self, ev: ReflectionEvent) -> ReflectionValidateEvent:
-        result = await reflect_problem(ev.problem)
-        return ReflectionValidateEvent(problem=ev.problem, reflection=result)
-    
-    @step(retry_policy=ConstantDelayRetryPolicy(delay=5, maximum_attempts=3))
-    async def reflection_validate(self, ev: ReflectionValidateEvent) -> StopEvent:
-        result = await validate_reflection(ev.problem, ev.reflection, self.skill_1, self.skill_2)
         return StopEvent(result=result)

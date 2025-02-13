@@ -13,5 +13,15 @@ async def validate_problem(problem: str) -> dict:
     )
     response = await llm.acomplete(prompt)
     parser = LLMParser()
-    keys = ["problem", "explains"]
-    return parser.load_yaml(response.text)
+    keys = [
+        "title", 
+        "time_limit", 
+        "memory_limit", 
+        "description", 
+        "input_specifications", 
+        "output_specifications", 
+        "examples", 
+        "note", 
+        "explanation"
+    ]
+    return parser.load_yaml(response.text, keys)

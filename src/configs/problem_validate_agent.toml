@@ -61,20 +61,48 @@ prompt_tmpl = """\
 - **Return a YAML object** conforming to the following `Problem` Pydantic model:
 
 ```python
-class Problem(BaseModel):
-    problem: str = Field(description="The complete corrected problem")
+class Example(BaseModel):  
+    input: str = Field(description="The sample input of the problem")  
+    output: str = Field(description="The sample output of the problem")  
+
+class Problem(BaseModel):  
+    title: str = Field(description="The title of the problem")  
+    time_limit: str  
+    memory_limit: str  
+    description: str = Field(description="The description of the problem")  
+    input_specifications: str = Field(description="The input format and constraints of the problem.")  
+    output_specifications: str = Field(description="The output format and constraints of the problem.")  
+    examples: List[Example] = Field(description="A list of examples for the problem")  
+    note: str = Field(description="Explain why the example input produces the corresponding example output.")
     explains: str = Field(description="A detailed explanation of the changes made or why the problem is valid as-is")
 ```
+
 ## Important Notes:
    - Ensure YAML syntax is correct, using `|-` for multi-line strings.
    - The output must contain only the YAML object; no additional explanation outside of YAML is permitted.
 
-Example Output:
+### Example YAML Output:
+
 ```yaml
-problem: |-
-  # The complete, corrected problem statement, including title, limits, constraints, examples, notes, etc.
-explains: |-
-  # Your explanation of the validation process, changes made (if any), and justification for the final problem statement.
+title: ...
+time_limit: ...
+memory_limit: ...
+description: |-
+  ...
+input_specifications: |-
+  ...
+output_specifications: |-
+  ...
+examples:
+- input: |-
+    ...
+  output: |-
+    ...
+...
+note: |-
+  ...
+explanation: |-
+  ...
 ```
 
 ```yaml
