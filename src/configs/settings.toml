@@ -1,18 +1,18 @@
 [GenProblemWorkflow]
 num_of_samples = 5
-timeout = 240
+timeout = 300
 verbose = true
 
 [GenReflectionWorkflow]
-timeout = 120
+timeout = 240
 verbose = true
 
 [GenSolutionWorkflow]
-timeout = 120
+timeout = 180
 verbose = true
 
 [GenTestWorkflow]
-timeout = 180
+timeout = 120
 verbose = true
 
 [phoenix]
