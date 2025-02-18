@@ -35,18 +35,63 @@ prompt_tmpl = """\
    - Estimate the problem’s difficulty using **Codeforces-style difficulty ratings**.
    - Consider the **algorithmic complexity, constraints, and edge cases**.
 
-3. **Explanation (Multi-line YAML string)**
+3. **Tags (Relevant Algorithms)**
+   - Choose one or more algorithms from the following list.
+   - You **cannot choose** algorithms that are not in the following list.
+
+tags = [
+   "2-sat",
+   "binary search",
+   "bitmasks",
+   "brute force",
+   "chinese remainder theorem",
+   "combinatorics",
+   "constructive algorithms",
+   "data structures",
+   "dfs and similar",
+   "divide and conquer",
+   "dp",
+   "dsu",
+   "expression parsing",
+   "fft",
+   "flows",
+   "games",
+   "geometry",
+   "graph matchings",
+   "graphs",
+   "greedy",
+   "hashing",
+   "implementation",
+   "math",
+   "matrices",
+   "meet-in-the-middle",
+   "number theory",
+   "probabilities",
+   "schedules",
+   "shortest paths",
+   "sortings",
+   "string suffix structures",
+   "strings",
+   "ternary search",
+   "trees",
+   "two pointers"
+]
+
+4. **Explanation (Multi-line YAML string)**
    - Provide a **clear justification** for the **similarity and difficulty ratings**.
    - Explain the **key algorithmic ideas** shared or differing between the problems.
    - Use proper **reasoning, examples, and comparisons**.
 
 ### Output Format
+
 - **Return a valid YAML object** matching the following `Problem` model:
+
 ```python
 class Problem(BaseModel):
-    similarity: int = Field(description="Similarity of the problem (scale: 1-10)")
-    difficulty: int = Field(description="Codeforces difficulty (Range: 800-3500)")
-    explains: str = Field(description="Detailed explanation")
+     similarity: int = Field(description="Similarity of the problem (scale: 1-10)")
+     difficulty: int = Field(description="Codeforces difficulty (Range: 800-3500)")
+     tags: List[str] = Field(description="Relevant Algorithm to solve the problem")
+     explains: str = Field(description="Detailed explanation")
 ```
 
 ## Important Notes:
@@ -57,6 +102,7 @@ class Problem(BaseModel):
 ```yaml
 similarity: ...
 difficulty: ...
+tags: ...
 explains: |-
   ...
 ```

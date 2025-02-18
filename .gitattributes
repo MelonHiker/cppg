@@ -3,14 +3,12 @@
 
 # Explicitly declare text files you want to always be normalized and converted to native line endings on checkout.
 *.py text eol=lf
-
 # Declare files that will always have CRLF line endings on checkout.
 *.bat text eol=crlf
-
 # Declare files that should never be normalized.
 *.jpg -text
 *.png -text
-
 # LFS track
 codeforces/* filter=lfs diff=lfs merge=lfs -text
 cf_embeddings/ filter=lfs diff=lfs merge=lfs -text
+cf_embeddings/* filter=lfs diff=lfs merge=lfs -text

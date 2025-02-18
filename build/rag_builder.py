@@ -42,7 +42,7 @@ class RAGBuilder:
                                 "difficulty": problem["rating"]
                             }
                 )
-            doc.excluded_llm_metadata_keys = ["title", "relevant_algorithm"]
+            doc.excluded_llm_metadata_keys = ["title"]
             docs.append(doc)
         return docs
 

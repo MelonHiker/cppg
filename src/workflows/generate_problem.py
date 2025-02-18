@@ -21,6 +21,7 @@ class PREvent(Event):
     statement: str
     similarity: int
     difficulty: int
+    tags: list[str]
 
 class DetailCraftEvent(Event):
     statement: str
@@ -54,14 +55,19 @@ class GenProblemWorkflow(Workflow):
         if (not isinstance(result["similarity"], int) or not isinstance(result["difficulty"], int)):
             result["similarity"] = int(result["similarity"])
             result["difficulty"] = int(result["difficulty"])
-        return PREvent(statement=problem["statement"], similarity=result["similarity"], difficulty=result["difficulty"])
+        return PREvent(statement=problem["statement"], similarity=result["similarity"], difficulty=result["difficulty"], tags=result["tags"])
     
     @step
     async def pointwise_ranking(self, ctx: Context, ev: PREvent) -> DetailCraftEvent | StartEvent:
         problems = ctx.collect_events(ev, [PREvent] * config.num_of_samples)
         if problems is None:
             return None
-        problems = [x for x in problems if self.min_difficulty <= x.difficulty <= self.max_difficulty]
+        problems = [
+            x for x in problems
+            if (self.min_difficulty <= x.difficulty <= self.max_difficulty)
+            and (self.skill_1 in x.tags)
+            and (self.skill_2 in x.tags)
+        ]
         if (problems == []):
             return StartEvent()
         problems.sort(key=lambda x: (x.similarity, -x.difficulty))

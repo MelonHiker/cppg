@@ -61,11 +61,11 @@ prompt_tmpl = """\
 
 ```python
 class Reflection(BaseModel):  
-    solution_explanation: str = Field(description="Step-by-step solution explanation")  
-    time_complexity: str = Field(description="The time complexity of the solution")  
-    space_complexity: str = Field(description="The space complexity of the solution")  
-    tags: List[str] = Field(description="Relevant Algorithm to solve the problem")
-    explanation: str = Field(description="Explain where to change")
+     solution_explanation: str = Field(description="Step-by-step solution explanation")  
+     time_complexity: str = Field(description="The time complexity of the solution")  
+     space_complexity: str = Field(description="The space complexity of the solution")  
+     tags: List[str] = Field(description="Relevant Algorithm to solve the problem")
+     explanation: str = Field(description="Explain where to change")
 ```
 
 ## Important Notes:
