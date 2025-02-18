@@ -71,6 +71,7 @@ class GenProblemWorkflow(Workflow):
         if (problems == []):
             return StartEvent()
         problems.sort(key=lambda x: (x.similarity, -x.difficulty))
+        await ctx.set("tags", problems[0].tags)
         return DetailCraftEvent(statement=problems[0].statement)
     
     @step(retry_policy=ConstantDelayRetryPolicy(delay=5, maximum_attempts=3))
@@ -79,6 +80,6 @@ class GenProblemWorkflow(Workflow):
         return ProblemValidateEvent(problem=result)
     
     @step(retry_policy=ConstantDelayRetryPolicy(delay=5, maximum_attempts=3))
-    async def problem_validate(self, ev: ProblemValidateEvent) -> StopEvent:
-        result = await validate_problem(ev.problem)
+    async def problem_validate(self, ctx: Context, ev: ProblemValidateEvent) -> StopEvent:
+        result = await validate_problem(ev.problem, await ctx.get("tags"))
         return StopEvent(result=result)

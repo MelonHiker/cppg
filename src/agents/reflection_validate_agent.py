@@ -23,7 +23,6 @@ async def validate_reflection(problem: dict, reflection: str) -> dict:
         "solution_explanation", 
         "time_complexity", 
         "space_complexity", 
-        "tags",
         "explanation"
     ]
     return parser.load_yaml(response.text, keys)

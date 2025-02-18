@@ -31,7 +31,6 @@ document.getElementById("generate-tutorial").addEventListener("click", async fun
             document.getElementById("solution-explanation-edit").value = data.solution_explanation;
             document.getElementById("time-complexity-edit").value = data.time_complexity;
             document.getElementById("space-complexity-edit").value = data.space_complexity;
-            document.getElementById("tags-edit").value = data.tags;
             document.querySelectorAll("textarea").forEach(t => t.dispatchEvent(new Event('input', { bubbles: true, cancelable: true })));
             renderContent();
         }
