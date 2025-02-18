@@ -44,6 +44,12 @@ document.getElementById("generate-tutorial").addEventListener("click", async fun
 
 // Generate Solution button handler
 document.getElementById("generate-solution").addEventListener("click", async function () {
+    // Alert if tutorial-tab's solution-explanation is empty.
+    const solutionExplanation = document.getElementById("solution-explanation-edit").value.trim();
+    if (!solutionExplanation) {
+        alert("Solution explanation in Tutorial cannot be empty.");
+        return;
+    }
     const button = this;
     const editor = document.getElementById("solution-editor");
     const language = document.getElementById("language-select").value;
