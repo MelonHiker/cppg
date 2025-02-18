@@ -22,6 +22,6 @@ class CPPG:
 
     async def generate_testcase(self, problem: dict) -> str:
         config = settings.GenTestWorkflow
-        result = await GenTestWorkflow(problem, timeout=config.timeout, verbose=config.verbose).run(problem=problem)
+        result = await GenTestWorkflow(timeout=config.timeout, verbose=config.verbose).run(problem=problem)
         return result
     

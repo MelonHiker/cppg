@@ -12,7 +12,7 @@ async def solve_problem(problem: dict, language: str) -> str:
         memory_limit=problem['memory_limit'],
         input_specifications=problem['input_specifications'],
         output_specifications=problem['output_specifications'],
-        tutorial=problem['solution_in_natural_language'],
+        tutorial=problem['solution_explanation'],
         language=language
     )
     llm = Gemini(
