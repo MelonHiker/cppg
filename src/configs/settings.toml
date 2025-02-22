@@ -1,5 +1,5 @@
 [GenProblemWorkflow]
-num_of_samples = 5
+num_of_samples = 10
 timeout = 300
 verbose = true
 
