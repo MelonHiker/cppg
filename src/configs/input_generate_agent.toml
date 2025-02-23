@@ -43,7 +43,8 @@ Your task is to generate a **Python function** that creates valid input test cas
 Your output should be a **single Python code block** containing the generator function.  
 - **The function must be named `gen(...)`** and should accept **dynamic constraints** as parameters.  
 - **Provide clear and structured comments** explaining each step inside the function.  
-
+- **Your code should not print additional words or lines, except for the testcase values**
+- **Your code should only generate A SINGLE TESTCASE, for example, calling gen() for only once.**
 ---
 
 ## **Example Generator Functions**
@@ -234,10 +235,6 @@ def gen(min_n, max_n, min_m, max_m):
             u, v = v, u
         print(u, v)
 ```
-
-## **Output Format**
-Your output must be a single code block containing the solution in Python that fully satisfies the above requirements.
-Your explanation should be embedded in the comments.
 
 ## Example Output
 ```python

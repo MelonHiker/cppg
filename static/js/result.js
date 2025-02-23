@@ -330,6 +330,7 @@ document.getElementById("run-test").addEventListener("click", async function () 
                 return;
             }
             // Store file content along with computed filename
+            //console.log(data.execution_output)
             const fileObj = {
                 filename: `${filenameBase.replace(/\.[^/.]+$/, "")}_${i}${filenameBase.match(/\.[^/.]+$/) || ".txt"}`,
                 content: data.execution_output

@@ -17,6 +17,7 @@ class PythonCodeExecutor:
                 stderr=subprocess.PIPE,
                 timeout=5,
             )
+            print(result.stdout.decode("utf-8"))
             return {
                 "execution_output": result.stdout.decode("utf-8"),
                 "error_message": result.stderr.decode("utf-8"),
