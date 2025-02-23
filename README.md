@@ -42,9 +42,9 @@
 
 You can run following command to check if G++ is installed in your environment:
 
-    ```console
-    g++ --version
-    ```
+```console
+g++ --version
+```
 
 
 
