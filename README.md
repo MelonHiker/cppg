@@ -40,7 +40,8 @@
 
 **Note that you need G++ installed to generate C++ solution of the problem.**
 
-You can run following command to check if G++ is installed in your environment
+You can run following command to check if G++ is installed in your environment:
+
     ```console
     g++ --version
     ```
