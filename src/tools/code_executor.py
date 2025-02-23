@@ -39,7 +39,7 @@ class CodeExecutor:
             endl = "\n"
             if (generated_output != expected_output):
                 msg = "Wrong Answer\n"
-                msg += f"input:{endl}{sample_input}{endl}"
+                msg += f'input:{endl}{sample_input}{endl}'
                 msg += f'generated_output:{endl}{endl.join(generated_output)}{endl}'
                 msg += f'expected_output:{endl}{endl.join(expected_output)}{endl}'
                 return msg
