@@ -108,4 +108,5 @@ This application is instrumented for observability using Phoenix. You can view t
 ## Error Handling
 
 `resources has been exhausted (e.g. check quota)`
-If the above error occurred, you can try lowering the `num_of_workers` in `src\configs\settings.toml`
+
+If the above error occurred, you can try lowering the `num_of_workers` in `./src/configs/settings.toml`, or upgrading your api plan.
