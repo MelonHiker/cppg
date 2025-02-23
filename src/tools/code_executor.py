@@ -36,12 +36,12 @@ class CodeExecutor:
 
             generated_output = [line.rstrip() for line in result["execution_output"].splitlines() if line.strip()]
             expected_output = [line.rstrip() for line in sample_output.splitlines() if line.strip()]
-
+            endl = "\n"
             if (generated_output != expected_output):
                 msg = "Wrong Answer\n"
-                msg += f"input:\n{sample_input}\n"
-                msg += f"generated_output:\n{"\n".join(generated_output)}\n"
-                msg += f"expected_output:\n{"\n".join(expected_output)}\n"
+                msg += f"input:{endl}{sample_input}{endl}"
+                msg += f'generated_output:{endl}{endl.join(generated_output)}{endl}'
+                msg += f'expected_output:{endl}{endl.join(expected_output)}{endl}'
                 return msg
 
         return "Accept"

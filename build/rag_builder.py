@@ -34,7 +34,7 @@ class RAGBuilder:
         for file_path in files_path:
             with open(file_path, "r") as file:
                 problem = json.load(file)
-            doc = Document(text=f"Description: {problem["problem_statement"]}\n\n", 
+            doc = Document(text=f'Description: {problem["problem_statement"]}\n\n', 
                             id_=problem["id"],
                             metadata={
                                 "title": problem["title"],
