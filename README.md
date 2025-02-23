@@ -104,3 +104,8 @@ Detailed steps for each part:
 
 ## Observability
 This application is instrumented for observability using Phoenix. You can view traces of all calls at: http://localhost:6006/.
+
+## Error Handling
+
+`resources has been exhausted (e.g. check quota)`
+If the above error occurred, you can try lowering the `num_of_workers` in `src\configs\settings.toml`

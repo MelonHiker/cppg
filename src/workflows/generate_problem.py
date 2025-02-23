@@ -47,7 +47,7 @@ class GenProblemWorkflow(Workflow):
         for _ in range(config.num_of_samples):
             ctx.send_event(ForgeEvent())
 
-    @step(num_workers=config.num_of_samples, retry_policy=ConstantDelayRetryPolicy(delay=10, maximum_attempts=2))
+    @step(num_workers=config.num_of_workers, retry_policy=ConstantDelayRetryPolicy(delay=10, maximum_attempts=3))
     async def problem_forge(self, ev: ForgeEvent) -> PREvent:
         problem = await forge_problem(self.min_difficulty, self.max_difficulty, self.skill_1, self.skill_2)
         response = await self.query_engine.aquery(problem["statement"])
