@@ -1,5 +1,6 @@
 import subprocess
 import tempfile
+import sys
 import os
 
 class PythonCodeExecutor:
@@ -11,13 +12,12 @@ class PythonCodeExecutor:
 
         try:
             result = subprocess.run(
-                ["python", temp_file_path],
+                [sys.executable, temp_file_path],
                 input=stdin_input.encode("utf-8"),
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 timeout=5,
             )
-            #print(result.stdout.decode("utf-8"))
             return {
                 "execution_output": result.stdout.decode("utf-8"),
                 "error_message": result.stderr.decode("utf-8"),
