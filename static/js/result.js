@@ -415,3 +415,68 @@ document.getElementById("download-all-files").addEventListener("click", function
         URL.revokeObjectURL(a.href);
     });
 });
+
+async function uploadToPolygon(problemData, polygonApiKey, polygonSecret) {
+    const baseUrl = "https://polygon.codeforces.com/api";
+    
+    // Step 1: Authenticate (Polygon uses API key + secret for authentication)
+    async function makeRequest(endpoint, params) {
+        const queryParams = new URLSearchParams({ ...params, apiKey: polygonApiKey });
+        
+        const sortedParams = [...queryParams.entries()].sort().map(([key, value]) => `${key}=${value}`).join('&');
+        const time = Math.floor(Date.now() / 1000);
+        const apiSig = time + '/' + endpoint + '?' + sortedParams + '#' + polygonSecret;
+        const hash = await crypto.subtle.digest("SHA-512", new TextEncoder().encode(apiSig));
+        const apiSigHash = Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+
+        queryParams.append("time", time);
+        queryParams.append("apiSig", apiSigHash);
+
+        const response = await fetch(`${baseUrl}/${endpoint}?${queryParams}`, {
+            method: "POST"
+        });
+
+        return response.json();
+    }
+
+    try {
+        const createProblemResponse = await makeRequest("problem.create", { name: problemData.title });
+        if (!createProblemResponse || createProblemResponse.status !== "OK") {
+            throw new Error("Failed to create problem: " + createProblemResponse.comment);
+        }
+
+        const problemId = createProblemResponse.result.problemId;
+
+        await makeRequest("problem.updateStatement", {
+            problemId,
+            lang: "en",
+            name: problemData.title,
+            legend: problemData.description,
+            input: problemData.input_specifications,
+            output: problemData.output_specifications,
+            tutorial: problemData.solution_explanation
+        });
+
+        for (let i = 0; i < problemData.examples.length; i++) {
+            await makeRequest("problem.saveTest", {
+                problemId,
+                testIndex: i + 1,
+                input: problemData.examples[i].input,
+                output: problemData.examples[i].output
+            });
+        }
+
+        alert("Problem uploaded successfully to Polygon!");
+    } catch (error) {
+        console.error("Error uploading problem:", error);
+        alert("Failed to upload problem: " + error.message);
+    }
+}
+
+
+document.getElementById("upload-polygon").addEventListener("click", async function () {
+    const problemData = JSON.parse(document.getElementById("problem-data").textContent);
+    const apiKey = prompt("Enter your Polygon API Key:");
+    const secret = prompt("Enter your Polygon Secret:");
+    await uploadToPolygon(problemData, apiKey, secret);
+});
