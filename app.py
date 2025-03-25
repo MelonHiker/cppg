@@ -35,6 +35,10 @@ logger = setup_logger()
 async def index(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
+@app.get("/generate")
+async def generate_get(request: Request):
+    return templates.TemplateResponse("result.html", {"request": request, "problem": {}})
+
 @app.post("/generate")
 async def generate(
     request: Request,

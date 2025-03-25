@@ -27,6 +27,7 @@ button {
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    margin: 5px 5px;
 }
 
 button:hover {
@@ -60,6 +61,17 @@ select {
     padding: 30px;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.skip-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: #0078d7;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 4px;
+    text-decoration: none;
 }
 
 .form-group {
@@ -261,7 +273,9 @@ textarea.code-editor::-webkit-scrollbar-thumb:hover {
     text-align: center;
 }
 
-#generate-tutorial {
+.download-btn,
+.upload-polygon,
+.generate-tutorial {
     position: absolute;
     top: 20px;
     right: 10px;
@@ -273,23 +287,9 @@ textarea.code-editor::-webkit-scrollbar-thumb:hover {
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
-#generate-tutorial:hover {
-    background-color: #005a9e;
-}
-
-.download-btn {
-    position: absolute;
-    top: 20px;
-    right: 10px;
-    background-color: #0078d7;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-.download-btn:hover {
+.download-btn:hover,
+.upload-polygon:hover,
+.generate-tutorial:hover {
     background-color: #005a9e;
 }
 

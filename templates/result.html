@@ -85,6 +85,7 @@
                 <br/>
             </div>
             <div class="right-panel">
+                <button id="upload-polygon" class="upload-polygon">Upload to Polygon</button>
                 <h2 id="title-preview">{{ problem.title }}</h2>
                 <div class="limits">
                     <p>time limit: <span id="time-limit-preview">{{ problem.time_limit }}</span> | memory limit: <span id="memory-limit-preview">{{ problem.memory_limit }}</span></p>
@@ -112,7 +113,7 @@
     
     <!-- Tutorial Tab: -->
     <div class="tab-content hidden" id="tutorial">
-        <button id="generate-tutorial">Generate Tutorial</button>
+        <button id="generate-tutorial", class="generate-tutorial">Generate Tutorial</button>
         <div class="split">
             <div class="left-panel">
                 <label>Solution Explanation:</label>

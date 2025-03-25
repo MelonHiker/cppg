@@ -6,7 +6,8 @@
     <link rel="stylesheet" href="/static/css/styles.css" />
 </head>
 <body>
-    <div class="container">
+    <div class="container" style="position: relative;">
+        <a href="/generate" class="skip-button">Skip</a>
         <h1>CPPG: Competitive Programming Problem Generator</h1>
         {% if error %}
           <div class="error">{{ error }}</div>
