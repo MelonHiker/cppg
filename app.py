@@ -37,7 +37,9 @@ async def index(request: Request):
 
 @app.get("/generate")
 async def generate_get(request: Request):
-    return templates.TemplateResponse("result.html", {"request": request, "problem": {}})
+    problem = dict()
+    problem["examples"] = {"input": "", "output": ""}
+    return templates.TemplateResponse("result.html", {"request": request, "problem": problem})
 
 @app.post("/generate")
 async def generate(
